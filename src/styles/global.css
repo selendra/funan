@@ -1,0 +1,79 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  font-size: 14px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: whitesmoke;
+  color: #0e153a;
+  font-size: 16px;
+}
+
+
+.anticon svg {
+  fill: transparent;
+}
+.layout__logo {
+  margin: 8px 0;
+}
+.site-layout {
+  background-color: #F0F3F5!important;
+}
+.layout__input {
+  max-width: 360px;
+  height: 40px;
+  border-radius: 6px!important;
+  border: none!important;
+  color: #85A1AD!important;
+  background-color: #E0E7EB!important;
+}
+.btn-connect {
+  width: 220px!important;
+  height: 40px!important;
+  /* border: none; */
+  color: #03A9F4!important;
+  border-color: #03A9F4!important;
+  border-radius: 8px!important;
+}
+.buy-header h2 {
+  color: #03A9F4;
+  font-size: 20px;
+  font-weight: 600;
+}
+.buy-input {
+  height: 40px;
+  border: none!important;
+  border-radius: 8px!important;
+  background-color: #E0E7EB!important;
+  color: #3D525C!important;
+}
+.buy-input::placeholder {
+  color: #3D525C!important;
+}
+.buy-btn {
+  width: 100%;
+  height: 40px!important;
+  border: none!important;
+  border-radius: 8px!important;
+  background-color: #03A9F4!important;
+  color: #FFF!important;
+}
+.connect-container {
+  max-width: 500px;
+  margin: auto;
+}
+.connect-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #03A9F4;
+  margin-bottom: 24px;
+}
+.connect-wallet {
+  cursor: pointer;
+}
+.connect-wallet :hover {
+  opacity: 0.6;
+}
