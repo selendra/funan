@@ -3,7 +3,7 @@ import { ethers, providers } from "ethers";
 import abi from '../abis/token-sale.json';
 
 export async function Contract(isTrust) {
-  const contractAddress = '0x9DCEC41e07fCD919a65e2a7F95B0D68fF07AdA30';
+  const contractAddress = '0x1ea5d1c9434B89B03C4aAC95dd4C56cD86430385';
   let signer;
   if(isTrust) {
     console.log('trust wallet');

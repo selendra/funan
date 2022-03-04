@@ -1,15 +1,21 @@
-import { useState } from 'react';
-import { Input, Layout, Menu, Row } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
-import { ReactComponent as MenuIcon } from '../assets/icons/menu.svg';
+import { 
+  Row,
+  Menu, 
+  Input,
+  Layout,
+} from 'antd';
+import { 
+  Link,
+  useLocation 
+} from 'react-router-dom';
+import Icon from '@ant-design/icons';
+import logo from '../assets/logo.png';
 import { ReactComponent as User } from '../assets/icons/user.svg';
 import { ReactComponent as Card } from '../assets/icons/cards.svg';
 import { ReactComponent as Trade } from '../assets/icons/trade.svg';
 import { ReactComponent as Borrow } from '../assets/icons/money-recive.svg';
 import { ReactComponent as Stake } from '../assets/icons/3dcube.svg';
-import Icon from '@ant-design/icons';
-import logo from '../assets/logo.png';
-import BtnConnect from './BtnConnect';
+import ButtonConnect from './ButtonConnect';
 
 const UserIcon = props => <Icon component={User} {...props}/>
 const CardIcon = props => <Icon component={Card} {...props}/>
@@ -17,23 +23,20 @@ const TradeIcon = props => <Icon component={Trade} {...props}/>
 const BorrowIcon = props => <Icon component={Borrow} {...props}/>
 const StakeIcon = props => <Icon component={Stake} {...props}/>
 
-export default function LayoutComponent({children}) {
+export default function LayoutComponent({ children }) {
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Layout>
       <Layout.Sider
         collapsible 
         trigger={null} 
-        collapsed={collapsed}
         theme='light'
       >
         <Row align='middle' justify='center'>
-          <img src={logo} alt='' width='120' height='50' className="layout__logo" />
+          <img src={logo} alt='' className="layout__logo" />
         </Row>
-        <div style={{padding: '8pt'}} />
-        <Menu theme="light" mode="inline" defaultSelectedKeys={[location.pathname]}>
+        <Menu className='layout__menu' theme="light" mode="inline" defaultSelectedKeys={[location.pathname]}>
           <Menu.Item key="/profile" icon={<UserIcon />}>
             Profile
             <Link to='/profile' />
@@ -58,10 +61,12 @@ export default function LayoutComponent({children}) {
       </Layout.Sider>
       <Layout className="site-layout">
         <Layout.Header style={{ padding: '0 40pt', background: '#FFF' }}>
-          {/* <MenuIcon onClick={() => setCollapsed(!collapsed)} /> */}
           <Row justify='space-between' align='middle' style={{ height: '100%' }}>
-            <Input placeholder='Search by address' className='layout__input' />
-            <BtnConnect />
+            <Input 
+              placeholder='Search by address' 
+              className='layout__search' 
+            />
+            <ButtonConnect />
           </Row>
         </Layout.Header>
         <Layout.Content

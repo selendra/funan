@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Avatar, Card, Col, Row, Tabs } from 'antd';
+import { Avatar, Card, Col, Row } from 'antd';
 import { AccountContext } from '../context/AccountContext';
 
 export default function Profile() {
@@ -12,7 +12,10 @@ export default function Profile() {
           <Col>
             <Row gutter={[16, 16]}>
               <Col>
-                <Avatar src={`https://avatars.dicebear.com/api/identicon/${account}.svg`} size={64}/>
+                <Avatar 
+                  src={`https://avatars.dicebear.com/api/identicon/${account}.svg`} 
+                  size={64}
+                />
               </Col>
               <Col>
                 <h2>ID: No ID</h2>
@@ -24,20 +27,6 @@ export default function Profile() {
             <h2 style={{fontSize: '28px'}}>$ 0</h2>
           </Col>
         </Row>
-        <Tabs defaultActiveKey='1'>
-          <Tabs.TabPane tab='Portfolio' key='1'>
-
-          </Tabs.TabPane>
-          <Tabs.TabPane tab='NFT' key='2'>
-
-          </Tabs.TabPane>
-          <Tabs.TabPane tab='History' key='3'>
-
-          </Tabs.TabPane>
-          <Tabs.TabPane tab='Idenity' key='4'>
-
-          </Tabs.TabPane>
-        </Tabs>
       </Card>
     </div>
   )

@@ -1,9 +1,15 @@
-import { Button, Dropdown, Menu } from "antd";
+import { 
+  Menu, 
+  Button, 
+  Dropdown, 
+} from "antd";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AccountContext } from "../context/AccountContext";
 
-export default function BtnConnect() {
+
+
+export default function ButtonConnect() {
   const { account, disconnect } = useContext(AccountContext);
 
   function strSlice(str) {
@@ -17,17 +23,16 @@ export default function BtnConnect() {
       </Menu.Item>
     </Menu>
   );
-
   return (
     <div>
       { account ? 
         <Dropdown overlay={menu} trigger={['click']}>
-          <Button type='ghost' className='btn-connect'>
+          <Button type='ghost' className='btn__connect'>
             {strSlice(account)}
           </Button>
         </Dropdown>
         :
-        <Button className="btn-connect">
+        <Button className='btn__connect'>
           <Link to='/connect'>Connect</Link>
         </Button>
       }

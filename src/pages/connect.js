@@ -8,20 +8,20 @@ export default function Connect() {
   const { connectMetamask, connectTrust } = useContext(AccountContext);
 
   return (
-    <div className='connect-container'>
+    <div className='connect__container'>
       <Card style={{borderRadius: '8px'}}>
         <center>
-          <h2 className='connect-title'>Connect Wallet</h2>
+          <h2 className='connect__title'>Connect Wallet</h2>
         </center>
         <Row gutter={[32, 32]} justify='center'>
           <Col>
-            <center className='connect-wallet' onClick={connectMetamask}>
+            <center className='connect__wallet' onClick={connectMetamask}>
               <img src={metamask} alt='' width={48} />
               <p>Metamask</p>
             </center>
           </Col>
           <Col>
-            <center className='connect-wallet' onClick={connectTrust}>
+            <center className='connect__wallet' onClick={connectTrust}>
               <img src={trustwallet} alt='' width={48} />
               <p>Trust Wallet</p>
             </center>

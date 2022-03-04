@@ -1,14 +1,15 @@
-import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from 'react-router-dom'
+import { 
+  BrowserRouter, 
+  Route, 
+  Routes
+} from 'react-router-dom';
+import './styles/app.css';
 import LayoutComponent from './components/Layout';
-import Buy from './pages/buy';
 import Connect from './pages/connect';
-import Exchange from './pages/exchange';
 import Profile from './pages/profile';
+import Buy from './pages/buy';
+import Exchange from './pages/exchange';
+import NotFound from './pages/notfound';
 
 export default function App() {
   return (
@@ -21,8 +22,9 @@ export default function App() {
           <Route path='exchange' element={<Exchange />} />
           <Route path='borrow' element={<Exchange />} />
           <Route path='stake' element={<Exchange />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </LayoutComponent>
     </BrowserRouter>
-  )
+  );
 }

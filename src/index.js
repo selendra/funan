@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import App from './App';
-import './styles/global.css';
-import 'antd/dist/antd.css';
+import { render } from 'react-dom';
 import { AccountProvider } from './context/AccountContext';
+import App from './App';
 
-ReactDOM.render(
+import 'antd/dist/antd.min.css';
+import './styles/index.css';
+
+render(
   <AccountProvider>
     <App />
   </AccountProvider>,
   document.getElementById('root')
-)
+);
