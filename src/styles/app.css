@@ -67,3 +67,12 @@
   color: #FFF!important;
 }
 /*** End Buy */
+/* Profile */
+.profile__selPrice,
+.profile__estimateValue {
+  font-weight: 500;
+}
+.profile__selPrice p:nth-child(1) {
+  font-weight: 800;
+}
+/* End Profile */

@@ -7,6 +7,7 @@ import { Contract } from '../utils/useContract';
 import { Allowance } from '../utils/getAllowance';
 import { isvalidSubstrateAddress } from '../utils/checkAddress';
 import usdt from '../assets/usdt.png';
+import { ErrorHandling } from '../utils/errorHandling';
 
 export default function Buy() {
   const { isTrust } = useContext(AccountContext);
@@ -34,7 +35,7 @@ export default function Buy() {
       setLoading(false);
       message.success('Approve completed!');
     } catch (error) {
-      console.log(error);
+      ErrorHandling(error);
       setLoading(false);
     }
   }
@@ -54,7 +55,7 @@ export default function Buy() {
       setLoading(false);
       message.success('Transaction completed!');
     } catch (error) {
-      console.log(error);
+      ErrorHandling(error);
       setLoading(false);
     }
   }
