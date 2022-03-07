@@ -6,9 +6,9 @@ import {
 } from 'react-router-dom';
 import './styles/app.css';
 import LayoutComponent from './components/Layout';
+import Buy from './pages/buy';
 import Connect from './pages/connect';
 import Profile from './pages/profile';
-import Buy from './pages/buy';
 import Exchange from './pages/exchange';
 import NotFound from './pages/notfound';
 

@@ -148,7 +148,7 @@ export default function Buy() {
             <a href='https://academy.binance.com/en/articles/connecting-trust-wallet-to-binance-smart-chain-bsc' target='_blank' rel="noreferrer"> Trust wallet</a>. <br />
             4. Make sure you have fund available at least $10 worth of USDT stable coins. <br />
             5. Enter the contribution amount. <br />
-            6. Press Contribute. 
+            6. Press Contribute.
           </p>
         </div>
       </Card>  

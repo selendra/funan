@@ -66,12 +66,16 @@ export default function LayoutComponent({ children }) {
       </Layout.Sider>
       <Layout className="site-layout">
         <Layout.Header style={{ padding: '0 40pt', background: '#FFF' }}>
-          <Row justify='space-between' align='middle' style={{ height: '100%' }}>
-            <Input 
-              placeholder='Search by address' 
-              className='layout__search' 
-            />
-            <ButtonConnect />
+          <Row gutter={[8, 8]} justify='space-between' align='middle' style={{ height: '100%' }}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Input 
+                placeholder='Search by address' 
+                className='layout__search' 
+              />
+            </Col>
+            <Col xs={10} sm={8} md={6} lg={6} xl={6}>
+              <ButtonConnect />
+            </Col>
           </Row>
         </Layout.Header>
         <Layout.Content

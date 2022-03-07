@@ -17,7 +17,7 @@
 /*** End Layout */
 /* Button Connect */
 .btn__connect {
-  width: 220px!important;
+  width: 100%!important;
   height: 40px!important;
   color: #03A9F4!important;
   border-color: #03A9F4!important;
