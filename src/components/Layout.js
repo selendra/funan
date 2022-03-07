@@ -3,6 +3,7 @@ import {
   Menu, 
   Input,
   Layout,
+  Col,
 } from 'antd';
 import { 
   Link,
@@ -32,9 +33,13 @@ export default function LayoutComponent({ children }) {
         collapsible 
         trigger={null} 
         theme='light'
+        breakpoint="lg"
+        collapsedWidth="60"
       >
         <Row align='middle' justify='center'>
-          <img src={logo} alt='' className="layout__logo" />
+          <Col xs={0} sm={0} md={0} lg={20} xl={20}>
+            <img src={logo} alt='' className="layout__logo" />
+          </Col>
         </Row>
         <Menu className='layout__menu' theme="light" mode="inline" defaultSelectedKeys={[location.pathname]}>
           <Menu.Item key="/profile" icon={<UserIcon />}>

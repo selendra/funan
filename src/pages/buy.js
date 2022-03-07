@@ -1,13 +1,14 @@
 import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Card, Form, Input, message, Row } from 'antd';
+import { Button, Card, Form, Input, message, Row, Spin } from 'antd';
 import { AccountContext } from '../context/AccountContext';
 import { Signer } from '../utils/getSigner';
 import { Contract } from '../utils/useContract';
 import { Allowance } from '../utils/getAllowance';
 import { isvalidSubstrateAddress } from '../utils/checkAddress';
-import usdt from '../assets/usdt.png';
 import { ErrorHandling } from '../utils/errorHandling';
+import usdt from '../assets/usdt.png';
+import down from '../assets/icons/down.svg';
 
 export default function Buy() {
   const { isTrust } = useContext(AccountContext);
@@ -70,8 +71,10 @@ export default function Buy() {
   useEffect(() => {
     async function checkAllowance() {
       try {
+        setLoading(true);
         const allowance = await Allowance(isTrust, tokenAddress);
         setAllowance(Number(allowance._hex));
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -114,6 +117,18 @@ export default function Buy() {
               onChange={(e) => setAddress(e.target.value)} 
             />
           </Form.Item>
+          { amount &&
+            <div>
+              <center style={{marginBottom: '20px'}}>
+                <img src={down} width={22} height={22} alt='' />
+              </center>
+              <Spin spinning={spinning} delay={500}>
+                <Form.Item label='To (estimated)'>
+                  <Input className='buy__input' value={estimateSEL(amount)} readOnly placeholder='' />
+                </Form.Item>
+              </Spin>
+            </div>
+          }
           <Form.Item>
             { allowance ?
               <Button className='buy__button' loading={loading} onClick={handleOrder}>Contribute</Button>
