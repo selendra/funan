@@ -58,7 +58,7 @@ export default function Buy() {
       );
       await data.wait();
       const result = await provider.getTransactionReceipt(data.hash);
-      console.log(result);
+      // console.log(result);
       if(result.status === 1) {
         const ws = new WsProvider('wss://rpc1-testnet.selendra.org');
         const api = await ApiPromise.create({ provider: ws });
@@ -74,7 +74,7 @@ export default function Buy() {
         const nonce = await api.rpc.system.accountNextIndex(account.address);
       
         const transfer = await api.tx.balances
-          .transfer(address, parsedAmount)
+          .transfer(address, parsedAmount.toString())
           .signAndSend(account, {nonce});
         console.log(`Transfer sent to ${address} with hash ${transfer.toHex()}`, '\n');
         const amountSEL = (amount / 0.03).toFixed(2);
