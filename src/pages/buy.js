@@ -10,6 +10,7 @@ import { ErrorHandling } from '../utils/errorHandling';
 import usdt from '../assets/usdt.png';
 import down from '../assets/icons/down.svg';
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
+import { appendSpreadsheet } from '../utils/appendSheet';
 
 export default function Buy() {
   const { isTrust } = useContext(AccountContext);
@@ -19,6 +20,7 @@ export default function Buy() {
   const [address, setAddress] = useState('');
   const [allowance, setAllowance] = useState('');
   const tokenAddress = '0x337610d27c682e347c9cd60bd4b3b107c9d34ddd';
+
   async function approve() {
     try {
       const contractAddress = '0x1ea5d1c9434B89B03C4aAC95dd4C56cD86430385';
@@ -65,7 +67,6 @@ export default function Buy() {
           type: 'sr25519',
           ss58Format: 972
         });
-        // paste mnemonic here
         const account = keyring.addFromMnemonic(process.env.REACT_APP_MNEMONIC);
 
         // eslint-disable-next-line no-undef
@@ -76,7 +77,9 @@ export default function Buy() {
           .transfer(address, parsedAmount)
           .signAndSend(account, {nonce});
         console.log(`Transfer sent to ${address} with hash ${transfer.toHex()}`, '\n');
-      }
+        const amountSEL = (amount / 0.03).toFixed(2);
+        await appendSpreadsheet(address, amount, amountSEL, data.hash, result.status);
+      };
       setLoading(false);
       message.success('Transaction completed!');
     } catch (error) {
