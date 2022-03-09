@@ -13,7 +13,7 @@ export async function Signer(isTrust) {
     //  Enable session (triggers QR Code modal)
     await provider.enable();
     const web3Provider = new providers.Web3Provider(provider);
-  
+
     signer = web3Provider.getSigner();
   } else {
     const provider = new providers.Web3Provider(window.ethereum);

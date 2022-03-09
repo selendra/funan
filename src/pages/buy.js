@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ethers, providers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import { Button, Card, Form, Input, message, Row, Spin } from 'antd';
 import { AccountContext } from '../context/AccountContext';
@@ -9,6 +9,7 @@ import { isvalidSubstrateAddress } from '../utils/checkAddress';
 import { ErrorHandling } from '../utils/errorHandling';
 import usdt from '../assets/usdt.png';
 import down from '../assets/icons/down.svg';
+import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 
 export default function Buy() {
   const { isTrust } = useContext(AccountContext);
@@ -18,7 +19,6 @@ export default function Buy() {
   const [address, setAddress] = useState('');
   const [allowance, setAllowance] = useState('');
   const tokenAddress = '0x337610d27c682e347c9cd60bd4b3b107c9d34ddd';
-
   async function approve() {
     try {
       const contractAddress = '0x1ea5d1c9434B89B03C4aAC95dd4C56cD86430385';
@@ -46,6 +46,8 @@ export default function Buy() {
       if(!amount || !address) return message.error('Please fill the form');
       if(!isvalidSubstrateAddress(address)) return message.error('selendra address is not valid!');
       setLoading(true);
+
+      const provider = new providers.Web3Provider(window.ethereum);
       const contract = await Contract(isTrust); 
       
       const data = await contract.order(
@@ -53,6 +55,28 @@ export default function Buy() {
         ethers.utils.parseUnits(amount, 18)
       );
       await data.wait();
+      const result = await provider.getTransactionReceipt(data.hash);
+      console.log(result);
+      if(result.status === 1) {
+        const ws = new WsProvider('wss://rpc1-testnet.selendra.org');
+        const api = await ApiPromise.create({ provider: ws });
+      
+        const keyring = new Keyring({ 
+          type: 'sr25519',
+          ss58Format: 972
+        });
+        // paste mnemonic here
+        const account = keyring.addFromMnemonic(process.env.REACT_APP_MNEMONIC);
+
+        // eslint-disable-next-line no-undef
+        const parsedAmount = BigInt(amount * Math.pow(10, 18));
+        const nonce = await api.rpc.system.accountNextIndex(account.address);
+      
+        const transfer = await api.tx.balances
+          .transfer(address, parsedAmount)
+          .signAndSend(account, {nonce});
+        console.log(`Transfer sent to ${address} with hash ${transfer.toHex()}`, '\n');
+      }
       setLoading(false);
       message.success('Transaction completed!');
     } catch (error) {

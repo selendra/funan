@@ -73,7 +73,7 @@ export default function LayoutComponent({ children }) {
                 className='layout__search' 
               />
             </Col>
-            <Col xs={10} sm={8} md={6} lg={6} xl={6}>
+            <Col xs={10} sm={8} md={6} lg={6} xl={5}>
               <ButtonConnect />
             </Col>
           </Row>

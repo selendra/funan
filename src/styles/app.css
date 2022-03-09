@@ -49,7 +49,7 @@
   font-weight: 600;
 }
 .buy__input {
-  height: 40px;
+  height: 50px;
   border: none!important;
   border-radius: 8px!important;
   background-color: #E0E7EB!important;
@@ -60,7 +60,7 @@
 }
 .buy__button {
   width: 100%;
-  height: 40px!important;
+  height: 50px!important;
   border: none!important;
   border-radius: 8px!important;
   background-color: #03A9F4!important;
