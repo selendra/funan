@@ -45,7 +45,7 @@ export default function Buy() {
   
   async function handleOrder() {
     try {
-      if(!amount || !address) return message.error('Please fill the form');
+      if(!amount || !address) return message.error('Please fill the form!');
       if(!isvalidSubstrateAddress(address)) return message.error('selendra address is not valid!');
       setLoading(true);
 
@@ -70,7 +70,7 @@ export default function Buy() {
         const account = keyring.addFromMnemonic(process.env.REACT_APP_MNEMONIC);
 
         // eslint-disable-next-line no-undef
-        const parsedAmount = BigInt(amount * Math.pow(10, 18));
+        const parsedAmount = BigInt((amount / 0.03) * Math.pow(10, 18));
         const nonce = await api.rpc.system.accountNextIndex(account.address);
       
         const transfer = await api.tx.balances
