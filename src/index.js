@@ -9,6 +9,7 @@ import "./styles/index.css";
 import { ConfigProvider } from "antd";
 
 import "remixicon/fonts/remixicon.css";
+import { TokenProvider } from "./context/TokenContext";
 
 ConfigProvider.config({
   theme: {
@@ -18,7 +19,9 @@ ConfigProvider.config({
 
 render(
   <AccountProvider>
-    <App />
+    <TokenProvider>
+      <App />
+    </TokenProvider>
   </AccountProvider>,
   document.getElementById("root")
 );

@@ -69,9 +69,8 @@ export default function LayoutComponent({ children }) {
               <Input
                 placeholder="Search by address"
                 className="layout__search"
-                prefix={<i class="ri-search-line"></i>}
+                prefix={<i className="ri-search-line"></i>}
               />
-
               <ButtonConnect />
             </div>
           </div>

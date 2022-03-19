@@ -253,3 +253,7 @@ p {
   font-weight: bold;
   color: #cfcfcf;
 }
+.select-token .ant-select-selector {
+  background-color: transparent !important;
+  border: none !important;
+}

@@ -63,7 +63,7 @@ export const AccountProvider = ({children}) => {
         isTrust,
         connectMetamask,
         connectTrust,
-        disconnect
+        disconnect,
       }}
     >{children}</AccountContext.Provider>
   )
