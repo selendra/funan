@@ -163,12 +163,7 @@ export default function Buy() {
 
   
   return (
-    <div
-      style={{
-        maxWidth: "720px",
-        margin: "0 auto",
-      }}
-    >
+    <div>
       <Card style={{ borderRadius: "12px" }}>
         <div className="buy__padding">
           <center className="buy__title">
@@ -240,64 +235,66 @@ export default function Buy() {
       </Card>
 
       <div className="how-it-works-section">
-        <h2 className="how-it-works">How it works?</h2>
-        {/* <i class="ri-arrow-down-s-line"></i> */}
-        <p>
-          A simple method for participation to participate in token sale. Please
-          follow the steps below: <br />
-        </p>
-        <ol>
-          <li>
-            <div>
-              Make sure you have Selendra address. Currently, you can set up
-              account and get your address via{" "}
-              <a
-                href="https://app.selendra.org/#/accounts"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Selendra App
-              </a>{" "}
-            </div>
-          </li>
-          <li>
-            <div>Connect to Metamask or Trust Wallet.</div>
-          </li>
-          <li>
-            <div>
-              Change network to BSC, if don't have BSC yet:
-              <a
-                href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {" "}
-                Metamask
-              </a>
-              ,
-              <a
-                href="https://academy.binance.com/en/articles/connecting-trust-wallet-to-binance-smart-chain-bsc"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {" "}
-                Trust wallet
-              </a>
-            </div>
-          </li>
-          <li>
-            <div>
-              Make sure you have fund available at least $10 worth of USDT
-              stable coins.
-            </div>
-          </li>
-          <li>
-            <div>Enter the contribution amount.</div>
-          </li>
-          <li>
-            <div>Press Contribute</div>
-          </li>
-        </ol>
+        <div className="buy__padding">
+          <h2 className="how-it-works">How it works?</h2>
+          {/* <i class="ri-arrow-down-s-line"></i> */}
+          <p>
+            A simple method for participation to participate in token sale.
+            Please follow the steps below: <br />
+          </p>
+          <ol>
+            <li>
+              <div>
+                Make sure you have Selendra address. Currently, you can set up
+                account and get your address via{" "}
+                <a
+                  href="https://app.selendra.org/#/accounts"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Selendra App
+                </a>{" "}
+              </div>
+            </li>
+            <li>
+              <div>Connect to Metamask or Trust Wallet.</div>
+            </li>
+            <li>
+              <div>
+                Change network to BSC, if don't have BSC yet:
+                <a
+                  href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {" "}
+                  Metamask
+                </a>
+                ,
+                <a
+                  href="https://academy.binance.com/en/articles/connecting-trust-wallet-to-binance-smart-chain-bsc"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {" "}
+                  Trust wallet
+                </a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Make sure you have fund available at least $10 worth of USDT
+                stable coins.
+              </div>
+            </li>
+            <li>
+              <div>Enter the contribution amount.</div>
+            </li>
+            <li>
+              <div>Press Contribute</div>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   );
