@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { Avatar, Card, Col, Row, Spin, Tabs } from 'antd';
+import { Avatar, Card, Col, Radio, Row, Spin, Tabs } from 'antd';
 import { AccountContext } from '../context/AccountContext';
 import { ethers } from 'ethers';
 import abi from '../abis/token-sale.json';
+// import tokenABI from '../abis/token.json';
 import sel from '../assets/sel-token.png';
+import { Signer } from '../utils/getSigner';
 
 export default function Profile() {
   const { account } = useContext(AccountContext);
@@ -30,9 +32,28 @@ export default function Profile() {
     return (Number(amount) * 0.03).toFixed(2);
   }
 
+  async function getTokenBalance() {
+    const provider = ethers.getDefaultProvider('https://data-seed-prebsc-1-s1.binance.org:8545/');
+    const signer = await Signer();
+
+    let tokenABI = [
+      // Get the account balance
+      "function balanceOf(address) view returns (uint)",
+    ]
+
+    const contract = new ethers.Contract(
+      '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd',
+      tokenABI, 
+      provider
+    );
+    const balance = await contract.balanceOf('0xE0e5C149B9CdF9d2279b6ddFdA9Bc0A4a975285c');
+    console.log(balance);
+  } 
+
   useEffect(() => {
     if(!account) return;
     getBalance();
+    getTokenBalance();
   },[account]);
 
   return (
@@ -84,6 +105,14 @@ export default function Profile() {
                   }
                 </Col>
               </Row>
+            </Card>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="My Portfolio" key="2">
+            <Radio.Group defaultValue="a" buttonStyle="solid">
+              <Radio.Button value="a">BSC</Radio.Button>
+            </Radio.Group>
+            <Card style={{borderRadius: '8px', marginTop: '8px'}}>
+              
             </Card>
           </Tabs.TabPane>
         </Tabs>
