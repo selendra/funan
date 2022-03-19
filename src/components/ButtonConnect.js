@@ -1,21 +1,11 @@
-import { 
-  Menu, 
-  Button, 
-  Dropdown, 
-} from "antd";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Menu, Button, Dropdown} from "antd";
 import { AccountContext } from "../context/AccountContext";
-
-
+import { shortenAddress } from "../utils";
 
 export default function ButtonConnect() {
   const { account, disconnect } = useContext(AccountContext);
-
-  function strSlice(str) {
-    return str.slice(0, 4) + '...' + str.slice(-3);
-  }; 
-
   const menu = (
     <Menu className='btn-connect-menu'>
       <Menu.Item key="0" className='btn-connect-menuItem' onClick={disconnect}>
@@ -23,12 +13,13 @@ export default function ButtonConnect() {
       </Menu.Item>
     </Menu>
   );
+
   return (
     <div>
       { account ? 
         <Dropdown overlay={menu} trigger={['click']}>
           <Button type='ghost' className='btn__connect'>
-            {strSlice(account)}
+            {shortenAddress(account)}
           </Button>
         </Dropdown>
         :

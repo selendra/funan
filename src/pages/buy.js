@@ -1,36 +1,39 @@
-import { ethers, providers } from "ethers";
+import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
-import { Button, Card, Form, Input, message, Row, Spin } from "antd";
-import { AccountContext } from "../context/AccountContext";
+import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
+import { Button, Card, Form, Input, message, Spin } from "antd";
 import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
 import { Allowance } from "../utils/getAllowance";
-import { isvalidSubstrateAddress } from "../utils/checkAddress";
-import { ErrorHandling } from "../utils/errorHandling";
-import usdt from "../assets/usdt.png";
-import down from "../assets/icons/down.svg";
-import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import { appendSpreadsheet } from "../utils/appendSheet";
+import { isvalidSubstrateAddress, ErrorHandling } from "../utils";
+import { AccountContext } from "../context/AccountContext";
+import { TokenContext } from "../context/TokenContext";
+import SelectToken from '../components/SelectToken';
+import down from "../assets/icons/down.svg";
+import abi from '../abis/token-sale.json';
 
 export default function Buy() {
   const { isTrust } = useContext(AccountContext);
+  const { selectedToken } = useContext(TokenContext);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
   const [allowance, setAllowance] = useState("");
-  const tokenAddress = "0x337610d27c682e347c9cd60bd4b3b107c9d34ddd";
-
+  const [estimatedReturn, setEstimatedReturn] = useState("");
+  const bnb = "0x0000000000000000000000000000000000000000";
+  
   async function approve() {
     try {
-      const contractAddress = "0x1ea5d1c9434B89B03C4aAC95dd4C56cD86430385";
+      const contractAddress = "0x25D24289A4DBB4a0fFC7835A01D970b6135B02a7";
       let abi = [
         "function approve(address _spender, uint256 _value) public returns (bool success)",
       ];
 
       setLoading(true);
       const signer = await Signer(isTrust);
-      const contract = new ethers.Contract(tokenAddress, abi, signer);
+      const contract = new ethers.Contract(selectedToken, abi, signer);
       const data = await contract.approve(
         contractAddress,
         ethers.utils.parseUnits(Math.pow(10, 18).toString(), 18)
@@ -48,18 +51,31 @@ export default function Buy() {
   async function handleOrder() {
     try {
       if (!amount || !address) return message.error("Please fill the form!");
-      if (!isvalidSubstrateAddress(address))
-        return message.error("selendra address is not valid!");
+      if (!isvalidSubstrateAddress(address)) return message.error("selendra address is not valid!");
       setLoading(true);
 
-      const provider = new providers.Web3Provider(window.ethereum);
+      let data;
       const contract = await Contract(isTrust);
 
-      const data = await contract.order(
-        address,
-        ethers.utils.parseUnits(amount, 18)
-      );
+      if(selectedToken === bnb) {
+        data = await contract.order(
+          address,
+          { 
+            value: ethers.utils.parseUnits(amount, 18) 
+          }
+        );
+      }
+      if(selectedToken !== bnb) {
+        data = await contract.orderToken(
+          selectedToken,
+          ethers.utils.parseUnits(amount, 18), 
+          address
+        );
+      }
+      // console.log(data);
       await data.wait();
+
+      const provider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545');
       const result = await provider.getTransactionReceipt(data.hash);
       // console.log(result);
       if (result.status === 1) {
@@ -73,7 +89,7 @@ export default function Buy() {
         const account = keyring.addFromMnemonic(process.env.REACT_APP_MNEMONIC);
 
         // eslint-disable-next-line no-undef
-        const parsedAmount = BigInt((amount / 0.03) * Math.pow(10, 18));
+        const parsedAmount = BigInt(estimatedReturn * Math.pow(10, 18));
         const nonce = await api.rpc.system.accountNextIndex(account.address);
 
         const transfer = await api.tx.balances
@@ -83,7 +99,7 @@ export default function Buy() {
           `Transfer sent to ${address} with hash ${transfer.toHex()}`,
           "\n"
         );
-        const amountSEL = (amount / 0.03).toFixed(2);
+        const amountSEL = estimatedReturn;
         await appendSpreadsheet(
           address,
           amount,
@@ -96,31 +112,56 @@ export default function Buy() {
       message.success("Transaction completed!");
     } catch (error) {
       ErrorHandling(error);
+      console.log(error);
       setLoading(false);
     }
   }
 
-  function estimateSEL(amount) {
-    setTimeout(() => {
+  async function estimateSEL() {
+    try {
+      setSpinning(true);
+      const contractAddress = '0x25D24289A4DBB4a0fFC7835A01D970b6135B02a7';
+      const provider = ethers.getDefaultProvider('https://data-seed-prebsc-1-s1.binance.org:8545/');
+      
+      const contract = new ethers.Contract(
+        contractAddress,
+        abi,
+        provider
+      );
+      const data = await contract.estimateReturn(
+        selectedToken, 
+        ethers.utils.parseUnits(amount, '18')
+      );
+      setEstimatedReturn(ethers.utils.formatUnits(data.selendraAmount, 18));
       setSpinning(false);
-    }, 1000);
-    return (amount / 0.03).toFixed(2);
+    } catch (error) {
+      console.log(error);
+      setSpinning(false);
+    }
   }
 
   useEffect(() => {
     async function checkAllowance() {
       try {
+        if(selectedToken === bnb) return setAllowance(1);
         setLoading(true);
-        const allowance = await Allowance(isTrust, tokenAddress);
+        const allowance = await Allowance(isTrust, selectedToken);
         setAllowance(Number(allowance._hex));
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        setLoading(false);
+        // console.log(error);
       }
     }
     checkAllowance();
-  }, [isTrust, allowance]);
+  }, [isTrust, allowance, selectedToken]);
 
+  useEffect(() => {
+    if(!amount) return;
+    estimateSEL();
+  }, [amount, selectedToken]);
+
+  
   return (
     <div
       style={{
@@ -145,12 +186,7 @@ export default function Buy() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 suffix={
-                  <div>
-                    <img src={usdt} alt="" width={22} height={22} />
-                    <span style={{ color: "#3D525C", marginLeft: "8px" }}>
-                      USDT
-                    </span>
-                  </div>
+                  <SelectToken />
                 }
               />
             </Form.Item>
@@ -172,7 +208,7 @@ export default function Buy() {
                   <Form.Item label="To (estimated)">
                     <Input
                       className="buy__input"
-                      value={estimateSEL(amount)}
+                      value={Number(estimatedReturn).toFixed(3)}
                       readOnly
                       placeholder=""
                     />
@@ -192,10 +228,10 @@ export default function Buy() {
               ) : (
                 <Button
                   className="buy__button"
-                  // loading={loading}
+                  loading={loading}
                   onClick={approve}
                 >
-                  Approve USDT
+                  Approve Spend
                 </Button>
               )}
             </Form.Item>

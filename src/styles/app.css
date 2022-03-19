@@ -157,3 +157,7 @@
 .how-it-works-section ol li div {
   margin-left: 5px;
 }
+.select-token .ant-select-selector {
+  background-color: transparent!important;
+  border: none!important;
+}

@@ -4,7 +4,7 @@ import { ethers, providers } from "ethers";
 export async function Allowance(isTrust, tokenAddress) {
   let signer;
   let accounts;
-  const contractAddress = '0x1ea5d1c9434B89B03C4aAC95dd4C56cD86430385';
+  const contractAddress = '0x25D24289A4DBB4a0fFC7835A01D970b6135B02a7';
   let abi = ["function allowance(address _owner, address _spender) public view returns (uint256)"];
 
   if(isTrust) {
