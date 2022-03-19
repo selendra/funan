@@ -39,24 +39,25 @@ export default function LayoutComponent({ children }) {
           mode="inline"
           defaultSelectedKeys={[location.pathname]}
         >
-          <Menu.Item key="/profile" icon={<UserIcon />}>
-            Profile
+          <Menu.Item key="/profile">
+            <i class="ri-user-line"></i>
+            <span>Profile</span>
             <Link to="/profile" />
           </Menu.Item>
-          <Menu.Item key="/buy" icon={<CardIcon />}>
-            Buy
+          <Menu.Item key="/buy">
+            <i class="ri-refund-2-line"></i> <span>Buy</span>
             <Link to="/buy" />
           </Menu.Item>
-          <Menu.Item key="3" icon={<TradeIcon />}>
-            Exchange
+          <Menu.Item key="3">
+            <i class="ri-arrow-left-right-line"></i> <span>Exchange</span>
             <Link to="/exchange" />
           </Menu.Item>
-          <Menu.Item key="4" icon={<BorrowIcon />}>
-            Borrow
+          <Menu.Item key="4">
+            <i class="ri-hand-coin-line"></i> <span>Borrow</span>
             <Link to="/borrow" />
           </Menu.Item>
-          <Menu.Item key="5" icon={<StakeIcon />}>
-            Stake/Earn
+          <Menu.Item key="5">
+            <i class="ri-coins-line"></i> <span>Stake/Earn</span>
             <Link to="/stake" />
           </Menu.Item>
         </Menu>
