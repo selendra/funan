@@ -1,7 +1,18 @@
 import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
-import { Button, Card, Form, Input, message, Spin, Select, Row, Col, Modal } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  message,
+  Spin,
+  Select,
+  Row,
+  Col,
+  Modal,
+} from "antd";
 import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
 import { Allowance } from "../utils/getAllowance";
@@ -9,12 +20,13 @@ import { appendSpreadsheet } from "../utils/appendSheet";
 import { isvalidSubstrateAddress, ErrorHandling } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { TokenContext } from "../context/TokenContext";
-import SelectToken from '../components/SelectToken';
+import SelectToken from "../components/SelectToken";
 import down from "../assets/icons/down.svg";
-import abi from '../abis/token-sale.json';
+import abi from "../abis/token-sale.json";
 
 export default function Buy() {
-  const { isTrust, substrateAccount, connectSubstrate, errorExtension } = useContext(AccountContext);
+  const { isTrust, substrateAccount, connectSubstrate } =
+    useContext(AccountContext);
   const { selectedToken } = useContext(TokenContext);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -24,7 +36,7 @@ export default function Buy() {
   const [allowance, setAllowance] = useState("");
   const [estimatedReturn, setEstimatedReturn] = useState("");
   const bnb = "0x0000000000000000000000000000000000000000";
-  
+
   async function approve() {
     try {
       const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
@@ -52,31 +64,31 @@ export default function Buy() {
   async function handleOrder() {
     try {
       if (!amount || !address) return message.error("Please fill the form!");
-      if (!isvalidSubstrateAddress(address)) return message.error("selendra address is not valid!");
+      if (!isvalidSubstrateAddress(address))
+        return message.error("selendra address is not valid!");
       setLoading(true);
 
       let data;
       const contract = await Contract(isTrust);
 
-      if(selectedToken === bnb) {
-        data = await contract.order(
-          address,
-          { 
-            value: ethers.utils.parseUnits(amount, 18) 
-          }
-        );
+      if (selectedToken === bnb) {
+        data = await contract.order(address, {
+          value: ethers.utils.parseUnits(amount, 18),
+        });
       }
-      if(selectedToken !== bnb) {
+      if (selectedToken !== bnb) {
         data = await contract.orderToken(
           selectedToken,
-          ethers.utils.parseUnits(amount, 18), 
+          ethers.utils.parseUnits(amount, 18),
           address
         );
       }
       // console.log(data);
       await data.wait();
 
-      const provider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545');
+      const provider = new ethers.providers.JsonRpcProvider(
+        "https://data-seed-prebsc-1-s1.binance.org:8545"
+      );
       const result = await provider.getTransactionReceipt(data.hash);
       // console.log(result);
       if (result.status === 1) {
@@ -121,17 +133,15 @@ export default function Buy() {
   async function estimateSEL() {
     try {
       setSpinning(true);
-      const contractAddress = '0xD31013C0A6690eEA6C3D711034980bda699c7276';
-      const provider = ethers.getDefaultProvider('https://data-seed-prebsc-1-s1.binance.org:8545/');
-      
-      const contract = new ethers.Contract(
-        contractAddress,
-        abi,
-        provider
+      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
+      const provider = ethers.getDefaultProvider(
+        "https://data-seed-prebsc-1-s1.binance.org:8545/"
       );
+
+      const contract = new ethers.Contract(contractAddress, abi, provider);
       const data = await contract.estimateReturn(
-        selectedToken, 
-        ethers.utils.parseUnits(amount, '18')
+        selectedToken,
+        ethers.utils.parseUnits(amount, "18")
       );
       // console.log(data.selendraAmount);
       setEstimatedReturn(ethers.utils.formatUnits(data.selendraAmount, 18));
@@ -145,7 +155,7 @@ export default function Buy() {
   useEffect(() => {
     async function checkAllowance() {
       try {
-        if(selectedToken === bnb) return setAllowance(1);
+        if (selectedToken === bnb) return setAllowance(1);
         setLoading(true);
         const allowance = await Allowance(isTrust, selectedToken);
         setAllowance(Number(allowance._hex));
@@ -160,28 +170,20 @@ export default function Buy() {
 
   function connectSelendra() {
     connectSubstrate();
-    setModal(errorExtension); 
+    // setModal(errorExtension);
   }
 
-  function onChangeHandler (val) {
+  function onChangeHandler(val) {
     setAddress(val);
   }
 
   useEffect(() => {
-    if(!amount) return;
+    if (!amount) return;
     estimateSEL();
   }, [amount, selectedToken]);
 
-  
   return (
     <div>
-      <Modal
-        visible={modal}
-        onCancel={() => setModal(false)}
-        footer=''
-      >
-        <p>Please install Selendra Extension. <a href="" target='_blank'>Download</a></p>
-      </Modal>
       <Card style={{ borderRadius: "12px" }}>
         <div className="buy__padding">
           <center className="buy__title">
@@ -191,34 +193,36 @@ export default function Buy() {
               token up to USD 100.00 and limited time bound.
             </p>
           </center>
-          <Form layout="vertical" className="buy__form">
-            <Form.Item label="Amount">
+          <Form
+            layout="vertical"
+            size="large"
+            className="buy__form"
+            onFinish={handleOrder}
+          >
+            <Form.Item label="Amount" required={true}>
               <Input
                 className="buy__input"
                 placeholder="Enter Amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                suffix={
-                  <SelectToken />
-                }
+                suffix={<SelectToken />}
               />
             </Form.Item>
-            <Form.Item label="Selendra Address">
-              <Row gutter={[8, 8]} align='middle'>
-                <Col span={substrateAccount.length ? 24 : 12}>
-                  <Select
-                    className="buy__inputSelect"
-                    // placeholder="Enter Selendra Address"
-                    options={substrateAccount} 
-                    onChange={onChangeHandler}
-                    style={{ width: '100%' }}
-                  />
-                </Col>
-                <Col span={substrateAccount.length ? 0 : 12}>
-                  <Button className="buy__btnConnect" onClick={connectSelendra}>Connect Selendra</Button>
-                </Col>
-              </Row>
-            </Form.Item>
+            {substrateAccount.length !== 0 && (
+              <Form.Item label="Selendra Address">
+                <Row gutter={[8, 8]} align="middle">
+                  <Col span={24}>
+                    <Select
+                      className="buy__inputSelect"
+                      // placeholder="Enter Selendra Address"
+                      options={substrateAccount}
+                      onChange={onChangeHandler}
+                      style={{ width: "100%" }}
+                    />
+                  </Col>
+                </Row>
+              </Form.Item>
+            )}
 
             {amount && (
               <div>
@@ -229,7 +233,7 @@ export default function Buy() {
                   <Form.Item label="To (estimated)">
                     <Input
                       className="buy__input"
-                      value={(estimatedReturn)}
+                      value={estimatedReturn}
                       readOnly
                       placeholder=""
                     />
@@ -237,25 +241,31 @@ export default function Buy() {
                 </Spin>
               </div>
             )}
-            <Form.Item>
-              {allowance ? (
-                <Button
-                  className="buy__button"
-                  loading={loading}
-                  onClick={handleOrder}
-                >
-                  Contribute
-                </Button>
-              ) : (
-                <Button
-                  className="buy__button"
-                  loading={loading}
-                  onClick={approve}
-                >
-                  Approve Spend
-                </Button>
-              )}
-            </Form.Item>
+            {substrateAccount.length === 0 ? (
+              <Button className="buy__button" onClick={connectSelendra}>
+                Connect Selendra
+              </Button>
+            ) : (
+              <Form.Item>
+                {allowance ? (
+                  <Button
+                    className="buy__button"
+                    htmlType="submit"
+                    loading={loading}
+                  >
+                    Contribute
+                  </Button>
+                ) : (
+                  <Button
+                    className="buy__button"
+                    loading={loading}
+                    onClick={approve}
+                  >
+                    Approve Spend
+                  </Button>
+                )}
+              </Form.Item>
+            )}
           </Form>
         </div>
       </Card>

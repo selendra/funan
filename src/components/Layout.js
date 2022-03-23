@@ -1,22 +1,26 @@
-import { Row, Menu, Input, Layout, Col } from "antd";
+import React, { useContext, useState } from "react";
+import { Row, Menu, Input, Layout, Col, message, Modal } from "antd";
 import { Link, useLocation } from "react-router-dom";
-import Icon from "@ant-design/icons";
 import logo from "../assets/logo.png";
-import { ReactComponent as User } from "../assets/icons/user.svg";
-import { ReactComponent as Card } from "../assets/icons/cards.svg";
-import { ReactComponent as Trade } from "../assets/icons/trade.svg";
-import { ReactComponent as Borrow } from "../assets/icons/money-recive.svg";
-import { ReactComponent as Stake } from "../assets/icons/3dcube.svg";
 import ButtonConnect from "./ButtonConnect";
-
-const UserIcon = (props) => <Icon component={User} {...props} />;
-const CardIcon = (props) => <Icon component={Card} {...props} />;
-const TradeIcon = (props) => <Icon component={Trade} {...props} />;
-const BorrowIcon = (props) => <Icon component={Borrow} {...props} />;
-const StakeIcon = (props) => <Icon component={Stake} {...props} />;
+import { AccountContext } from "../context/AccountContext";
 
 export default function LayoutComponent({ children }) {
+  const [userBrowser, setUserBrowser] = useState("");
   const location = useLocation();
+
+  const { hasSelWallet, hasEVMWallet } = useContext(AccountContext);
+
+  React.useEffect(() => {
+    let userAgent = navigator.userAgent;
+    if (userAgent.match(/chrome|chromium|crios/i)) {
+      setUserBrowser("chrome");
+    } else if (userAgent.match(/firefox|fxios/i)) {
+      setUserBrowser("firefox");
+    } else {
+      setUserBrowser("No browser detection");
+    }
+  }, []);
 
   return (
     <Layout>
@@ -28,6 +32,68 @@ export default function LayoutComponent({ children }) {
         collapsedWidth="60"
         width={250}
       >
+        {/* === >>> If EVM Extension not found <<< === */}
+        <Modal
+          title={false}
+          visible={hasEVMWallet === false}
+          footer={false}
+          closable={false}
+        >
+          <center>
+            <p>
+              EVM Extension is required!{" "}
+              {userBrowser === "chrome" ? (
+                <a
+                  href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              ) : (
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              )}
+            </p>
+          </center>
+        </Modal>
+
+        {/* === >>> If Selendra Extension not found <<< === */}
+        <Modal
+          title={false}
+          visible={hasSelWallet === false}
+          footer={false}
+          closable={false}
+        >
+          <center>
+            <p>
+              Selendra Extension is required!{" "}
+              {userBrowser === "chrome" ? (
+                <a
+                  href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              ) : (
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              )}
+            </p>
+          </center>
+        </Modal>
+
         <Row align="middle" justify="center">
           <Col xs={0} sm={0} md={0} lg={20} xl={20}>
             <img src={logo} alt="" className="layout__logo" />

@@ -1,32 +1,38 @@
 import { createContext, useEffect, useState } from "react";
 import { providers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { message } from "antd";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 
 export const AccountContext = createContext();
-export const AccountProvider = ({children}) => {
-  const [account, setAccount] = useState('');
+export const AccountProvider = ({ children }) => {
+  const [account, setAccount] = useState("");
   const [substrateAccount, setSubstrateAccount] = useState([]);
-  const [errorExtension, setErrorExtension] = useState(false);
-  const [isTrust, setIsTrust] = useState(false || localStorage.getItem('wallet') === 'walletconnect');
+  // const [errorExtension, setErrorExtension] = useState(false);
+  const [hasSelWallet, setHasSelWallet] = useState(null);
+  const [hasEVMWallet, setHasEVMWallet] = useState(null);
+  const [isTrust, setIsTrust] = useState(
+    false || localStorage.getItem("wallet") === "walletconnect"
+  );
 
   function disconnect() {
-    localStorage.setItem('wallet', '');
-    setAccount('');
+    localStorage.setItem("wallet", "");
+    setAccount("");
   }
 
   async function connectMetamask() {
     const { ethereum } = window;
-    if(!ethereum) return;
+    if (!ethereum) {
+      return;
+    }
     try {
       await window.ethereum
-        .request({ method: 'eth_requestAccounts' })
-        .then(accounts => {
-          setAccount(accounts[0])
+        .request({ method: "eth_requestAccounts" })
+        .then((accounts) => {
+          setAccount(accounts[0]);
           setIsTrust(false);
-          localStorage.setItem('wallet', 'metamask');
-        })
+          setHasEVMWallet(true);
+          localStorage.setItem("wallet", "metamask");
+        });
     } catch (error) {
       console.log(error);
     }
@@ -36,12 +42,12 @@ export const AccountProvider = ({children}) => {
     try {
       const provider = new WalletConnectProvider({
         rpc: {
-          56: "https://bsc-dataseed.binance.org"
+          56: "https://bsc-dataseed.binance.org",
         },
         qrcodeModalOptions: {
-          mobileLinks: ["trust"]
-        }
-      })
+          mobileLinks: ["trust"],
+        },
+      });
       // enable session (triggers qr code modal)
       await provider.enable();
 
@@ -50,7 +56,8 @@ export const AccountProvider = ({children}) => {
 
       setAccount(accounts[0]);
       setIsTrust(true);
-      localStorage.setItem('wallet', 'walletconnect');
+      setHasEVMWallet(true);
+      localStorage.setItem("wallet", "walletconnect");
     } catch (error) {
       console.log(error);
     }
@@ -58,27 +65,31 @@ export const AccountProvider = ({children}) => {
 
   async function connectSubstrate() {
     try {
-      const extension = await web3Enable('Selendra Park');
+      const extension = await web3Enable("Selendra Park");
       if (extension.length === 0) {
-        setErrorExtension(true);
-        return message.error('Selendra extension not detected!');
+        setHasSelWallet(false);
+        return;
+      } else {
+        const allAccounts = await web3Accounts();
+        const reArray = allAccounts.map((i) => {
+          const newArr = {};
+          newArr.label = i.address;
+          newArr.value = i.address;
+          return newArr;
+        });
+        setSubstrateAccount(reArray);
+        setHasSelWallet(true);
       }
-      const allAccounts = await web3Accounts();
-      const reArray = allAccounts.map(i => {
-        const newArr = {};
-        newArr.label = (i.address);
-        newArr.value = i.address;
-        return newArr;
-      });
-      setSubstrateAccount(reArray);
     } catch (error) {
       console.log(error);
     }
   }
 
   useEffect(() => {
+    connectSubstrate();
+    connectMetamask();
     isTrust ? connectTrust() : connectMetamask();
-  },[isTrust])
+  }, [isTrust, hasEVMWallet]);
 
   return (
     <AccountContext.Provider
@@ -86,12 +97,15 @@ export const AccountProvider = ({children}) => {
         account,
         substrateAccount,
         isTrust,
-        errorExtension,
+        hasSelWallet,
+        hasEVMWallet,
         connectMetamask,
         connectTrust,
         connectSubstrate,
         disconnect,
       }}
-    >{children}</AccountContext.Provider>
-  )
-}
+    >
+      {children}
+    </AccountContext.Provider>
+  );
+};
