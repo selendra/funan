@@ -1,62 +1,49 @@
+import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import { Avatar, Card, Col, Radio, Row, Spin, Tabs } from "antd";
 import { AccountContext } from "../context/AccountContext";
-import { ethers } from "ethers";
-import abi from "../abis/token-sale.json";
-// import tokenABI from '../abis/token.json';
+import { tokens } from "../constants/tokenContract";
+import TokenBalance from "../components/TokenBalance";
 import sel from "../assets/sel-token.png";
-import { Signer } from "../utils/getSigner";
+import bnb from '../assets/tokens/bnb.png';
+import busd from '../assets/tokens/busd.png';
+import usdt from '../assets/tokens/usdt.png';
+import dai from '../assets/tokens/dai.png';
+import eth from '../assets/tokens/eth.png';
 
 export default function Profile() {
-  const { account } = useContext(AccountContext);
+  const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [balance, setBalance] = useState("");
-
+  const { account } = useContext(AccountContext);
+  
   async function getBalance() {
-    setLoading(true);
-    const contractAddress = "0x1ea5d1c9434B89B03C4aAC95dd4C56cD86430385";
-    const provider = ethers.getDefaultProvider(
-      "https://data-seed-prebsc-1-s1.binance.org:8545"
-    );
-
-    const contract = new ethers.Contract(contractAddress, abi, provider);
-
-    const data = await contract.balanceOf(account);
-    setBalance(ethers.utils.formatUnits(data._hex, 18));
-    setLoading(false);
-  }
-
-  function getPrice(amount) {
-    return (Number(amount) * 0.03).toFixed(2);
-  }
-
-  async function getTokenBalance() {
+    const tokenABI = ["function balanceOf(address) view returns (uint)"];
     const provider = ethers.getDefaultProvider(
       "https://data-seed-prebsc-1-s1.binance.org:8545/"
     );
-    const signer = await Signer();
-
-    let tokenABI = [
-      // Get the account balance
-      "function balanceOf(address) view returns (uint)",
-    ];
-
-    const contract = new ethers.Contract(
-      "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd",
-      tokenABI,
-      provider
-    );
-    const balance = await contract.balanceOf(
-      "0xE0e5C149B9CdF9d2279b6ddFdA9Bc0A4a975285c"
-    );
-    console.log(balance);
+    setLoading(true);
+    const BUSD = new ethers.Contract(tokens[0].tokenAddress, tokenABI, provider);
+    const DAI = new ethers.Contract(tokens[1].tokenAddress, tokenABI, provider);
+    const USDT = new ethers.Contract(tokens[2].tokenAddress, tokenABI, provider);
+    const ETH = new ethers.Contract(tokens[3].tokenAddress, tokenABI, provider);
+   
+    const data = await Promise.all([
+      BUSD.balanceOf(account),
+      DAI.balanceOf(account),
+      USDT.balanceOf(account),
+      ETH.balanceOf(account),
+    ])
+    const newArr = data.map(x => ({
+      value: x._hex
+    }))
+    setBalance(newArr);
+    setLoading(false);
   }
 
   useEffect(() => {
-    if (!account) return;
+    if(!account) return;
     getBalance();
-    getTokenBalance();
-  }, [account]);
+  },[account]);
 
   return (
     <div>
@@ -83,7 +70,7 @@ export default function Profile() {
         </Tabs> */}
         <div className="sel-tab-sections">
           <ul className="sel-tabs ">
-            <li className="active">My $Sel</li>
+            <li className="active">Portfolio</li>
             <li>NFT</li>
             <li>History</li>
             <li>Identity</li>
@@ -93,30 +80,30 @@ export default function Profile() {
 
       <div className="profile-desc">
         <Card style={{ borderRadius: "8px" }}>
-          <Row justify="space-between" align="middle">
-            <Col>
-              <Row gutter={[8, 8]} align="middle">
-                <Col>
-                  <img src={sel} alt="" width="44" height="44" />
-                </Col>
-                <Col>
-                  <div className="profile__selPrice">
-                    <p>SEL</p>
-                    <p>$ 0.03</p>
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-            <Col>
-              <Spin spinning={loading} />
-              {!loading && (
-                <div className="profile__estimateValue">
-                  <p>{Number(balance).toFixed(2)} SEL</p>
-                  <p>≈ ${getPrice(balance)} USD</p>
-                </div>
-              )}
-            </Col>
-          </Row>
+          <TokenBalance
+            image={usdt}
+            TokenName='USDT'
+            balance={balance[2]?.value}
+            loading={loading}
+          />
+          <TokenBalance
+            image={busd}
+            TokenName='BUSD'
+            balance={balance[0]?.value}
+            loading={loading}
+          />
+          <TokenBalance
+            image={dai}
+            TokenName='DAI'
+            balance={balance[1]?.value}
+            loading={loading}
+          />
+          <TokenBalance
+            image={eth}
+            TokenName='ETH'
+            balance={balance[3]?.value}
+            loading={loading}
+          />
         </Card>
       </div>
     </div>
