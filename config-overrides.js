@@ -1,7 +1,6 @@
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 module.exports = function override(config, env) {
-  
   config.resolve = {
     fallback: {
       stream: require.resolve('stream-browserify'),
@@ -11,6 +10,7 @@ module.exports = function override(config, env) {
       fs: false,
     },
   }
-  config.plugins.push(new NodePolyfillPlugin())
-  return config
+
+  config.plugins.push(new NodePolyfillPlugin());
+  return config;
 }

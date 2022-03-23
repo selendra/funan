@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
-import { Button, Card, Form, Input, message, Spin } from "antd";
+import { Button, Card, Form, Input, message, Spin, Select, Row, Col, Modal } from "antd";
 import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
 import { Allowance } from "../utils/getAllowance";
@@ -14,19 +14,20 @@ import down from "../assets/icons/down.svg";
 import abi from '../abis/token-sale.json';
 
 export default function Buy() {
-  const { isTrust } = useContext(AccountContext);
+  const { isTrust, substrateAccount, connectSubstrate, errorExtension } = useContext(AccountContext);
   const { selectedToken } = useContext(TokenContext);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
+  const [modal, setModal] = useState(false);
   const [allowance, setAllowance] = useState("");
   const [estimatedReturn, setEstimatedReturn] = useState("");
   const bnb = "0x0000000000000000000000000000000000000000";
   
   async function approve() {
     try {
-      const contractAddress = "0x25D24289A4DBB4a0fFC7835A01D970b6135B02a7";
+      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
       let abi = [
         "function approve(address _spender, uint256 _value) public returns (bool success)",
       ];
@@ -120,7 +121,7 @@ export default function Buy() {
   async function estimateSEL() {
     try {
       setSpinning(true);
-      const contractAddress = '0x25D24289A4DBB4a0fFC7835A01D970b6135B02a7';
+      const contractAddress = '0xD31013C0A6690eEA6C3D711034980bda699c7276';
       const provider = ethers.getDefaultProvider('https://data-seed-prebsc-1-s1.binance.org:8545/');
       
       const contract = new ethers.Contract(
@@ -132,6 +133,7 @@ export default function Buy() {
         selectedToken, 
         ethers.utils.parseUnits(amount, '18')
       );
+      // console.log(data.selendraAmount);
       setEstimatedReturn(ethers.utils.formatUnits(data.selendraAmount, 18));
       setSpinning(false);
     } catch (error) {
@@ -156,6 +158,11 @@ export default function Buy() {
     checkAllowance();
   }, [isTrust, allowance, selectedToken]);
 
+  function connectSelendra() {
+    connectSubstrate();
+    setModal(errorExtension); 
+  }
+
   useEffect(() => {
     if(!amount) return;
     estimateSEL();
@@ -164,6 +171,13 @@ export default function Buy() {
   
   return (
     <div>
+      <Modal
+        visible={modal}
+        onCancel={() => setModal(false)}
+        footer=''
+      >
+        <p>Please install Selendra Extension. <a href="" target='_blank'>Download</a></p>
+      </Modal>
       <Card style={{ borderRadius: "12px" }}>
         <div className="buy__padding">
           <center className="buy__title">
@@ -186,12 +200,20 @@ export default function Buy() {
               />
             </Form.Item>
             <Form.Item label="Selendra Address">
-              <Input
-                className="buy__input"
-                placeholder="Enter Selendra Address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
+              <Row gutter={[8, 8]} align='middle'>
+                <Col span={substrateAccount.length ? 24 : 12}>
+                  <Select
+                    className="buy__inputSelect"
+                    // placeholder="Enter Selendra Address"
+                    options={substrateAccount} 
+                    // onChange={onChangeHandler}
+                    style={{ width: '100%' }}
+                  />
+                </Col>
+                <Col span={substrateAccount.length ? 0 : 12}>
+                  <Button className="buy__btnConnect" onClick={connectSelendra}>Connect Selendra</Button>
+                </Col>
+              </Row>
             </Form.Item>
 
             {amount && (
@@ -203,7 +225,7 @@ export default function Buy() {
                   <Form.Item label="To (estimated)">
                     <Input
                       className="buy__input"
-                      value={Number(estimatedReturn).toFixed(3)}
+                      value={(estimatedReturn)}
                       readOnly
                       placeholder=""
                     />
