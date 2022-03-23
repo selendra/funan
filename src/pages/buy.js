@@ -163,6 +163,10 @@ export default function Buy() {
     setModal(errorExtension); 
   }
 
+  function onChangeHandler (val) {
+    setAddress(val);
+  }
+
   useEffect(() => {
     if(!amount) return;
     estimateSEL();
@@ -206,7 +210,7 @@ export default function Buy() {
                     className="buy__inputSelect"
                     // placeholder="Enter Selendra Address"
                     options={substrateAccount} 
-                    // onChange={onChangeHandler}
+                    onChange={onChangeHandler}
                     style={{ width: '100%' }}
                   />
                 </Col>
