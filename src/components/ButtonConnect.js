@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Button, Dropdown} from "antd";
-import { AccountContext } from "../context/AccountContext";
 import { shortenAddress } from "../utils";
+import { AccountContext } from "../context/AccountContext";
 
 export default function ButtonConnect() {
   const { account, disconnect } = useContext(AccountContext);

@@ -1,11 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./styles/app.css";
-import LayoutComponent from "./components/Layout";
 import Buy from "./pages/buy";
 import Connect from "./pages/connect";
 import Profile from "./pages/profile";
 import Exchange from "./pages/exchange";
 import NotFound from "./pages/notfound";
+import LayoutComponent from "./components/Layout";
 
 export default function App() {
   return (

@@ -4,7 +4,7 @@ import { Avatar, Card, Col, Radio, Row, Spin, Tabs } from "antd";
 import { AccountContext } from "../context/AccountContext";
 import { tokens } from "../constants/tokenContract";
 import TokenBalance from "../components/TokenBalance";
-import sel from "../assets/sel-token.png";
+import sel from "../assets/tokens/sel.png";
 import bnb from '../assets/tokens/bnb.png';
 import busd from '../assets/tokens/busd.png';
 import usdt from '../assets/tokens/usdt.png';

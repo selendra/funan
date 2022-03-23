@@ -163,7 +163,7 @@ export default function Buy() {
     setModal(errorExtension); 
   }
 
-  function onChangeHandler (val) {
+  function onChangeHandler(val) {
     setAddress(val);
   }
 

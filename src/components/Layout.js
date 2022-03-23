@@ -1,5 +1,5 @@
-import { Row, Menu, Input, Layout, Col } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import { Row, Menu, Input, Layout, Col } from "antd";
 import Icon from "@ant-design/icons";
 import logo from "../assets/logo.png";
 import { ReactComponent as User } from "../assets/icons/user.svg";
@@ -81,6 +81,7 @@ export default function LayoutComponent({ children }) {
           }}
         >
           <div className="container">
+            
             <div className="app-layout">{children}</div>
           </div>
         </Layout.Content>
