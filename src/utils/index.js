@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { checkAddress } from '@polkadot/util-crypto';
+import { Contract } from "ethers";
 
 export function isvalidSubstrateAddress(address) {
   const check = checkAddress(address, 42);
@@ -20,4 +21,8 @@ export function shortenAddress(address) {
 export function ErrorHandling(err) {
   if(err.code === 4001) message.error('The request was rejected!');
   if(err.code === -32603) message.error(err.data.message);
+}
+
+export function getContract(address, abi, signerOrProvider) {
+  return new Contract(address, abi, signerOrProvider);
 }
