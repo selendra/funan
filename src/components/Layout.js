@@ -16,11 +16,6 @@ export default function LayoutComponent({ children }) {
     {
       icon: "home-2.svg",
       name: "Home",
-      route: "/home",
-    },
-    {
-      icon: "profile-circle.svg",
-      name: "Profile",
       route: "/profile",
     },
     {
@@ -29,7 +24,7 @@ export default function LayoutComponent({ children }) {
       route: "/auction",
     },
     {
-      icon: "trend-up.svg",
+      icon: "unlimited.svg",
       name: "Bridge",
       route: "/bridge",
     },
