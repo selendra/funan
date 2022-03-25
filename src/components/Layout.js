@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Row, Menu, Input, Layout, Col, message, Modal } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import ButtonConnect from "./ButtonConnect";
 import { AccountContext } from "../context/AccountContext";
@@ -10,6 +10,40 @@ export default function LayoutComponent({ children }) {
   const location = useLocation();
 
   const { hasSelWallet, hasEVMWallet } = useContext(AccountContext);
+
+  // ==== >>> Selendra Routes <<< ====
+  const routes = [
+    {
+      icon: "home-2.svg",
+      name: "Home",
+      route: "/home",
+    },
+    {
+      icon: "profile-circle.svg",
+      name: "Profile",
+      route: "/profile",
+    },
+    {
+      icon: "reserve.svg",
+      name: "Auction",
+      route: "/auction",
+    },
+    {
+      icon: "convertshape-2.svg",
+      name: "Exchange",
+      route: "/exchange",
+    },
+    {
+      icon: "money-recive.svg",
+      name: "Borrow",
+      route: "/borrow",
+    },
+    {
+      icon: "trend-up.svg",
+      name: "Stake/Earn",
+      route: "/stake",
+    },
+  ];
 
   React.useEffect(() => {
     let userAgent = navigator.userAgent;
@@ -96,7 +130,7 @@ export default function LayoutComponent({ children }) {
 
         <Row align="middle" justify="center">
           <Col xs={0} sm={0} md={0} lg={20} xl={20}>
-            <img src={logo} alt="" className="layout__logo" />
+            <img src={logo} alt="selendra-logo" className="layout__logo" />
           </Col>
         </Row>
         <Menu
@@ -105,31 +139,22 @@ export default function LayoutComponent({ children }) {
           mode="inline"
           defaultSelectedKeys={[location.pathname]}
         >
-          <Menu.Item key="/profile">
-            <i className="ri-user-line"></i>
-            <span>Profile</span>
-            <Link to="/profile" />
-          </Menu.Item>
-          <Menu.Item key="/buy">
-            <i className="ri-refund-2-line"></i> <span>Buy</span>
-            <Link to="/buy" />
-          </Menu.Item>
-          <Menu.Item key="3">
-            <i className="ri-arrow-left-right-line"></i> <span>Exchange</span>
-            <Link to="/exchange" />
-          </Menu.Item>
-          <Menu.Item key="4">
-            <i className="ri-hand-coin-line"></i> <span>Borrow</span>
-            <Link to="/borrow" />
-          </Menu.Item>
-          <Menu.Item key="5">
-            <i className="ri-coins-line"></i> <span>Stake/Earn</span>
-            <Link to="/stake" />
-          </Menu.Item>
+          {/* ===>>> Map Sel Routes <<<==== */}
+          {routes.map((route) => {
+            const { icon, name, route: link } = route;
+            return (
+              <Menu.Item key={name}>
+                <NavLink activeClassName="active" to={link}>
+                  <img src={`/icons/bulk/${icon}`} alt={name} />
+                  <span>{name}</span>
+                </NavLink>
+              </Menu.Item>
+            );
+          })}
         </Menu>
       </Layout.Sider>
       <Layout className="site-layout">
-        <Layout.Header style={{ background: "#FFF" }}>
+        {/* <Layout.Header style={{ background: "#FFF" }}>
           <div className="container">
             <div className="top-menu">
               <Input
@@ -140,10 +165,10 @@ export default function LayoutComponent({ children }) {
               <ButtonConnect />
             </div>
           </div>
-        </Layout.Header>
+        </Layout.Header> */}
         <Layout.Content
           style={{
-            minHeight: "85vh",
+            minHeight: "100vh",
           }}
         >
           <div className="container">

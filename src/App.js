@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./styles/app.css";
-import Buy from "./pages/buy";
+import Auction from "./pages/auction";
 import Connect from "./pages/connect";
 import Profile from "./pages/profile";
 import Exchange from "./pages/exchange";
@@ -15,7 +15,7 @@ export default function App() {
           <Route path="/" element={<Navigate to="/profile" />} />
           <Route path="connect" element={<Connect />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="buy" element={<Buy />} />
+          <Route path="auction" element={<Auction />} />
           <Route path="exchange" element={<Exchange />} />
           <Route path="borrow" element={<Exchange />} />
           <Route path="stake" element={<Exchange />} />
