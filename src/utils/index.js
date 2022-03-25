@@ -1,5 +1,6 @@
 import { message } from 'antd';
-import { checkAddress } from '@polkadot/util-crypto';
+import { u8aToHex } from "@polkadot/util";
+import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
 import { Contract } from "ethers";
 
 export function isvalidSubstrateAddress(address) {
@@ -25,4 +26,10 @@ export function ErrorHandling(err) {
 
 export function getContract(address, abi, signerOrProvider) {
   return new Contract(address, abi, signerOrProvider);
+}
+
+export function getHex(substrateAdress){
+  const publicKey = decodeAddress(substrateAdress);
+  const hexPublicKey = u8aToHex(publicKey);
+  return hexPublicKey
 }
