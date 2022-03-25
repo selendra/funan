@@ -42,6 +42,11 @@ export default function Navbar() {
       name: "Stake/Earn",
       route: "/stake",
     },
+    {
+      icon: "trend-up.svg",
+      name: "Bridge",
+      route: "/bridge",
+    },
   ];
 
   React.useEffect(() => {

@@ -5,6 +5,7 @@ import Connect from "./pages/connect";
 import Profile from "./pages/profile";
 import Exchange from "./pages/exchange";
 import NotFound from "./pages/notfound";
+import Bridge from "./pages/bridge";
 import Index from "./pages";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="connect" element={<Connect />} />
         <Route path="profile" element={<Profile />} />
         <Route path="auction" element={<Auction />} />
+        <Route path="bridge" element={<Bridge />} />
         <Route path="exchange" element={<Exchange />} />
         <Route path="borrow" element={<Exchange />} />
         <Route path="stake" element={<Exchange />} />
