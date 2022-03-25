@@ -13,8 +13,8 @@ export default function Bridge() {
     setAddress(val);
   }
   async function v2ToNative(val) {
-    // await approveForHandler(val.amount);
-    // await selendraToWrap(val.amount);
+    await approveForHandler(val.amount);
+    await selendraToWrap(val.amount);
   
     await wrapApprove(val.amount);
     await wrapTransfer(address, val.amount);
@@ -45,7 +45,7 @@ export default function Bridge() {
             </div>
           </div>
           {substrateAccount.length !== 0 && (
-            <Form.Item label="Selendra Address">
+            <Form.Item label="Destination">
               <Row gutter={[8, 8]} align="middle">
                 <Col span={24}>
                   <Select

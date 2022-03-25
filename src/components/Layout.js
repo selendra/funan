@@ -29,6 +29,11 @@ export default function LayoutComponent({ children }) {
       route: "/auction",
     },
     {
+      icon: "trend-up.svg",
+      name: "Bridge",
+      route: "/bridge",
+    },
+    {
       icon: "convertshape-2.svg",
       name: "Exchange",
       route: "/exchange",
