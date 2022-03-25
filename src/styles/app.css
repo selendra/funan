@@ -8,13 +8,13 @@
   margin: 0;
   padding: 0;
 }
-html,
 body {
   height: 100%;
   font-family: "Ubuntu", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 h1,
 h2,
 h3,
@@ -38,13 +38,37 @@ p {
   top: 4px;
 }
 .ant-menu-inline > .ant-menu-item {
-  height: 50px !important;
-  line-height: 50px !important;
+  height: 60px !important;
+  line-height: 60px !important;
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: rgb(255, 255, 255) !important;
+}
+.ant-menu-title-content img {
+  height: 35px !important;
+  margin-right: 15px;
+  filter: grayscale(100%);
+}
+.ant-menu-title-content:hover img {
+  filter: grayscale(0%);
+}
+.ant-menu-item .active * {
+  filter: grayscale(0%);
+  color: #00a9f9 !important;
+}
+.ant-menu-item-selected::after {
+  height: 25px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  border-radius: 20px !important;
+}
+.ant-menu-item span {
+  font-weight: 500 !important;
+  color: #80868a !important;
 }
 .layout__logo {
-  width: 120px;
-  height: 56px;
-  margin: 8px 0;
+  height: 65px;
+  margin: 20px 0;
 }
 .layout__search {
   max-width: 400px;
@@ -88,6 +112,9 @@ p {
   font-weight: 600 !important;
   height: 45px !important;
   line-height: 45px !important;
+}
+.btn__connect img {
+  margin-right: 15px;
 }
 /*** End Button Connect */
 /* Connect */
@@ -216,7 +243,7 @@ p {
   height: 40px !important;
 }
 .buy__padding {
-  width: 50%;
+  width: 60%;
   margin: 0px auto;
   padding-top: 30px;
 }
@@ -248,6 +275,7 @@ p {
 }
 .how-it-works-section ol li div {
   margin-left: 5px;
+  margin-top: 10px;
 }
 .profile-desc {
   margin-top: 20px;
@@ -269,9 +297,21 @@ p {
   height: 40px;
 }
 .sel-tabs .active {
-  border-bottom: 2px solid #00a9f9;
+  /* border-bottom: 2px solid #00a9f9; */
   color: #00a9f9 !important;
   font-weight: 700;
+  position: relative;
+}
+.sel-tabs .active::after {
+  content: "";
+  border-bottom: 3px solid #00a9f9;
+  width: 30px;
+  display: block;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .sel-card .ant-card-body {
   padding: 24px 24px 0px 24px;
