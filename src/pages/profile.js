@@ -1,6 +1,18 @@
 import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
-import { Avatar, Card, Col, Radio, Row, Spin, Tabs } from "antd";
+import Icon from "@ant-design/icons";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  message,
+  Radio,
+  Row,
+  Spin,
+  Tabs,
+} from "antd";
 import { AccountContext } from "../context/AccountContext";
 import { tokens } from "../constants/tokenContract";
 import TokenBalance from "../components/TokenBalance";
@@ -10,12 +22,22 @@ import busd from "../assets/tokens/busd.png";
 import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
+import ButtonConnect from "../components/ButtonConnect";
+import ButtonConnectSubstrate from "../components/ButtonConnectSubstrate";
+import { shortenAddress } from "../utils";
+import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
+import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
+import Wallet from "../components/Wallet";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import LayoutComponent from "../components/Layout";
+
+const EditIcon = (props) => <Icon component={Edit} {...props} />;
+const CopyIcon = (props) => <Icon component={Copy} {...props} />;
 
 export default function Profile() {
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { account } = useContext(AccountContext);
+  const { account, substrateAccount } = useContext(AccountContext);
 
   async function getBalance() {
     const tokenABI = ["function balanceOf(address) view returns (uint)"];
@@ -56,37 +78,74 @@ export default function Profile() {
 
   return (
     <LayoutComponent>
+      <p className="profile-home">Home</p>
       <Card style={{ borderRadius: "8px" }} className="sel-card">
-        <Row gutter={[16, 16]} align="middle" justify="space-between">
-          <Col>
-            <Row gutter={[16, 16]}>
+        <Row gutter={[8, 8]} align="middle" justify="space-between">
+          <Col span={6}>
+            <Row gutter={[32, 32]}>
               <Col>
-                <Avatar
-                  src={`https://avatars.dicebear.com/api/identicon/${account}.svg`}
-                  size={64}
-                />
+                <ButtonConnect />
               </Col>
               <Col>
-                <h2 className="user-id">ID: No ID</h2>
-                <p>{account}</p>
+                <ButtonConnectSubstrate />
               </Col>
             </Row>
           </Col>
-          <Col>{/* <h2 style={{fontSize: '28px'}}>$ 0</h2> */}</Col>
+          <Divider
+            type="vertical"
+            style={{ height: "7em", borderLeft: "2px solid rgba(0,0,0,.07)" }}
+          />
+          <Col span={14}>
+            <Row gutter={[16, 16]} align="middle" justify="space-evently">
+              <Col span={6}>
+                <Avatar
+                  src={`https://avatars.dicebear.com/api/identicon/${
+                    substrateAccount.length > 0 && substrateAccount[0].label
+                  }.svg`}
+                  size={64}
+                />
+              </Col>
+              <Col span={14}>
+                {substrateAccount.length !== 0 && (
+                  <div>
+                    <p>{shortenAddress(substrateAccount[0]?.label)}</p>
+                    <Row gutter={[8, 8]}>
+                      <Button
+                        type="link"
+                        icon={<EditIcon />}
+                        style={{ paddingLeft: "0" }}
+                      >
+                        Change
+                      </Button>
+                      <CopyToClipboard text={substrateAccount[0].label}>
+                        <Button
+                          type="link"
+                          icon={<CopyIcon />}
+                          style={{ paddingLeft: "0" }}
+                          onClick={() => message.success("Copied")}
+                        >
+                          Copy
+                        </Button>
+                      </CopyToClipboard>
+                    </Row>
+                  </div>
+                )}
+              </Col>
+            </Row>
+          </Col>
         </Row>
-        {/* <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="My $SEL" key="1"></Tabs.TabPane>
-        </Tabs> */}
-        <div className="sel-tab-sections">
-          <ul className="sel-tabs ">
-            <li className="active">Portfolio</li>
-            <li>NFT</li>
-            <li>History</li>
-            <li>Identity</li>
-          </ul>
-        </div>
       </Card>
 
+      <p className="profile-home">Wallet</p>
+      <div>
+        <Wallet account={account} type="Metamask" />
+        {substrateAccount.length > 0 &&
+          substrateAccount.map((account, key) => (
+            <Wallet key={key} account={account.label} type="Injection" />
+          ))}
+      </div>
+
+      <p className="profile-home">Portfolio</p>
       <div className="profile-desc">
         <Card style={{ borderRadius: "8px" }}>
           {account && (
