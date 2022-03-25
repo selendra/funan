@@ -11,7 +11,7 @@ import {
   Select,
   Row,
   Col,
-  Modal,
+  InputNumber,
 } from "antd";
 import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
@@ -20,22 +20,60 @@ import { appendSpreadsheet } from "../utils/appendSheet";
 import { isvalidSubstrateAddress, ErrorHandling } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { TokenContext } from "../context/TokenContext";
-import SelectToken from "../components/SelectToken";
 import down from "../assets/icons/down.svg";
 import abi from "../abis/token-sale.json";
+import LayoutComponent from "../components/Layout";
 
 export default function Buy() {
+  // === >>>  Context Section <<< ===
   const { isTrust, substrateAccount, connectSubstrate } =
     useContext(AccountContext);
+
+  // === >>> State Section <<< ===
   const { selectedToken } = useContext(TokenContext);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(null);
   const [address, setAddress] = useState("");
-  const [modal, setModal] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [allowance, setAllowance] = useState("");
   const [estimatedReturn, setEstimatedReturn] = useState("");
+
+  // === >>> Varible Section <<< ===
   const bnb = "0x0000000000000000000000000000000000000000";
+
+  // === >>> useEffect Section <<< ===
+  useEffect(() => {
+    async function checkAllowance() {
+      try {
+        if (selectedToken === bnb) return setAllowance(1);
+        setLoading(true);
+        const allowance = await Allowance(isTrust, selectedToken);
+        setAllowance(Number(allowance._hex));
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        // console.log(error);
+      }
+    }
+    checkAllowance();
+  }, [isTrust, allowance, selectedToken]);
+
+  useEffect(() => {
+    if (!amount) return;
+    estimateSEL();
+  }, [amount, selectedToken]);
+
+  // === >>> Function Section <<< ===
+
+  function connectSelendra() {
+    connectSubstrate();
+    // setModal(errorExtension);
+  }
+
+  function onChangeHandler(val) {
+    setAddress(val);
+  }
 
   async function approve() {
     try {
@@ -63,7 +101,6 @@ export default function Buy() {
 
   async function handleOrder() {
     try {
-      if (!amount || !address) return message.error("Please fill the form!");
       if (!isvalidSubstrateAddress(address))
         return message.error("selendra address is not valid!");
       setLoading(true);
@@ -140,7 +177,7 @@ export default function Buy() {
 
       const contract = new ethers.Contract(contractAddress, abi, provider);
       const data = await contract.estimateReturn(
-        selectedToken,
+        "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee",
         ethers.utils.parseUnits(amount, "18")
       );
       // console.log(data.selendraAmount);
@@ -152,38 +189,21 @@ export default function Buy() {
     }
   }
 
-  useEffect(() => {
-    async function checkAllowance() {
-      try {
-        if (selectedToken === bnb) return setAllowance(1);
-        setLoading(true);
-        const allowance = await Allowance(isTrust, selectedToken);
-        setAllowance(Number(allowance._hex));
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        // console.log(error);
-      }
+  const checkAmount = (value) => {
+    if (value < 0) {
+      return setErrorMsg("The minimum amount is 0!");
+    } else if (value > 100) {
+      return setErrorMsg("The maximum amount is 100!");
+    } else {
+      setAmount(`${value}`);
+      setErrorMsg(null);
     }
-    checkAllowance();
-  }, [isTrust, allowance, selectedToken]);
+  };
 
-  function connectSelendra() {
-    connectSubstrate();
-    // setModal(errorExtension);
-  }
-
-  function onChangeHandler(val) {
-    setAddress(val);
-  }
-
-  useEffect(() => {
-    if (!amount) return;
-    estimateSEL();
-  }, [amount, selectedToken]);
+  // === >>> END Function Section <<< ===
 
   return (
-    <div>
+    <LayoutComponent>
       <Card style={{ borderRadius: "12px" }}>
         <div className="buy__padding">
           <center className="buy__title">
@@ -199,14 +219,19 @@ export default function Buy() {
             className="buy__form"
             onFinish={handleOrder}
           >
-            <Form.Item label="Amount" required={true}>
-              <Input
+            <Form.Item label="Amount" required tooltip="Amount is required!">
+              <InputNumber
                 className="buy__input"
-                placeholder="Enter Amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                suffix={<SelectToken />}
+                placeholder="Enter Amount in USD"
+                defaultValue={amount}
+                onChange={(value) => checkAmount(value)}
+                style={{ width: "100%" }}
               />
+              <div className="error-text">{errorMsg}</div>
+
+              {`${amount} USD = 20BUSD`}
+
+              {/* suffix={<SelectToken />} */}
             </Form.Item>
             {substrateAccount.length !== 0 && (
               <Form.Item label="Selendra Address">
@@ -332,6 +357,6 @@ export default function Buy() {
           </ol>
         </div>
       </div>
-    </div>
+    </LayoutComponent>
   );
 }
