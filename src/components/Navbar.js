@@ -15,17 +15,17 @@ export default function Navbar() {
     {
       icon: "home-2.svg",
       name: "Home",
-      route: "/home",
-    },
-    {
-      icon: "profile-circle.svg",
-      name: "Profile",
       route: "/profile",
     },
     {
       icon: "reserve.svg",
       name: "Auction",
       route: "/auction",
+    },
+    {
+      icon: "link-2.svg",
+      name: "Bridge",
+      route: "/bridge",
     },
     {
       icon: "convertshape-2.svg",
@@ -42,11 +42,7 @@ export default function Navbar() {
       name: "Stake/Earn",
       route: "/stake",
     },
-    {
-      icon: "trend-up.svg",
-      name: "Bridge",
-      route: "/bridge",
-    },
+   
   ];
 
   React.useEffect(() => {

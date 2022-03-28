@@ -75,6 +75,27 @@ export default function Buy() {
     setAddress(val);
   }
 
+  async function getPriceUSD() {
+    try {
+      const tokenAddress = "";
+      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
+
+      const provider = new ethers.providers.JsonRpcProvider(
+        "https://data-seed-prebsc-1-s1.binance.org:8545"
+      );
+      const contract = new ethers.Contract(
+        contractAddress,
+        abi,
+        provider
+      );
+      const data = await contract['getPrice(address)'](tokenAddress);
+      const price = ethers.utils.formatUnits(data._hex, 8);
+      console.log('price: ', price);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async function approve() {
     try {
       const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";

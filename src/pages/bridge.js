@@ -52,11 +52,12 @@ export default function Bridge() {
               <Row gutter={[8, 8]} align="middle">
                 <Col span={24}>
                   <Select
-                    className="buy__inputSelect"
+                    className="bridge-select"
                     placeholder="Enter Selendra Address"
                     options={substrateAccount}
                     onChange={onChangeHandler}
                     style={{ width: "100%" }}
+                    size='large'
                   />
                 </Col>
               </Row>

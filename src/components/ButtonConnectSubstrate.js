@@ -1,11 +1,12 @@
 import { Button } from 'antd';
+import icon from '../assets/icon-white.png';
 
 export default function ButtonConnectSubstrate() {
   return (
     <center className="btn__connectContainer">
-      <Button shape="circle" className="btn__connect">
+      <Button shape="circle" className="btn__connectSelendra">
         <img
-          src="/icons/bulk/wallet-3.svg"
+          src={icon}
           alt="money-recive.svg"
           height="30px"
           style={{margin: '0'}}

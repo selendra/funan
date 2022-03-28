@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Icon from "@ant-design/icons";
 import {
   Avatar,
+  Badge,
   Button,
   Card,
   Col,
@@ -98,12 +99,14 @@ export default function Profile() {
           <Col span={14}>
             <Row gutter={[16, 16]} align="middle" justify="space-evently">
               <Col span={6}>
-                <Avatar
-                  src={`https://avatars.dicebear.com/api/identicon/${
-                    substrateAccount.length > 0 && substrateAccount[0].label
-                  }.svg`}
-                  size={64}
-                />
+                <Badge dot={true} color='green'>
+                  <Avatar
+                    src={`https://avatars.dicebear.com/api/identicon/${
+                      substrateAccount.length > 0 && substrateAccount[0].label
+                    }.svg`}
+                    size={64}
+                  />
+                </Badge>
               </Col>
               <Col span={14}>
                 {substrateAccount.length !== 0 && (
