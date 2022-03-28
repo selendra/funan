@@ -18,20 +18,21 @@ import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
 import { Allowance } from "../utils/getAllowance";
 import { appendSpreadsheet } from "../utils/appendSheet";
-import { isvalidSubstrateAddress, ErrorHandling } from "../utils";
+import { isvalidSubstrateAddress, ErrorHandling, getTokenName } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { TokenContext } from "../context/TokenContext";
 import down from "../assets/icons/down.svg";
 import abi from "../abis/token-sale.json";
 import LayoutComponent from "../components/Layout";
+import SelectToken from "../components/SelectToken";
 
 export default function Buy() {
   // === >>>  Context Section <<< ===
   const { isTrust, substrateAccount, connectSubstrate } =
     useContext(AccountContext);
+  const { selectedToken } = useContext(TokenContext);
 
   // === >>> State Section <<< ===
-  const { selectedToken } = useContext(TokenContext);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(0);
@@ -173,6 +174,7 @@ export default function Buy() {
   // === >>> Estimated SEL <<< ===
   async function estimateSEL() {
     try {
+      if (!amount) return;
       setSpinning(true);
       const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
       const provider = ethers.getDefaultProvider(
@@ -196,7 +198,7 @@ export default function Buy() {
   // === >>> Checking Amount Input <<< ===
   const checkAmount = (value) => {
     setAmount(`${value}`);
-    if (value <= 10) {
+    if (value < 10) {
       return setErrorMsg("The minimum amount is 10!");
     } else if (value > 100) {
       return setErrorMsg("The maximum amount is 100!");
@@ -211,16 +213,21 @@ export default function Buy() {
   // === >>> Get Amount <<< ===
   async function getPriceUSD() {
     try {
-      const tokenAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
       const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
 
       const provider = new ethers.providers.JsonRpcProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545"
       );
       const contract = new ethers.Contract(contractAddress, abi, provider);
-      const data = await contract["getPrice(address)"](tokenAddress);
+      let data;
+      if (selectedToken === bnb) {
+        data = await contract["getPrice()"]();
+      } else {
+        data = await contract["getPrice(address)"](selectedToken);
+      }
       const price = ethers.utils.formatUnits(data._hex, 8);
-      setConvertAmount(parseFloat(price).toFixed(3));
+      setConvertAmount(Number(price));
+      // console.log(Number(price));
     } catch (error) {
       console.log(error);
     }
@@ -254,7 +261,19 @@ export default function Buy() {
                 style={{ width: "100%" }}
               />
               <div className="error-text">{errorMsg}</div>
-              {amount >= 10 && `${amount} USD = ${convertAmount * amount}`}{" "}
+              <Form.Item
+                label={`To ${getTokenName(selectedToken)} (estimated)`}
+              >
+                <Input
+                  className="buy__input"
+                  value={
+                    amount >= 10 ? Number(amount / convertAmount).toFixed(5) : 0
+                  }
+                  readOnly
+                  placeholder=""
+                />
+              </Form.Item>
+              {/* {amount >= 10 && `${amount} USD = ${Number(amount / convertAmount).toFixed(5)}`}{" "}
               <span className="switch-asset">
                 {amount >= 10 && (
                   <Popover
@@ -269,8 +288,9 @@ export default function Buy() {
                     <b>BUSD</b>
                   </Popover>
                 )}
-              </span>
-              {/* suffix={<SelectToken />} */}
+              </span> */}
+              <div style={{ marginTop: "8px" }} />
+              <SelectToken />
             </Form.Item>
             {substrateAccount.length !== 0 && (
               <Form.Item label="Selendra Address">
@@ -294,7 +314,6 @@ export default function Buy() {
                   <center style={{ marginBottom: "20px" }}>
                     <img src={down} width={22} height={22} alt="" />
                   </center>
-
                   <Form.Item label="To (estimated)">
                     <Input
                       className="buy__input"

@@ -28,6 +28,11 @@ export default function Navbar() {
       route: "/auction",
     },
     {
+      icon: "convert-3d-cube.svg",
+      name: "Bridge",
+      route: "/bridge",
+    },
+    {
       icon: "convertshape-2.svg",
       name: "Exchange",
       route: "/exchange",
@@ -41,11 +46,6 @@ export default function Navbar() {
       icon: "trend-up.svg",
       name: "Stake/Earn",
       route: "/stake",
-    },
-    {
-      icon: "convert-3d-cube.svg",
-      name: "Bridge",
-      route: "/bridge",
     },
   ];
 

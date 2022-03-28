@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useCallback, useMemo, useState } from 'react';
 import { getContract } from '../utils';
 
-export function useContract(address, abi, readOnly) {
+export function useContract(address, abi, { readOnly }) {
   const provider = ethers.getDefaultProvider(
     "https://data-seed-prebsc-1-s1.binance.org:8545/"
   );

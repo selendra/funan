@@ -5,7 +5,7 @@ export default function ButtonConnectSubstrate() {
     <center className="btn__connectContainer">
       {/* <Button shape="circle" className="btn__connect">
         <img
-          src="/icons/bulk/wallet-3.svg"
+          src={icon}
           alt="money-recive.svg"
           height="30px"
           style={{margin: '0'}}

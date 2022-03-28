@@ -139,24 +139,30 @@ p {
   color: #1d3442 !important;
 }
 .btn__connect {
-  color: #fff !important;
-  border: 0px !important;
-  border-radius: 8px !important;
+  /* color: #fff !important; */
+  border: none !important;
+  /* border-radius: 8px !important; */
   background: linear-gradient(
     90deg,
     #00a9f9 -3.17%,
     #27c9ff 110.15%
   ) !important;
   box-shadow: none !important;
-  border-radius: 50px !important;
+  /* border-radius: 50px !important; */
   /* padding: 10px !important; */
-  font-weight: 600 !important;
+  /* font-weight: 600 !important; */
   height: 50px !important;
   width: 50px !important;
   /* line-height: 50px!important; */
 }
 .btn__connect img {
   margin-right: 15px;
+}
+.btn__connectSelendra {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: #ed1576 !important;
+  border: none !important;
 }
 /*** End Button Connect */
 /* Connect */
@@ -572,6 +578,12 @@ p {
 .index-footer i:hover {
   color: #444444;
 }
+.bridge-select .ant-select-selector {
+  background-color: #f5f5f5 !important;
+  border-radius: 12px !important;
+  color: #3d525c !important;
+  padding: 0px 20px !important;
+}
 .footer-background {
   background-color: #fff;
   padding: 15px 0px;
@@ -639,4 +651,31 @@ p {
 }
 .from-chain-container .from-chain {
   margin-top: 15px !important;
+}
+.auction-radio .ant-radio-button-wrapper {
+  width: 100px;
+  text-align: center;
+  border: none !important;
+  border-radius: 50px !important;
+  margin-right: 8px !important;
+  margin-top: 8px;
+  box-shadow: 2px 1px 5px 3px rgba(0, 0, 0, 0.01);
+  padding: 0px 15px;
+}
+
+.auction-radio .ant-radio-button-wrapper::before {
+  background-color: transparent !important;
+}
+
+.auction-radio .ant-radio-button-wrapper-checked {
+  color: #00a9f9 !important;
+  background-color: #00aeff2a !important;
+  font-weight: bold;
+  box-shadow: none !important;
+}
+.auction-radio span {
+  font-size: 14px !important;
+}
+.auction-radio img {
+  margin-right: 5px;
 }
