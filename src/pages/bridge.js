@@ -29,48 +29,63 @@ export default function Bridge() {
   return (
     <LayoutComponent>
       <Card style={{ borderRadius: "12px" }}>
-        <Form layout="vertical" onFinish={v2ToNative}>
-          <div className="from-chain-container">
-            <p>Form chain</p>
-            <div className="from-chain">
-              <img src={bnb} alt="" width={32} height={32} />
-              <span>Binance Smart Chain</span>
+        <div className="bridge__padding">
+          <center>
+            <h1>Selendra Bridge </h1>
+            <p>
+              The safe, fast and most secure way to bring cross-chain assets to
+              Selendra chain.
+            </p>
+          </center>
+          <Form layout="vertical" onFinish={v2ToNative} size="large">
+            <div className="from-chain-container">
+              <label className="label-bridge">Form chain</label>
+
+              <div className="from-chain">
+                <img
+                  src={bnb}
+                  alt="Binance Smart Chain"
+                  width={26}
+                  height={26}
+                />
+                <span>Binance Smart Chain</span>
+              </div>
             </div>
-          </div>
-          <Row justify="center" style={{ fontSize: "24px" }}>
-            <i className="ri-arrow-up-down-line"></i>
-          </Row>
-          <div className="from-chain-container">
-            <p>To chain</p>
-            <div className="from-chain">
-              <img src={sel} alt="" width={32} height={32} />
-              <span>Selendra Chain</span>
+            <Row justify="center" style={{ fontSize: "24px" }}>
+              <i className="ri-arrow-up-down-line"></i>
+            </Row>
+            <div className="from-chain-container">
+              <label className="label-bridge">To chain</label>
+              <div className="from-chain">
+                <img src={sel} alt="Selendra Chain" width={26} height={26} />
+                <span>Selendra Chain</span>
+              </div>
             </div>
-          </div>
-          {substrateAccount.length !== 0 && (
-            <Form.Item label="Destination">
-              <Row gutter={[8, 8]} align="middle">
-                <Col span={24}>
-                  <Select
-                    className="buy__inputSelect"
-                    placeholder="Enter Selendra Address"
-                    options={substrateAccount}
-                    onChange={onChangeHandler}
-                    style={{ width: "100%" }}
-                  />
-                </Col>
-              </Row>
+            {substrateAccount.length !== 0 && (
+              <Form.Item label="Destination">
+                <Row gutter={[8, 8]} align="middle">
+                  <Col span={24}>
+                    <Select
+                      className="buy__inputSelect"
+                      placeholder="Enter Selendra Address"
+                      options={substrateAccount}
+                      onChange={onChangeHandler}
+                      style={{ width: "100%" }}
+                    />
+                  </Col>
+                </Row>
+              </Form.Item>
+            )}
+            <Form.Item name="amount" label="Amount">
+              <Input className="buy__input" placeholder="Enter amount" />
             </Form.Item>
-          )}
-          <Form.Item name="amount" label="Amount">
-            <Input className="buy__input" placeholder="Enter amount" />
-          </Form.Item>
-          <Form.Item>
-            <Button className="buy__button" htmlType="submit">
-              Transfer
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Button className="buy__button" htmlType="submit">
+                Transfer
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
       </Card>
     </LayoutComponent>
   );

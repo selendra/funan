@@ -7,10 +7,31 @@ export default function NotFound() {
   return (
     <LayoutComponent>
       <center>
-        <div style={{ marginBottom: "24px" }}>
-          <img src={notfound} alt="404" width="320" />
+        {/* <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div>
+        <div class="firefly"></div> */}
+        <div className="page-not-found">
+          <h2>COMING</h2>
+          <h2>SOON</h2>
+          <p>We will be celebrating the lauch of our new page very soon...</p>
         </div>
-        <Button
+
+        {/* <div style={{ marginBottom: "24px" }}>
+          <img src="/images/g92.png" height={250} alt="" />
+        </div> */}
+        {/* <Button
           style={{
             maxWidth: "200px",
             width: "100%",
@@ -22,7 +43,8 @@ export default function NotFound() {
           }}
         >
           <Link to="/profile">Back Home</Link>
-        </Button>
+        </Button> */}
+        <p></p>
       </center>
     </LayoutComponent>
   );

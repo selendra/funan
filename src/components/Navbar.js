@@ -18,6 +18,11 @@ export default function Navbar() {
       route: "/home",
     },
     {
+      icon: "wallet-2.svg",
+      name: "Wallet",
+      route: "/walltet",
+    },
+    {
       icon: "reserve.svg",
       name: "Auction",
       route: "/auction",
@@ -83,7 +88,7 @@ export default function Navbar() {
       width={250}
       style={{
         overflow: "auto",
-        height: "100vh",
+        height: "100%",
         position: "fixed",
         left: 0,
         top: 0,
@@ -189,7 +194,7 @@ export default function Navbar() {
         {buttomMenus.map((buttomMenu) => {
           const { name, icon, route: link } = buttomMenu;
           return (
-            <Menu.Item key={name}>
+            <Menu.Item key={link}>
               <NavLink activeClassName="active" to={link}>
                 <img src={`/icons/bulk/${icon}`} alt={name} />
                 <span>{name}</span>

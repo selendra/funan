@@ -21,6 +21,7 @@ body {
     ),
     radial-gradient(at 82% 65%, hsl(198, 100%, 50%) 0, transparent 55%) !important;
   background-size: cover;
+  overflow-x: hidden !important;
 }
 
 h1,
@@ -105,12 +106,37 @@ p {
 }
 /*** End Layout */
 /* Button Connect */
-.btn__connectContainer {
-  max-width: 50px;
-}
+
 .btn__connectContainer p {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px !important;
+}
+.home-connect-evm img {
+  background-color: #03a8f421;
+  padding: 10px;
+  border-radius: 50px;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.home-connect-evm p {
+  color: #03a9f4 !important;
+}
+.home-connect-sel img {
+  background-color: #23394728;
+  padding: 10px;
+  border-radius: 50px;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.home-connect-sel p {
+  color: #1d3442 !important;
 }
 .btn__connect {
   color: #fff !important;
@@ -575,5 +601,42 @@ p {
   flex: 1 1 !important;
   min-height: 60vh;
 }
-.bottom-left-navbar {
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 550px;
+}
+.page-not-found h2 {
+  color: #fff;
+  font-size: 80px !important;
+  font-weight: 700;
+  margin-bottom: 0px !important;
+  line-height: 80px !important;
+  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb,
+    0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1),
+    0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+}
+.page-not-found p {
+  font-size: 24px;
+  width: 500px;
+  margin-top: 30px !important;
+}
+.bridge__padding {
+  padding: 50px 100px;
+}
+.bridge__padding h1 {
+  font-size: 30px !important;
+  margin-bottom: 10px !important;
+}
+
+.bridge__padding p {
+  font-size: 18px !important;
+  width: 500px;
+}
+.from-chain-container .from-chain {
+  margin-top: 15px !important;
 }

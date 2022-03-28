@@ -22,7 +22,7 @@ export default function LayoutComponent({ children }) {
         </Layout.Header> */}
         <Layout.Content
           style={{
-            minHeight: "100vh",
+            minHeight: "80vh",
           }}
         >
           <div className="container">

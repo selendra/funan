@@ -68,12 +68,18 @@ export default function Home() {
       <p className="profile-home">Home</p>
       <Card style={{ borderRadius: "8px" }} className="sel-card">
         <Row gutter={[8, 8]} align="middle" justify="space-between">
-          <Col span={6}>
+          <Col span={12}>
             <Row gutter={[32, 32]}>
-              <Col>
+              <Col span={6}>
                 <ButtonConnect />
               </Col>
-              <Col>
+              <Col span={6}>
+                <ButtonConnectSubstrate />
+              </Col>
+              <Col span={6}>
+                <ButtonConnectSubstrate />
+              </Col>
+              <Col span={6}>
                 <ButtonConnectSubstrate />
               </Col>
             </Row>
@@ -82,7 +88,8 @@ export default function Home() {
             type="vertical"
             style={{ height: "7em", borderLeft: "2px solid rgba(0,0,0,.07)" }}
           />
-          <Col span={14}>
+
+          <Col span={11}>
             <Row gutter={[16, 16]} align="middle" justify="space-evently">
               <Col span={6}>
                 <Avatar

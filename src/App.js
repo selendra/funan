@@ -17,9 +17,9 @@ export default function App() {
         <Route path="home" element={<Home />} />
         <Route path="auction" element={<Auction />} />
         <Route path="bridge" element={<Bridge />} />
-        <Route path="exchange" element={<Exchange />} />
-        <Route path="borrow" element={<Exchange />} />
-        <Route path="stake" element={<Exchange />} />
+        {/* <Route path="exchange" element={<Exchange />} /> */}
+        {/* <Route path="borrow" element={<Exchange />} /> */}
+        {/* <Route path="stake" element={<Exchange />} /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
