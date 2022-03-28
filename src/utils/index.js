@@ -1,7 +1,8 @@
 import { message } from 'antd';
+import { Contract } from "ethers";
 import { u8aToHex } from "@polkadot/util";
 import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
-import { Contract } from "ethers";
+import { tokens } from "../constants/tokenContract";
 
 export function isvalidSubstrateAddress(address) {
   const check = checkAddress(address, 42);
@@ -32,4 +33,13 @@ export function getHex(substrateAdress){
   const publicKey = decodeAddress(substrateAdress);
   const hexPublicKey = u8aToHex(publicKey);
   return hexPublicKey
+}
+
+export function getTokenName(address) {
+  if(address === tokens[0].tokenAddress) return "BUSD";
+  else if(address === tokens[1].tokenAddress) return "DAI";
+  else if(address === tokens[2].tokenAddress) return "USDT";
+  else if(address === tokens[3].tokenAddress) return "ETH";
+  else if(address === "0x0000000000000000000000000000000000000000") return "BNB";
+  else return;
 }

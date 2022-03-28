@@ -1,12 +1,13 @@
 import React from "react";
 import { Layout } from "antd";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function LayoutComponent({ children }) {
   return (
-    <Layout>
+    <Layout hasSider>
       <Navbar />
-      <Layout className="site-layout">
+      <Layout className="site-layout" style={{ marginLeft: 250 }}>
         {/* <Layout.Header style={{ background: "#FFF" }}>
           <div className="container">
             <div className="top-menu">
@@ -28,6 +29,7 @@ export default function LayoutComponent({ children }) {
             <div className="app-layout">{children}</div>
           </div>
         </Layout.Content>
+        <Footer />
       </Layout>
     </Layout>
   );

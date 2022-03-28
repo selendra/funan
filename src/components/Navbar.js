@@ -15,7 +15,7 @@ export default function Navbar() {
     {
       icon: "home-2.svg",
       name: "Home",
-      route: "/profile",
+      route: "/home",
     },
     {
       icon: "reserve.svg",
@@ -23,7 +23,7 @@ export default function Navbar() {
       route: "/auction",
     },
     {
-      icon: "link-2.svg",
+      icon: "convert-3d-cube.svg",
       name: "Bridge",
       route: "/bridge",
     },
@@ -42,7 +42,24 @@ export default function Navbar() {
       name: "Stake/Earn",
       route: "/stake",
     },
-   
+  ];
+
+  const buttomMenus = [
+    {
+      icon: "document-1.svg",
+      name: "Docs",
+      route: "/docs",
+    },
+    {
+      icon: "profile-circle.svg",
+      name: "About",
+      route: "/about",
+    },
+    {
+      icon: "setting-2.svg",
+      name: "Tools",
+      route: "/tools",
+    },
   ];
 
   React.useEffect(() => {
@@ -64,6 +81,14 @@ export default function Navbar() {
       breakpoint="lg"
       collapsedWidth="60"
       width={250}
+      style={{
+        overflow: "auto",
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
     >
       {/* === >>> If EVM Extension not found <<< === */}
       <Modal
@@ -133,14 +158,36 @@ export default function Navbar() {
         </Col>
       </Row>
       <Menu
-        className="layout__menu"
+        className="layout__menu top-left-navbar"
         theme="light"
         mode="inline"
         defaultSelectedKeys={[location.pathname]}
+        // selectedKeys={[location.pathname]}
       >
         {/* ===>>> Map Sel Routes <<<==== */}
+
         {routes.map((route) => {
           const { icon, name, route: link } = route;
+          return (
+            <Menu.Item key={link}>
+              <NavLink activeClassName="active" to={link}>
+                <img src={`/icons/bulk/${icon}`} alt={name} />
+                <span>{name}</span>
+              </NavLink>
+            </Menu.Item>
+          );
+        })}
+      </Menu>
+
+      <Menu
+        className="layout__menu bottom-left-navbar"
+        theme="light"
+        mode="inline"
+        defaultSelectedKeys={[location.pathname]}
+        // selectedKeys={[location.pathname]}
+      >
+        {buttomMenus.map((buttomMenu) => {
+          const { name, icon, route: link } = buttomMenu;
           return (
             <Menu.Item key={name}>
               <NavLink activeClassName="active" to={link}>
