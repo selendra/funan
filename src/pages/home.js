@@ -1,23 +1,10 @@
 import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import Icon from "@ant-design/icons";
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Divider,
-  message,
-  Radio,
-  Row,
-  Spin,
-  Tabs,
-} from "antd";
+import { Avatar, Button, Card, Col, Divider, message, Row } from "antd";
 import { AccountContext } from "../context/AccountContext";
 import { tokens } from "../constants/tokenContract";
 import TokenBalance from "../components/TokenBalance";
-import sel from "../assets/tokens/sel.png";
-import bnb from "../assets/tokens/bnb.png";
 import busd from "../assets/tokens/busd.png";
 import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
@@ -34,7 +21,7 @@ import LayoutComponent from "../components/Layout";
 const EditIcon = (props) => <Icon component={Edit} {...props} />;
 const CopyIcon = (props) => <Icon component={Copy} {...props} />;
 
-export default function Profile() {
+export default function Home() {
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
   const { account, substrateAccount } = useContext(AccountContext);

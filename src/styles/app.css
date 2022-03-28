@@ -126,7 +126,7 @@ p {
   /* padding: 10px !important; */
   font-weight: 600 !important;
   height: 50px !important;
-  width: 50px!important;
+  width: 50px !important;
   /* line-height: 50px!important; */
 }
 .btn__connect img {
@@ -229,10 +229,10 @@ p {
 /*** End Buy */
 /* Profile */
 .profile-home {
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
   color: #80868a;
-  margin: 16px 0!important;
+  margin: 16px 0 !important;
 }
 .profile__selPrice,
 .profile__estimateValue {
@@ -286,6 +286,10 @@ p {
   font-weight: 700 !important;
   height: 40px !important;
 }
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  width: calc(100% + 0px) !important;
+}
 .btn-connectSelendra {
   width: 60px !important;
   height: 60px !important;
@@ -311,7 +315,7 @@ p {
 .how-it-works {
   font-weight: 800;
   font-size: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 15px !important;
 }
 .how-it-works-section {
   margin: 40px 0px;
@@ -330,8 +334,10 @@ p {
 .layout__menu {
   background: #ffffff00 !important;
 }
-.how-it-works-section {
+.switch-asset {
+  cursor: pointer;
 }
+
 .how-it-works-section ol {
   margin-left: 15px;
 }
@@ -539,4 +545,35 @@ p {
 }
 .index-footer i:hover {
   color: #444444;
+}
+.footer-background {
+  background-color: #fff;
+  padding: 15px 0px;
+  margin-top: 50px;
+}
+.footer-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.social-media-footer span {
+  font-size: 16px !important;
+  position: relative;
+  top: -5px;
+  margin-right: 20px;
+  font-weight: bold;
+  color: #1d344257 !important;
+}
+.social-media-footer i {
+  font-size: 22px;
+  margin-right: 10px;
+  margin-bottom: 0px !important;
+}
+.top-left-navbar {
+  -webkit-box-flex: 1 !important;
+  -ms-flex: 1 1 !important;
+  flex: 1 1 !important;
+  min-height: 60vh;
+}
+.bottom-left-navbar {
 }

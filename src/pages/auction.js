@@ -12,6 +12,7 @@ import {
   Row,
   Col,
   InputNumber,
+  Popover,
 } from "antd";
 import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
@@ -33,7 +34,8 @@ export default function Buy() {
   const { selectedToken } = useContext(TokenContext);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState(0);
+  const [convertAmount, setConvertAmount] = useState(0);
   const [address, setAddress] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [allowance, setAllowance] = useState("");
@@ -62,6 +64,7 @@ export default function Buy() {
   useEffect(() => {
     if (!amount) return;
     estimateSEL();
+    getPriceUSD();
   }, [amount, selectedToken]);
 
   // === >>> Function Section <<< ===
@@ -167,6 +170,7 @@ export default function Buy() {
     }
   }
 
+  // === >>> Estimated SEL <<< ===
   async function estimateSEL() {
     try {
       setSpinning(true);
@@ -189,16 +193,38 @@ export default function Buy() {
     }
   }
 
+  // === >>> Checking Amount Input <<< ===
   const checkAmount = (value) => {
-    if (value < 0) {
-      return setErrorMsg("The minimum amount is 0!");
+    setAmount(`${value}`);
+    if (value <= 10) {
+      return setErrorMsg("The minimum amount is 10!");
     } else if (value > 100) {
       return setErrorMsg("The maximum amount is 100!");
+    } else if (value === null) {
+      setAmount(0);
     } else {
       setAmount(`${value}`);
       setErrorMsg(null);
     }
   };
+
+  // === >>> Get Amount <<< ===
+  async function getPriceUSD() {
+    try {
+      const tokenAddress = "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee";
+      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
+
+      const provider = new ethers.providers.JsonRpcProvider(
+        "https://data-seed-prebsc-1-s1.binance.org:8545"
+      );
+      const contract = new ethers.Contract(contractAddress, abi, provider);
+      const data = await contract["getPrice(address)"](tokenAddress);
+      const price = ethers.utils.formatUnits(data._hex, 8);
+      setConvertAmount(parseFloat(price).toFixed(3));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // === >>> END Function Section <<< ===
 
@@ -228,9 +254,22 @@ export default function Buy() {
                 style={{ width: "100%" }}
               />
               <div className="error-text">{errorMsg}</div>
-
-              {`${amount} USD = 20BUSD`}
-
+              {amount >= 10 && `${amount} USD = ${convertAmount * amount}`}{" "}
+              <span className="switch-asset">
+                {amount >= 10 && (
+                  <Popover
+                    content={
+                      <div>
+                        <p>BUSD</p>
+                        <p>BNB</p>
+                      </div>
+                    }
+                    title={`Currency: BUSD`}
+                  >
+                    <b>BUSD</b>
+                  </Popover>
+                )}
+              </span>
               {/* suffix={<SelectToken />} */}
             </Form.Item>
             {substrateAccount.length !== 0 && (
@@ -249,12 +288,13 @@ export default function Buy() {
               </Form.Item>
             )}
 
-            {amount && (
-              <div>
-                <center style={{ marginBottom: "20px" }}>
-                  <img src={down} width={22} height={22} alt="" />
-                </center>
-                <Spin spinning={spinning} delay={500}>
+            {amount > 9 ? (
+              <Spin spinning={spinning} delay={500}>
+                <div>
+                  <center style={{ marginBottom: "20px" }}>
+                    <img src={down} width={22} height={22} alt="" />
+                  </center>
+
                   <Form.Item label="To (estimated)">
                     <Input
                       className="buy__input"
@@ -263,8 +303,10 @@ export default function Buy() {
                       placeholder=""
                     />
                   </Form.Item>
-                </Spin>
-              </div>
+                </div>{" "}
+              </Spin>
+            ) : (
+              ""
             )}
             {substrateAccount.length === 0 ? (
               <Button className="buy__button" onClick={connectSelendra}>
