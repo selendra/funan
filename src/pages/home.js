@@ -10,18 +10,19 @@ import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
 import ButtonConnect from "../components/ButtonConnect";
-import ButtonConnectSubstrate from "../components/ButtonConnectSubstrate";
 import { shortenAddress } from "../utils";
 import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
 import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
 import Wallet from "../components/Wallet";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import LayoutComponent from "../components/Layout";
+import { useTheme } from "next-themes";
 
 const EditIcon = (props) => <Icon component={Edit} {...props} />;
 const CopyIcon = (props) => <Icon component={Copy} {...props} />;
 
 export default function Home() {
+  const { theme } = useTheme();
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
   const { account, substrateAccount } = useContext(AccountContext);
@@ -71,16 +72,36 @@ export default function Home() {
           <Col span={12}>
             <Row gutter={[32, 32]}>
               <Col span={6}>
-                <ButtonConnect />
+                <ButtonConnect
+                  className="home-connect-evm"
+                  icon="wallet-1.svg"
+                  title="Connect EVM"
+                />
               </Col>
               <Col span={6}>
-                <ButtonConnectSubstrate />
+                <ButtonConnect
+                  className="home-connect-sel"
+                  icon={
+                    theme === "light"
+                      ? "wallet-check.svg"
+                      : "wallet-check-dark.svg"
+                  }
+                  title="Connect Selendra"
+                />
               </Col>
               <Col span={6}>
-                <ButtonConnectSubstrate />
+                <ButtonConnect
+                  className="home-create-wallet"
+                  icon="wallet-add-1-yellow.svg"
+                  title="Create Wallet"
+                />
               </Col>
               <Col span={6}>
-                <ButtonConnectSubstrate />
+                <ButtonConnect
+                  className="home-restore-wallet"
+                  icon="key-pink.svg"
+                  title="Restore Wallet"
+                />
               </Col>
             </Row>
           </Col>
@@ -92,7 +113,7 @@ export default function Home() {
           <Col span={11}>
             <Row gutter={[16, 16]} align="middle" justify="space-evently">
               <Col span={6}>
-                <Badge dot={true} color='green'>
+                <Badge dot={true} color="green">
                   <Avatar
                     src={`https://avatars.dicebear.com/api/identicon/${
                       substrateAccount.length > 0 && substrateAccount[0].label
@@ -141,7 +162,7 @@ export default function Home() {
           ))}
       </div>
 
-      <p className="profile-home">Portfolio</p>
+      <p className="profile-home">Assets</p>
       <div className="profile-desc">
         <Card style={{ borderRadius: "8px" }}>
           {account && (

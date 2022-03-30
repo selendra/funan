@@ -29,7 +29,7 @@ export default function LayoutComponent({ children }) {
             <div className="app-layout">{children}</div>
           </div>
         </Layout.Content>
-        <Footer />
+        {/* <Footer /> */}
       </Layout>
     </Layout>
   );

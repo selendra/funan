@@ -1,6 +1,8 @@
+import { useTheme } from "next-themes";
 import React from "react";
 
 export default function Index() {
+  const { theme } = useTheme();
   return (
     <div className="vertical-layout">
       <div className="home-navbar">
@@ -49,11 +51,23 @@ export default function Index() {
           </h3>
           <div className="apps-btn-section">
             <div className="apps-btn">
-              <img src="/icons/bulk/android.svg" alt="" height="30px" />
+              <img
+                src={`/icons/bulk/${
+                  theme === "light" ? "android.svg" : "android-dark.svg"
+                }`}
+                alt=""
+                height="30px"
+              />
               Andriod
             </div>
             <div className="apps-btn">
-              <img src="/icons/bulk/apple.svg" alt="" height="30px" />
+              <img
+                src={`/icons/bulk/${
+                  theme === "light" ? "apple.svg" : "apple-dark.svg"
+                }`}
+                alt=""
+                height="30px"
+              />
               iOS
             </div>
           </div>

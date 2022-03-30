@@ -20,7 +20,9 @@ ConfigProvider.config({
 render(
   <AccountProvider>
     <TokenProvider>
-      <App />
+      <div className="body-backgrond">
+        <App />
+      </div>
     </TokenProvider>
   </AccountProvider>,
   document.getElementById("root")

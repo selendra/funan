@@ -237,6 +237,7 @@ export default function Buy() {
 
   return (
     <LayoutComponent>
+      {/* === >>> Selendra Form Token SALE Section <<< === */}
       <Card style={{ borderRadius: "12px" }}>
         <div className="buy__padding">
           <center className="buy__title">
@@ -356,6 +357,7 @@ export default function Buy() {
         </div>
       </Card>
 
+      {/* === >>> How it works Section <<< === */}
       <div className="how-it-works-section">
         <div className="buy__padding">
           <h2 className="how-it-works">How it works?</h2>
@@ -416,6 +418,13 @@ export default function Buy() {
               <div>Press Contribute</div>
             </li>
           </ol>
+        </div>
+      </div>
+
+      {/* === >>> Video Section <<< === */}
+      <div className="how-it-works-section">
+        <div className="buy__padding">
+          <h2 className="how-it-works">Video How to participate</h2>
         </div>
       </div>
     </LayoutComponent>

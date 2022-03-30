@@ -1,6 +1,9 @@
 import { Tooltip } from "antd";
+import { useTheme } from "next-themes";
 import React from "react";
 import logo from "../assets/logo.png";
+import logoWhite from "../assets/logo-white.png";
+
 export default function Footer() {
   const data = [
     {
@@ -29,13 +32,19 @@ export default function Footer() {
     },
   ];
 
+  const { theme } = useTheme();
+
   return (
     <>
       <div className="footer-background">
         <div className="container">
           <div className="footer-layout">
             <div>
-              <img src={logo} alt="selendra" height={60} />
+              <img
+                src={theme === "light" ? logo : logoWhite}
+                alt="selendra"
+                height={60}
+              />
             </div>
             <div className="social-media-footer">
               <div></div>

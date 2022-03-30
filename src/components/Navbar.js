@@ -2,9 +2,12 @@ import React, { useContext, useState } from "react";
 import { Row, Menu, Layout, Col, Modal } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
+import logoWhite from "../assets/logo-white.png";
 import { AccountContext } from "../context/AccountContext";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
+  const { theme } = useTheme();
   const [userBrowser, setUserBrowser] = useState("");
   const location = useLocation();
 
@@ -16,36 +19,43 @@ export default function Navbar() {
       icon: "home-2.svg",
       name: "Home",
       route: "/home",
+      disable: false,
     },
     {
       icon: "wallet-2.svg",
       name: "Wallet",
-      route: "/walltet",
+      route: "/wallet",
+      disable: false,
     },
     {
       icon: "reserve.svg",
       name: "Auction",
       route: "/auction",
+      disable: false,
     },
     {
       icon: "convert-3d-cube.svg",
       name: "Bridge",
       route: "/bridge",
+      disable: false,
     },
     {
       icon: "convertshape-2.svg",
       name: "Exchange",
       route: "/exchange",
+      disable: true,
     },
     {
       icon: "money-recive.svg",
       name: "Borrow",
       route: "/borrow",
+      disable: true,
     },
     {
       icon: "trend-up.svg",
       name: "Stake/Earn",
       route: "/stake",
+      disable: true,
     },
   ];
 
@@ -54,16 +64,19 @@ export default function Navbar() {
       icon: "document-1.svg",
       name: "Docs",
       route: "/docs",
+      disable: false,
     },
     {
       icon: "profile-circle.svg",
       name: "About",
       route: "/about",
+      disable: false,
     },
     {
       icon: "setting-2.svg",
-      name: "Tools",
-      route: "/tools",
+      name: "Settings",
+      route: "/settings",
+      disable: false,
     },
   ];
 
@@ -159,7 +172,11 @@ export default function Navbar() {
 
       <Row align="middle" justify="center">
         <Col xs={0} sm={0} md={0} lg={20} xl={20}>
-          <img src={logo} alt="selendra-logo" className="layout__logo" />
+          <img
+            src={theme === "light" ? logo : logoWhite}
+            alt="selendra-logo"
+            className="layout__logo"
+          />
         </Col>
       </Row>
       <Menu
@@ -171,16 +188,28 @@ export default function Navbar() {
       >
         {/* ===>>> Map Sel Routes <<<==== */}
 
-        {routes.map((route) => {
-          const { icon, name, route: link } = route;
-          return (
-            <Menu.Item key={link}>
-              <NavLink activeClassName="active" to={link}>
-                <img src={`/icons/bulk/${icon}`} alt={name} />
-                <span>{name}</span>
-              </NavLink>
-            </Menu.Item>
-          );
+        {routes.map((route, index) => {
+          const { icon, name, route: link, disable } = route;
+
+          if (!disable) {
+            return (
+              <Menu.Item key={link}>
+                <NavLink activeClassName="active" to={link}>
+                  <img src={`/icons/bulk/${icon}`} alt={name} />
+                  <span>{name}</span>
+                </NavLink>
+              </Menu.Item>
+            );
+          } else {
+            return (
+              <Menu.Item key={link} className="menu-disable">
+                <NavLink activeClassName="active" to={link}>
+                  <img src={`/icons/bulk/${icon}`} alt={name} />
+                  <span>{name}</span>
+                </NavLink>
+              </Menu.Item>
+            );
+          }
         })}
       </Menu>
 

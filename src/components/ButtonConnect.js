@@ -1,28 +1,19 @@
 import { Link } from "react-router-dom";
-import { Button } from "antd";
 
-export default function ButtonConnect() {
+export default function ButtonConnect({ className, icon, title }) {
   return (
     <center className="btn__connectContainer">
       <Link to="/connect">
-        {/* <Button shape="circle" className="btn__connect">
-          <img
-            src="/icons/bulk/wallet-3.svg"
-            alt="money-recive.svg"
-            height="30px"
-            style={{margin: '0'}}
-          />
-        </Button> */}
-        <div className="home-connect-evm">
+        <div className={className}>
           <div>
             <img
-              src="/icons/bulk/wallet-1.svg"
+              src={`/icons/bulk/${icon}`}
               alt="money-recive.svg"
               height="30px"
               style={{ margin: "0" }}
             />
           </div>
-          <p>Connect EVM</p>
+          <p>{title}</p>
         </div>
       </Link>
     </center>
