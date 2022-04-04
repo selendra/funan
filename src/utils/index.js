@@ -2,6 +2,7 @@ import { message } from 'antd';
 import { Contract } from "ethers";
 import { u8aToHex } from "@polkadot/util";
 import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
+import { formatBalance } from "@polkadot/util";
 import { tokens } from "../constants/tokenContract";
 
 export function isvalidSubstrateAddress(address) {
@@ -42,4 +43,8 @@ export function getTokenName(address) {
   else if(address === tokens[3].tokenAddress) return "ETH";
   else if(address === "0x0000000000000000000000000000000000000000") return "BNB";
   else return;
+}
+
+export function FormatBalance(amount) {
+  return formatBalance(amount, { withSi: false, forceUnit: '-' }, 18)
 }
