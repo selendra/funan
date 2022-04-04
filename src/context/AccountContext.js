@@ -7,6 +7,9 @@ export const AccountContext = createContext();
 export const AccountProvider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [substrateAccount, setSubstrateAccount] = useState([]);
+  const [substrateAccountActive, setSubstrateAccountActive] = useState(
+    localStorage.getItem('park-substrate-active-account') || ''
+  );
   const [hasSelWallet, setHasSelWallet] = useState(null);
   const [hasEVMWallet, setHasEVMWallet] = useState(null);
   const [isTrust, setIsTrust] = useState(
@@ -72,6 +75,7 @@ export const AccountProvider = ({ children }) => {
         const allAccounts = await web3Accounts();
         const reArray = allAccounts.map((i) => {
           const newArr = {};
+          newArr.name = i.meta.name;
           newArr.label = i.address;
           newArr.value = i.address;
           return newArr;
@@ -83,7 +87,7 @@ export const AccountProvider = ({ children }) => {
       console.log(error);
     }
   }
-
+  
   useEffect(() => {
     connectSubstrate();
     isTrust ? connectTrust() : connectMetamask();
@@ -94,12 +98,14 @@ export const AccountProvider = ({ children }) => {
       value={{
         account,
         substrateAccount,
+        substrateAccountActive,
         isTrust,
         hasSelWallet,
         hasEVMWallet,
         connectMetamask,
         connectTrust,
         connectSubstrate,
+        setSubstrateAccountActive,
         disconnect,
       }}
     >

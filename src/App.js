@@ -11,6 +11,8 @@ import Settings from "./pages/settings";
 import { ThemeProvider } from "next-themes";
 import About from "./pages/about";
 import Wallet from "./pages/wallet";
+import Send from "./pages/wallet/send";
+import Receive from "./pages/wallet/receive";
 
 export default function App() {
   return (
@@ -20,8 +22,8 @@ export default function App() {
           <Route path="/" element={<Index />} />
           <Route path="connect" element={<Connect />} />
           <Route path="wallet" element={<Wallet />} />
-          <Route path="wallet/send" element={<Wallet />} />
-          <Route path="wallet/recieve" element={<Wallet />} />
+          <Route path="wallet/send" element={<Send />} />
+          <Route path="wallet/recieve" element={<Receive />} />
           <Route path="about" element={<About />} />
           <Route path="home" element={<Home />} />
           <Route path="auction" element={<Auction />} />

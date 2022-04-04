@@ -1,17 +1,22 @@
-import { Avatar, Button, Card, Col, message, Row } from "antd";
-import { shortenAddress } from "../utils";
+import { Avatar, Button, Card, Col, message, Row, Spin } from "antd";
+import { FormatBalance, shortenAddress } from "../utils";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 
 export default function Wallet({ account, type }) {
+  const [state] = useFetchBalanceSEL(account, type);
+  // console.log(state);
+
   return (
     <Card style={{ borderRadius: "8px", margin: "8px 0" }}>
       <Row gutter={[16, 16]} justify="space-between">
-        <Col span={8}>
+        <Col span={8}> 
           <Row gutter={[16, 16]}>
             <Col>
               <Avatar
                 src={`https://avatars.dicebear.com/api/identicon/${account}.svg`}
                 size={64}
+                style={{background: '#FFF'}}
               />
             </Col>
             <Col>
@@ -23,12 +28,22 @@ export default function Wallet({ account, type }) {
         <Col span={16}>
           <Row gutter={[16, 16]} justify="space-between">
             <Col span={5}>
-              <p>0 SEL</p>
-              <p>Available</p>
+              <Spin spinning={state.loading} />
+              { !state.loading && 
+                <div>
+                  <p>{FormatBalance(state.freeBalance)} SEL</p>
+                  <p>Available</p>
+                </div>
+              }
             </Col>
             <Col span={5}>
-              <p>0 SEL</p>
-              <p>Total</p>
+              <Spin spinning={state.loading} />
+              { !state.loading && 
+                <div>
+                  <p>{FormatBalance(state.freeBalance)} SEL</p>
+                  <p>Total</p>
+                </div>
+              }
             </Col>
             <Col span={5}>
               <CopyToClipboard text={account}>

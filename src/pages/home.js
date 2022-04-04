@@ -1,22 +1,23 @@
-import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
+import { ethers } from "ethers";
 import Icon from "@ant-design/icons";
+import { useTheme } from "next-themes";
 import { Avatar, Badge, Button, Card, Col, Divider, message, Row } from "antd";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { shortenAddress } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { tokens } from "../constants/tokenContract";
+import Wallet from "../components/Wallet";
+import LayoutComponent from "../components/Layout";
 import TokenBalance from "../components/TokenBalance";
+import ButtonConnect from "../components/ButtonConnect";
+import ModalSelectAccount from "../components/ModalSelectAccount";
 import busd from "../assets/tokens/busd.png";
 import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
-import ButtonConnect from "../components/ButtonConnect";
-import { shortenAddress } from "../utils";
 import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
 import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
-import Wallet from "../components/Wallet";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import LayoutComponent from "../components/Layout";
-import { useTheme } from "next-themes";
 
 const EditIcon = (props) => <Icon component={Edit} {...props} />;
 const CopyIcon = (props) => <Icon component={Copy} {...props} />;
@@ -25,52 +26,64 @@ export default function Home() {
   const { theme } = useTheme();
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { account, substrateAccount } = useContext(AccountContext);
+  const [modal, setModal] = useState(false);
+  const { account, substrateAccount, substrateAccountActive, connectSubstrate, setSubstrateAccountActive } = 
+    useContext(AccountContext);
 
-  async function getBalance() {
-    const tokenABI = ["function balanceOf(address) view returns (uint)"];
-    const provider = ethers.getDefaultProvider(
-      "https://data-seed-prebsc-1-s1.binance.org:8545/"
-    );
-    setLoading(true);
-    const BUSD = new ethers.Contract(
-      tokens[0].tokenAddress,
-      tokenABI,
-      provider
-    );
-    const DAI = new ethers.Contract(tokens[1].tokenAddress, tokenABI, provider);
-    const USDT = new ethers.Contract(
-      tokens[2].tokenAddress,
-      tokenABI,
-      provider
-    );
-    const ETH = new ethers.Contract(tokens[3].tokenAddress, tokenABI, provider);
-
-    const data = await Promise.all([
-      BUSD.balanceOf(account),
-      DAI.balanceOf(account),
-      USDT.balanceOf(account),
-      ETH.balanceOf(account),
-    ]);
-    const newArr = data.map((x) => ({
-      value: x._hex,
-    }));
-    setBalance(newArr);
-    setLoading(false);
-  }
+  // useEffect(() => {
+  //   const account = JSON.parse(localStorage.getItem('park-substrate-active-account'));
+  //   if(!account) return;
+  //   setSubstrateAccountActive(account);
+  // }, [substrateAccountActive]);
 
   useEffect(() => {
     if (!account) return;
+    async function getBalance() {
+      const tokenABI = ["function balanceOf(address) view returns (uint)"];
+      const provider = ethers.getDefaultProvider(
+        "https://data-seed-prebsc-1-s1.binance.org:8545/"
+      );
+      setLoading(true);
+      const BUSD = new ethers.Contract(
+        tokens[0].tokenAddress,
+        tokenABI,
+        provider
+      );
+      const DAI = new ethers.Contract(tokens[1].tokenAddress, tokenABI, provider);
+      const USDT = new ethers.Contract(
+        tokens[2].tokenAddress,
+        tokenABI,
+        provider
+      );
+      const ETH = new ethers.Contract(tokens[3].tokenAddress, tokenABI, provider);
+  
+      const data = await Promise.all([
+        BUSD.balanceOf(account),
+        DAI.balanceOf(account),
+        USDT.balanceOf(account),
+        ETH.balanceOf(account),
+      ]);
+      const newArr = data.map((x) => ({
+        value: x._hex,
+      }));
+      setBalance(newArr);
+      setLoading(false);
+    }
     getBalance();
   }, [account]);
 
   return (
     <LayoutComponent>
+      <ModalSelectAccount 
+        accounts={substrateAccount}
+        visible={modal}
+        setVisible={setModal}
+      />
       <p className="profile-home">Home</p>
       <Card style={{ borderRadius: "8px" }} className="sel-card">
         <Row gutter={[8, 8]} align="middle" justify="space-between">
           <Col span={12}>
-            <Row gutter={[32, 32]}>
+            <Row gutter={[32, 32]} justify="center">
               <Col span={6}>
                 <ButtonConnect
                   className="home-connect-evm"
@@ -87,9 +100,11 @@ export default function Home() {
                       : "wallet-check-dark.svg"
                   }
                   title="Connect Selendra"
+                  onClick={connectSubstrate}
+                  router={false}
                 />
               </Col>
-              <Col span={6}>
+              {/* <Col span={6}>
                 <ButtonConnect
                   className="home-create-wallet"
                   icon="wallet-add-1-yellow.svg"
@@ -102,7 +117,7 @@ export default function Home() {
                   icon="key-pink.svg"
                   title="Restore Wallet"
                 />
-              </Col>
+              </Col> */}
             </Row>
           </Col>
           <Divider
@@ -111,7 +126,7 @@ export default function Home() {
           />
 
           <Col span={11}>
-            <Row gutter={[16, 16]} align="middle" justify="space-evently">
+            <Row gutter={[8, 8]} align="middle" justify="center">
               <Col span={6}>
                 <Badge dot={true} color="green">
                   <Avatar
@@ -119,18 +134,24 @@ export default function Home() {
                       substrateAccount.length > 0 && substrateAccount[0].label
                     }.svg`}
                     size={64}
+                    style={{background: '#FFF'}}
                   />
                 </Badge>
               </Col>
               <Col span={14}>
                 {substrateAccount.length !== 0 && (
                   <div>
-                    <p>{shortenAddress(substrateAccount[0]?.label)}</p>
+                    { substrateAccountActive ?
+                      <p>{shortenAddress(substrateAccountActive)}</p>
+                      :
+                      <p>Please Select Your Selendra Account</p>
+                    }
                     <Row gutter={[8, 8]}>
                       <Button
                         type="link"
                         icon={<EditIcon />}
                         style={{ paddingLeft: "0" }}
+                        onClick={() => setModal(true)}
                       >
                         Change
                       </Button>
@@ -156,10 +177,11 @@ export default function Home() {
       <p className="profile-home">Wallet</p>
       <div>
         <Wallet account={account} type="Metamask" />
-        {substrateAccount.length > 0 &&
+        { substrateAccount.length > 0 &&
           substrateAccount.map((account, key) => (
             <Wallet key={key} account={account.label} type="Injection" />
-          ))}
+          ))
+        }
       </div>
 
       <p className="profile-home">Assets</p>
