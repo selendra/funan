@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Row, Menu, Layout, Col, Modal } from "antd";
+import { Row, Menu, Layout, Col, Modal, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import logoWhite from "../assets/logo-white.png";
@@ -63,20 +63,23 @@ export default function Navbar() {
     {
       icon: "document-1.svg",
       name: "Docs",
-      route: "/docs",
+      route: "https://docs.selendra.org/",
       disable: false,
+      external: true,
     },
     {
       icon: "profile-circle.svg",
       name: "About",
-      route: "/about",
+      route: "https://www.selendra.org/about",
       disable: false,
+      external: true,
     },
     {
       icon: "setting-2.svg",
       name: "Settings",
       route: "/settings",
       disable: false,
+      external: false,
     },
   ];
 
@@ -221,16 +224,37 @@ export default function Navbar() {
         // selectedKeys={[location.pathname]}
       >
         {buttomMenus.map((buttomMenu) => {
-          const { name, icon, route: link } = buttomMenu;
-          return (
-            <Menu.Item key={link}>
-              <NavLink activeClassName="active" to={link}>
-                <img src={`/icons/bulk/${icon}`} alt={name} />
-                <span>{name}</span>
-              </NavLink>
-            </Menu.Item>
-          );
+          const { name, icon, route: link, external } = buttomMenu;
+          if (external) {
+            return (
+              <Menu.Item key={link}>
+                <a href={link} target="_blank" rel="noreferrer">
+                  <img src={`/icons/bulk/${icon}`} alt={name} />
+                  <span>{name}</span>
+                </a>
+              </Menu.Item>
+            );
+          } else {
+            return (
+              <Menu.Item key={link}>
+                <NavLink activeClassName="active" to={link}>
+                  <img src={`/icons/bulk/${icon}`} alt={name} />
+                  <span>{name}</span>
+                </NavLink>
+              </Menu.Item>
+            );
+          }
         })}
+
+        <div className="downlaod-apps-section">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.selendra.secure_wallet"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button className="download-apps">Download Apps</Button>
+          </a>
+        </div>
       </Menu>
     </Layout.Sider>
   );

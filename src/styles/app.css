@@ -370,7 +370,7 @@ input,
   line-height: 72px !important;
 }
 .body-backgrond {
-  backdrop-filter: blur(16px) saturate(180%);
+  /* backdrop-filter: blur(16px) saturate(180%); */
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   background: var(--background) !important;
   background-position: top !important;
@@ -378,7 +378,7 @@ input,
   min-height: 100vh !important;
 }
 .ant-layout {
-  min-height: 100vh !important;
+  min-height: 90vh !important;
   /* background: var(--background) !important; */
   padding-bottom: 50px;
   background: transparent !important;
@@ -701,7 +701,7 @@ input,
   -webkit-box-flex: 1 !important;
   -ms-flex: 1 1 !important;
   flex: 1 1 !important;
-  min-height: 60vh;
+  min-height: 55vh;
 }
 .page-not-found {
   display: flex;
@@ -728,7 +728,7 @@ input,
   margin-top: 30px !important;
 }
 .bridge__padding {
-  padding: 50px 100px;
+  padding: 50px 150px;
 }
 .bridge__padding h1 {
   font-size: 30px !important;
@@ -908,10 +908,38 @@ input,
   content: none !important;
 }
 .transactions-background {
-  background-color: #fff;
+  background-color: var(--foreground);
   padding: 40px !important;
   border-radius: 20px;
 }
+.transactions-background .ant-table,
+.transactions-background table * {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+}
+.ant-tabs-tab {
+  color: var(--text-color) !important;
+}
 .wallet-section .ant-table-tbody > tr > td {
   border-bottom: 0px !important;
+}
+.download-apps {
+  border: 0px !important;
+  background-color: #00a9f9 !important;
+  height: 50px !important;
+  line-height: 40px !important;
+  width: 100% !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  font-weight: bold !important;
+}
+.downlaod-apps-section {
+  margin-top: 20px;
+  padding: 10px !important;
+}
+
+@media screen and (max-width: 1500px) {
+}
+
+@media screen and (max-width: 768px) {
 }

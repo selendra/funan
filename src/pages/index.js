@@ -73,7 +73,7 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="index container">
+      <div className="home-container">
         <div className="index-footer">
           <div>
             <i class="ri-facebook-fill"></i>
