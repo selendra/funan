@@ -117,6 +117,9 @@ input,
   font-weight: 500 !important;
   color: #80868a !important;
 }
+.ant-drawer-body {
+  padding: 0 !important;
+}
 .layout__logo {
   height: 65px;
   margin: 20px 0;
@@ -367,9 +370,13 @@ input,
   margin-top: 50px;
 }
 .ant-layout-header {
-  padding: 0px !important;
-  height: 72px !important;
+  padding: 0 !important;
+  height: auto !important;
   line-height: 72px !important;
+  display: none;
+}
+.site-layout {
+  margin-left: 250px;
 }
 .body-backgrond {
   /* backdrop-filter: blur(16px) saturate(180%); */
@@ -391,11 +398,13 @@ input,
   align-items: center;
 }
 
+.mobile-menu-btn {
+  cursor: pointer;
+}
 .welcome-message {
   font-size: 48px;
   color: #fff;
   font-weight: bold;
-  margin-top: 40px;
 }
 .btn__primary {
   box-shadow: none !important;
@@ -571,20 +580,22 @@ input,
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 40px 0;
 }
-.index-btn-section {
-  display: flex;
+/*.index-btn-section {
+   display: flex;
   justify-content: space-between;
-  /* position: absolute; */
-  width: 100%;
+  width: 100%; 
   margin-top: 40px;
 }
+*/
 
 .index-btn {
-  height: 60px;
-  line-height: 60px;
-  width: 100%;
-  margin-right: 30px;
+  /* height: 60px; */
+  /* line-height: 60px; */
+  /* width: 100%; */
+  /* margin-right: 30px; */
+  padding: 12px 0;
   text-align: center;
   border-radius: 50px;
   font-size: 18px;
@@ -624,15 +635,13 @@ input,
   min-height: 34vh;
 }
 .apps-btn-section {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   margin-top: 50px;
 }
 .apps-btn {
-  height: 55px;
-  line-height: 55px;
-  width: 100%;
-  margin-right: 30px;
+  padding: 15px 0;
+
   text-align: center;
   border-radius: 50px;
   font-size: 18px;
@@ -645,19 +654,17 @@ input,
 .apps-btn img {
   margin-right: 10px;
 }
-.index-footer {
-  position: relative;
-}
+
 .pos-relative {
   position: relative;
 }
-.index-footer {
-  position: relative;
-}
+
 .index-footer {
   font-size: 16px;
+  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .index-footer i {
   font-size: 30px;
@@ -730,7 +737,8 @@ input,
   margin-top: 30px !important;
 }
 .bridge__padding {
-  padding: 50px 150px;
+  width: 60%;
+  margin: 0px auto;
 }
 .bridge__padding h1 {
   font-size: 30px !important;
@@ -774,13 +782,16 @@ input,
 }
 .sel-card {
   background-color: var(--foreground);
-  padding: 50px 150px;
+  padding: 50px 0;
   border-radius: 20px;
   margin-top: 15px !important;
   margin-bottom: 40px;
   box-shadow: var(--box-shadow) !important;
 }
-
+.setting__padding {
+  width: 60%;
+  margin: 0px auto;
+}
 .sel-card .ant-input-lg,
 .sel-card .ant-form-item-control-input-content .ant-input-affix-wrapper,
 .sel-card .ant-select-selector {
@@ -941,7 +952,105 @@ input,
 }
 
 @media screen and (max-width: 1500px) {
+  .home-container {
+    width: 60%;
+  }
+  .index-btn {
+    padding: 7px 0;
+    font-size: 16px;
+  }
+  .container {
+    width: 70% !important;
+  }
+  .buy__padding,
+  .bridge__padding,
+  .setting__padding {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 80% !important;
+  }
+  .buy__padding,
+  .bridge__padding,
+  .setting__padding {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 992px) {
+  .ant-layout-header {
+    display: block;
+  }
+  .ant-layout-sider {
+    display: none;
+  }
+  .site-layout {
+    margin-left: 0px;
+  }
+  .home-container {
+    width: 70%;
+  }
+  .home-navbar {
+    min-height: auto;
+    padding-bottom: 100px;
+  }
+  .index-data {
+    height: auto;
+  }
+  .buy__padding,
+  .bridge__padding,
+  .setting__padding {
+    width: 85%;
+  }
+  .auction-radio .ant-radio-button-wrapper {
+    margin-bottom: 10px !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
+  .container {
+    width: 90% !important;
+  }
+  .home-container {
+    width: 90%;
+  }
+  .index-data {
+    height: auto;
+  }
+  .welcome-message {
+    font-size: 35px;
+  }
+  .apps-section {
+    width: 90%;
+  }
+  .apps-btn {
+    padding: 10px 0;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    width: 95% !important;
+  }
+  .vertical-layout .apps-section {
+    min-height: 40vh;
+  }
+  .index-footer {
+    justify-content: center;
+  }
+  .wallet-background-card {
+    padding: 20px;
+  }
+  .buy__padding,
+  .bridge__padding,
+  .setting__padding {
+    width: 90%;
+  }
+  .bridge__padding p {
+    width: auto;
+  }
+  .ant-card-body {
+    padding: 15px;
+  }
 }

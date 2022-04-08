@@ -10,13 +10,13 @@ export default function Wallet({ account, type }) {
   return (
     <Card style={{ borderRadius: "8px", margin: "8px 0" }}>
       <Row gutter={[16, 16]} justify="space-between">
-        <Col span={8}> 
+        <Col xs={24} sm={8}>
           <Row gutter={[16, 16]}>
             <Col>
               <Avatar
                 src={`https://avatars.dicebear.com/api/identicon/${account}.svg`}
                 size={64}
-                style={{background: '#FFF'}}
+                style={{ background: "#FFF" }}
               />
             </Col>
             <Col>
@@ -25,25 +25,25 @@ export default function Wallet({ account, type }) {
             </Col>
           </Row>
         </Col>
-        <Col span={16}>
+        <Col xs={24} sm={16}>
           <Row gutter={[16, 16]} justify="space-between">
             <Col span={5}>
               <Spin spinning={state.loading} />
-              { !state.loading && 
+              {!state.loading && (
                 <div>
                   <p>{FormatBalance(state.freeBalance)} SEL</p>
                   <p>Available</p>
                 </div>
-              }
+              )}
             </Col>
             <Col span={5}>
               <Spin spinning={state.loading} />
-              { !state.loading && 
+              {!state.loading && (
                 <div>
                   <p>{FormatBalance(state.freeBalance)} SEL</p>
                   <p>Total</p>
                 </div>
-              }
+              )}
             </Col>
             <Col span={5}>
               <CopyToClipboard text={account}>

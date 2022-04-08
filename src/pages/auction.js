@@ -358,6 +358,7 @@ export default function Buy() {
       </Card>
 
       {/* === >>> How it works Section <<< === */}
+
       <div className="how-it-works-section">
         <div className="buy__padding">
           <h2 className="how-it-works">How it works?</h2>

@@ -27,8 +27,13 @@ export default function Home() {
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
-  const { account, substrateAccount, substrateAccountActive, connectSubstrate, setSubstrateAccountActive } = 
-    useContext(AccountContext);
+  const {
+    account,
+    substrateAccount,
+    substrateAccountActive,
+    connectSubstrate,
+    setSubstrateAccountActive,
+  } = useContext(AccountContext);
 
   // useEffect(() => {
   //   const account = JSON.parse(localStorage.getItem('park-substrate-active-account'));
@@ -49,14 +54,22 @@ export default function Home() {
         tokenABI,
         provider
       );
-      const DAI = new ethers.Contract(tokens[1].tokenAddress, tokenABI, provider);
+      const DAI = new ethers.Contract(
+        tokens[1].tokenAddress,
+        tokenABI,
+        provider
+      );
       const USDT = new ethers.Contract(
         tokens[2].tokenAddress,
         tokenABI,
         provider
       );
-      const ETH = new ethers.Contract(tokens[3].tokenAddress, tokenABI, provider);
-  
+      const ETH = new ethers.Contract(
+        tokens[3].tokenAddress,
+        tokenABI,
+        provider
+      );
+
       const data = await Promise.all([
         BUSD.balanceOf(account),
         DAI.balanceOf(account),
@@ -74,7 +87,7 @@ export default function Home() {
 
   return (
     <LayoutComponent>
-      <ModalSelectAccount 
+      <ModalSelectAccount
         accounts={substrateAccount}
         visible={modal}
         setVisible={setModal}
@@ -83,15 +96,15 @@ export default function Home() {
       <Card style={{ borderRadius: "8px" }} className="sel-card">
         <Row gutter={[8, 8]} align="middle" justify="space-between">
           <Col span={12}>
-            <Row gutter={[32, 32]} justify="center">
-              <Col span={6}>
+            <Row gutter={[32, 32]} justify="start">
+              <Col xs={12} sm={6}>
                 <ButtonConnect
                   className="home-connect-evm"
                   icon="wallet-1.svg"
                   title="Connect EVM"
                 />
               </Col>
-              <Col span={6}>
+              <Col xs={12} sm={6}>
                 <ButtonConnect
                   className="home-connect-sel"
                   icon={
@@ -125,7 +138,7 @@ export default function Home() {
             style={{ height: "7em", borderLeft: "2px solid rgba(0,0,0,.07)" }}
           />
 
-          <Col span={11}>
+          <Col xs={10} sm={11}>
             <Row gutter={[8, 8]} align="middle" justify="center">
               <Col span={6}>
                 <Badge dot={true} color="green">
@@ -134,18 +147,18 @@ export default function Home() {
                       substrateAccount.length > 0 && substrateAccount[0].label
                     }.svg`}
                     size={64}
-                    style={{background: '#FFF'}}
+                    style={{ background: "#FFF" }}
                   />
                 </Badge>
               </Col>
-              <Col span={14}>
+              <Col sm={14}>
                 {substrateAccount.length !== 0 && (
                   <div>
-                    { substrateAccountActive ?
+                    {substrateAccountActive ? (
                       <p>{shortenAddress(substrateAccountActive)}</p>
-                      :
+                    ) : (
                       <p>Please Select Your Selendra Account</p>
-                    }
+                    )}
                     <Row gutter={[8, 8]}>
                       <Button
                         type="link"
@@ -177,11 +190,10 @@ export default function Home() {
       <p className="profile-home">Wallet</p>
       <div>
         <Wallet account={account} type="Metamask" />
-        { substrateAccount.length > 0 &&
+        {substrateAccount.length > 0 &&
           substrateAccount.map((account, key) => (
             <Wallet key={key} account={account.label} type="Injection" />
-          ))
-        }
+          ))}
       </div>
 
       <p className="profile-home">Assets</p>

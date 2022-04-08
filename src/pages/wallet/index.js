@@ -4,9 +4,7 @@ import WalletMenu from "../../components/WalletMenu";
 export default function Wallet() {
   return (
     <LayoutComponent>
-      <WalletMenu>
-        
-      </WalletMenu>
+      <WalletMenu />
     </LayoutComponent>
   );
 }

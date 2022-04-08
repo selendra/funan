@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import React from "react";
+import { Row, Col, Button } from "antd";
 
 export default function Index() {
   const { theme } = useTheme();
@@ -23,22 +23,29 @@ export default function Index() {
 
           <div className="pos-relative">
             <div className="index-btn-section">
-              <div className="index-btn con-wallet">
-                <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
-                Connect Wallet
-              </div>
-              <div className="index-btn create-wallet">
-                <img
-                  src="/icons/bulk/wallet-add-1-index.svg"
-                  alt=""
-                  height="40px"
-                />
-                Create Wallet
-              </div>
-              <div className="index-btn restore-wallet">
-                <img src="/icons/bulk/key-square.svg" alt="" height="40px" />
-                Restore Wallet
-              </div>
+              <Row justify="space-between" gutter={[0, 40]}>
+                <Col xs={24} sm={11} md={7} className="index-btn con-wallet">
+                  <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
+                  Connect Wallet
+                </Col>
+                <Col xs={24} sm={11} md={7} className="index-btn create-wallet">
+                  <img
+                    src="/icons/bulk/wallet-add-1-index.svg"
+                    alt=""
+                    height="40px"
+                  />
+                  Create Wallet
+                </Col>
+                <Col
+                  xs={24}
+                  sm={11}
+                  md={7}
+                  className="index-btn restore-wallet"
+                >
+                  <img src="/icons/bulk/key-square.svg" alt="" height="40px" />
+                  Restore Wallet
+                </Col>
+              </Row>
             </div>
           </div>
         </div>
@@ -49,8 +56,12 @@ export default function Index() {
             The SELENNDRA Bitriel Wallet has been created as a Progressive Web
             App (PWA) which is easy to launch on all platforms:{" "}
           </h3>
-          <div className="apps-btn-section">
-            <div className="apps-btn">
+          <Row
+            gutter={[0, 20]}
+            justify="space-between"
+            className="apps-btn-section"
+          >
+            <Col xs={24} sm={11} className="apps-btn">
               <img
                 src={`/icons/bulk/${
                   theme === "light" ? "android.svg" : "android-dark.svg"
@@ -59,8 +70,8 @@ export default function Index() {
                 height="30px"
               />
               Andriod
-            </div>
-            <div className="apps-btn">
+            </Col>
+            <Col xs={24} sm={11} className="apps-btn">
               <img
                 src={`/icons/bulk/${
                   theme === "light" ? "apple.svg" : "apple-dark.svg"
@@ -69,23 +80,23 @@ export default function Index() {
                 height="30px"
               />
               iOS
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
       </div>
       <div className="home-container">
-        <div className="index-footer">
-          <div>
+        <Row className="index-footer">
+          <Col>
             <i class="ri-facebook-fill"></i>
             <i class="ri-telegram-fill"></i>
             <i class="ri-twitter-fill"></i>
             <i class="ri-linkedin-fill"></i>
             <i class="ri-medium-fill"></i>
-          </div>
-          <div>
+          </Col>
+          <Col>
             <p>2022 © Selendra, Blockchain</p>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
     </div>
   );
