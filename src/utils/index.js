@@ -1,6 +1,9 @@
 import { message } from 'antd';
-import { checkAddress } from '@polkadot/util-crypto';
 import { Contract } from "ethers";
+import { u8aToHex } from "@polkadot/util";
+import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
+import { formatBalance } from "@polkadot/util";
+import { tokens } from "../constants/tokenContract";
 
 export function isvalidSubstrateAddress(address) {
   const check = checkAddress(address, 42);
@@ -15,7 +18,7 @@ export function isvalidSubstrateAddress(address) {
 
 export function shortenAddress(address) {
   if(!address) return;
-  return address.slice(0, 4) + '...' + address.slice(-3);
+  return address.slice(0, 5) + '...' + address.slice(-4);
 }
 
 export function ErrorHandling(err) {
@@ -25,4 +28,23 @@ export function ErrorHandling(err) {
 
 export function getContract(address, abi, signerOrProvider) {
   return new Contract(address, abi, signerOrProvider);
+}
+
+export function getHex(substrateAdress){
+  const publicKey = decodeAddress(substrateAdress);
+  const hexPublicKey = u8aToHex(publicKey);
+  return hexPublicKey
+}
+
+export function getTokenName(address) {
+  if(address === tokens[0].tokenAddress) return "BUSD";
+  else if(address === tokens[1].tokenAddress) return "DAI";
+  else if(address === tokens[2].tokenAddress) return "USDT";
+  else if(address === tokens[3].tokenAddress) return "ETH";
+  else if(address === "0x0000000000000000000000000000000000000000") return "BNB";
+  else return;
+}
+
+export function FormatBalance(amount) {
+  return formatBalance(amount, { withSi: false, forceUnit: '-' }, 18)
 }

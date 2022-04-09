@@ -1,32 +1,35 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Button, Dropdown} from "antd";
-import { AccountContext } from "../context/AccountContext";
-import { shortenAddress } from "../utils";
 
-export default function ButtonConnect() {
-  const { account, disconnect } = useContext(AccountContext);
-  const menu = (
-    <Menu className='btn-connect-menu'>
-      <Menu.Item key="0" className='btn-connect-menuItem' onClick={disconnect}>
-        <span>Disconnect</span>
-      </Menu.Item>
-    </Menu>
-  );
-
+export default function ButtonConnect({ className, icon, title, route }) {
   return (
-    <div>
-      { account ? 
-        <Dropdown overlay={menu} trigger={['click']}>
-          <Button type='ghost' className='btn__connect'>
-            {shortenAddress(account)}
-          </Button>
-        </Dropdown>
+    <center className="btn__connectContainer">
+      { route ? 
+        <Link to="/connect">
+          <div className={className}>
+            <div>
+              <img
+                src={`/icons/bulk/${icon}`}
+                alt="money-recive.svg"
+                height="30px"
+                style={{ margin: "0" }}
+              />
+            </div>
+            <p>{title}</p>
+          </div>
+        </Link>
         :
-        <Button className='btn__connect'>
-          <Link to='/connect'>Connect</Link>
-        </Button>
+        <div className={className}>
+          <div>
+            <img
+              src={`/icons/bulk/${icon}`}
+              alt="money-recive.svg"
+              height="30px"
+              style={{ margin: "0" }}
+            />
+          </div>
+          <p>{title}</p>
+        </div>
       }
-    </div>
-  )
+    </center>
+  );
 }
