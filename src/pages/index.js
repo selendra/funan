@@ -1,8 +1,19 @@
 import { useTheme } from "next-themes";
-import { Row, Col, Button } from "antd";
+import { Row, Col } from "antd";
+import { useContext, useEffect } from "react";
+import { AccountContext } from "../context/AccountContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Index() {
   const { theme } = useTheme();
+  let navigate = useNavigate();
+  const {
+    account,
+    substrateAccount,
+  } = useContext(AccountContext);
+
+  if(substrateAccount.length !== 0 || !account) navigate('/home');
+
   return (
     <div className="vertical-layout">
       <div className="home-navbar">
@@ -53,7 +64,7 @@ export default function Index() {
       <div className="home-container">
         <div className="apps-section">
           <h3>
-            The SELENNDRA Bitriel Wallet has been created as a Progressive Web
+            The SELENDRA Bitriel Wallet has been created as a Progressive Web
             App (PWA) which is easy to launch on all platforms:{" "}
           </h3>
           <Row

@@ -23,7 +23,7 @@ export default function App() {
           <Route path="connect" element={<Connect />} />
           <Route path="wallet" element={<Wallet />} />
           <Route path="wallet/send" element={<Send />} />
-          <Route path="wallet/recieve" element={<Receive />} />
+          <Route path="wallet/receive" element={<Receive />} />
           <Route path="about" element={<About />} />
           <Route path="home" element={<Home />} />
           <Route path="auction" element={<Auction />} />

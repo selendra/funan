@@ -32,7 +32,6 @@ export default function Home() {
     substrateAccount,
     substrateAccountActive,
     connectSubstrate,
-    setSubstrateAccountActive,
   } = useContext(AccountContext);
 
   // useEffect(() => {

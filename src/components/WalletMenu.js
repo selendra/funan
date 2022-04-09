@@ -1,11 +1,13 @@
 import { Col, Row, Spin } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FormatBalance } from "../utils";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountContext";
 
 export default function WalletMenu({ children }) {
+  const { pathname } = useLocation();
+  console.log(pathname)
   const { substrateAccountActive } = useContext(AccountContext);
   const [state] = useFetchBalanceSEL(substrateAccountActive);
 
@@ -17,7 +19,7 @@ export default function WalletMenu({ children }) {
           <Col xs={24} sm={24} xl={10}>
             <div className="wallet-tabs-section">
               <Row gutter={[12, 12]}>
-                <Col span={6}>
+                {/* <Col span={6}>
                   <div className="wallet-tabs active">
                     <Link to="/wallet">
                       <img
@@ -28,9 +30,9 @@ export default function WalletMenu({ children }) {
                       <p>Wallet</p>
                     </Link>
                   </div>
-                </Col>
+                </Col> */}
                 <Col span={6}>
-                  <div className="wallet-tabs">
+                  <div className={`wallet-tabs ${pathname === '/wallet/send' && 'active'}`}>
                     <Link to="/wallet/send">
                       <img
                         src={`/icons/bulk/send-square.svg`}
@@ -42,8 +44,8 @@ export default function WalletMenu({ children }) {
                   </div>
                 </Col>
                 <Col span={6}>
-                  <div className="wallet-tabs">
-                    <Link to="/wallet/recieve">
+                  <div className={`wallet-tabs ${pathname === '/wallet/receive' && 'active'}`}>
+                    <Link to="/wallet/receive">
                       <img
                         src={`/icons/bulk/receive-square.svg`}
                         alt="wallet"
