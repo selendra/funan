@@ -11,8 +11,9 @@ export default function Index() {
     account,
     substrateAccount,
   } = useContext(AccountContext);
+  console.log(account, substrateAccount)
 
-  if(substrateAccount.length !== 0 || !account) navigate('/home');
+  if(substrateAccount.length !== 0 || account) navigate('/home');
 
   return (
     <div className="vertical-layout">
