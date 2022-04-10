@@ -1,18 +1,19 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { Button, Form, Input } from 'antd';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import LayoutComponent from '../../components/Layout';
 import WalletMenu from '../../components/WalletMenu';
+import { AccountContext } from '../../context/AccountContext';
 
 export default function Send() {
-  const activeSubstrateAccount = localStorage.getItem('park-substrate-active-account');
+  const { substrateAccountActive } = useContext(AccountContext);
   const [loading, setLoading] = useState(false);
 
   async function handleTransfer(val) {
     try {
       setLoading(true);
-      const SENDER = JSON.parse(activeSubstrateAccount).value;
+      const SENDER = substrateAccountActive;
       // finds an injector for an address
       const injector = await web3FromAddress(SENDER);
 
@@ -44,10 +45,10 @@ export default function Send() {
           onFinish={handleTransfer}
         >
           <Form.Item label="Destination" name="destination">
-            <Input className="buy__input" />
+            <Input className="buy__input" placeholder='Enter Destination' />
           </Form.Item>
           <Form.Item label="Amount" name="amount">
-            <Input className="buy__input" />
+            <Input className="buy__input" placeholder='Enter Amount' />
           </Form.Item>
           <Form.Item>
             <Button loading={loading} htmlType='submit' className="buy__button">Transfer</Button>

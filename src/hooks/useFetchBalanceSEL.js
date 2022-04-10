@@ -1,6 +1,5 @@
+import { useEffect, useState } from "react";
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { useEffect, useMemo, useState } from "react";
-
 
 export function useFetchBalanceSEL(address, type) {
   const [state, setState] = useState({

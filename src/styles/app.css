@@ -613,6 +613,10 @@ input,
   background-color: #03a9f4;
   color: #fff;
 }
+.con-wallet-sel {
+  background-color: #ed1576;
+  color: #fff;
+}
 .create-wallet {
   background-color: #f0c90a;
   color: #1d3442;
