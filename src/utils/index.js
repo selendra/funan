@@ -7,7 +7,7 @@ import { tokens } from "../constants/tokenContract";
 
 export function isvalidSubstrateAddress(address) {
   const check = checkAddress(address, 42);
-  const check2 = checkAddress(address, 972);
+  const check2 = checkAddress(address, 204);
 
   if (check[0] || check2[0]) {
     return true;

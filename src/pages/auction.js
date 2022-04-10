@@ -17,13 +17,14 @@ import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
 import { Allowance } from "../utils/getAllowance";
 import { appendSpreadsheet } from "../utils/appendSheet";
-import { isvalidSubstrateAddress, ErrorHandling, getTokenName } from "../utils";
+import { isvalidSubstrateAddress, ErrorHandling, getTokenName, FormatBalance } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { TokenContext } from "../context/TokenContext";
 import down from "../assets/icons/down.svg";
 import abi from "../abis/token-sale.json";
 import LayoutComponent from "../components/Layout";
 import SelectToken from "../components/SelectToken";
+import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 
 export default function Buy() {
   // === >>>  Context Section <<< ===
@@ -32,6 +33,7 @@ export default function Buy() {
   const { selectedToken } = useContext(TokenContext);
 
   // === >>> State Section <<< ===
+  const [state] = useFetchBalanceSEL("seXZcUAx8Nt1ed8WocFKVWB23YzXX5kjX2XCThZogaKqNNv8N", "Injection", true);
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(0);
@@ -106,6 +108,8 @@ export default function Buy() {
     try {
       if (!isvalidSubstrateAddress(address))
         return message.error("selendra address is not valid!");
+      if(Number(FormatBalance(state.freeBalance)) < Number(estimatedReturn))
+        return message.error("Token remaining not enough!");
       setLoading(true);
 
       let data;
@@ -423,11 +427,28 @@ export default function Buy() {
       </div>
 
       {/* === >>> Video Section <<< === */}
-      <div className="how-it-works-section">
-        <div className="buy__padding">
-          <h2 className="how-it-works">Video How to participate</h2>
-        </div>
-      </div>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <div className="how-it-works-section">
+            <div className="buy__padding">
+              <h2 className="how-it-works">Token Remaining</h2>
+              <Spin spinning={state.loading} />
+                {!state.loading && (
+                  <h1>
+                    {FormatBalance(state.freeBalance)} <span>CDM</span>
+                  </h1>
+                )}
+            </div>
+          </div>
+        </Col>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <div className="how-it-works-section">
+            <div className="buy__padding">
+              <h2 className="how-it-works">Video How to participate</h2>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </LayoutComponent>
   );
 }
