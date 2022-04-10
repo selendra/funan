@@ -17,9 +17,9 @@ export default function Receive() {
     <LayoutComponent>
       <WalletMenu>
         <center>
-          <QRCode value={substrateAccountActive} />
-          <Row gutter={[16, 16]} justify='center' align='middle'>
-            <p>{substrateAccountActive}</p>
+          <QRCode size={200} value={substrateAccountActive} />
+          <Row gutter={[16, 16]} justify='center' align='middle' style={{marginTop: '16px'}}>
+            <p className='receive-address'>{substrateAccountActive}</p>
             <CopyToClipboard text={substrateAccountActive}>
               <Button
                 type="link"
@@ -27,7 +27,7 @@ export default function Receive() {
                 style={{ paddingLeft: "0" }}
                 onClick={() => message.success("Copied")}
               >
-                Copy
+                <span style={{fontWeight: '500'}}>Copy</span>
               </Button>
             </CopyToClipboard>
           </Row>
