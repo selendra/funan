@@ -12,7 +12,6 @@ import {
   Row,
   Col,
   InputNumber,
-  Popover,
 } from "antd";
 import { Signer } from "../utils/getSigner";
 import { Contract } from "../utils/useContract";
@@ -81,7 +80,7 @@ export default function Buy() {
 
   async function approve() {
     try {
-      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
+      const contractAddress = "0x32A7C520D5b173B7F7bDE45C4276DEa970C0dD25";
       let abi = [
         "function approve(address _spender, uint256 _value) public returns (bool success)",
       ];
@@ -154,9 +153,10 @@ export default function Buy() {
           "\n"
         );
         const amountSEL = estimatedReturn;
+        const amountWithToken = amount.toString() + getTokenName(selectedToken);
         await appendSpreadsheet(
           address,
-          amount,
+          amountWithToken,
           amountSEL,
           data.hash,
           result.status
@@ -176,7 +176,7 @@ export default function Buy() {
     try {
       if (!amount) return;
       setSpinning(true);
-      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
+      const contractAddress = "0x32A7C520D5b173B7F7bDE45C4276DEa970C0dD25";
       const provider = ethers.getDefaultProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545/"
       );
@@ -213,7 +213,7 @@ export default function Buy() {
   // === >>> Get Amount <<< ===
   async function getPriceUSD() {
     try {
-      const contractAddress = "0xD31013C0A6690eEA6C3D711034980bda699c7276";
+      const contractAddress = "0x32A7C520D5b173B7F7bDE45C4276DEa970C0dD25";
 
       const provider = new ethers.providers.JsonRpcProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545"

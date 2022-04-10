@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import { Row, Col } from "antd";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AccountContext } from "../context/AccountContext";
 import { useNavigate } from "react-router-dom";
 
@@ -10,8 +10,9 @@ export default function Index() {
   const {
     account,
     substrateAccount,
+    connectSubstrate
   } = useContext(AccountContext);
-  console.log(account, substrateAccount)
+  // console.log(account, substrateAccount)
 
   if(substrateAccount.length !== 0 || account) navigate('/home');
 
@@ -35,12 +36,18 @@ export default function Index() {
 
           <div className="pos-relative">
             <div className="index-btn-section">
-              <Row justify="space-between" gutter={[0, 40]}>
-                <Col xs={24} sm={11} md={7} className="index-btn con-wallet">
+              <Row gutter={[16, 40]}>
+                <Col xs={24} sm={11} md={7} lg={7} xl={7} className="index-btn con-wallet">
                   <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
-                  Connect Wallet
+                  Connect EVM
                 </Col>
-                <Col xs={24} sm={11} md={7} className="index-btn create-wallet">
+                <Col xs={24} sm={11} md={7} lg={7} xl={7} className="index-btn con-wallet-sel">
+                  <div onClick={connectSubstrate}>
+                    <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
+                    Connect Selendra
+                  </div>
+                </Col>
+                {/* <Col xs={24} sm={11} md={7} className="index-btn create-wallet">
                   <img
                     src="/icons/bulk/wallet-add-1-index.svg"
                     alt=""
@@ -56,7 +63,7 @@ export default function Index() {
                 >
                   <img src="/icons/bulk/key-square.svg" alt="" height="40px" />
                   Restore Wallet
-                </Col>
+                </Col> */}
               </Row>
             </div>
           </div>

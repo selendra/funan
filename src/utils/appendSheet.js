@@ -2,7 +2,7 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 export async function appendSpreadsheet(
   SelendraAddress,
-  AmountUSDT,
+  Amount,
   AmountSEL,
   BSCHash,
   BSCStatus
@@ -24,7 +24,7 @@ export async function appendSpreadsheet(
     const sheet = doc.sheetsById[SHEET_ID];
     const result = await sheet.addRow({
       SelendraAddress: SelendraAddress,
-      AmountUSDT: AmountUSDT,
+      Amount: Amount,
       AmountSEL: AmountSEL,
       BSCHash: BSCHash,
       BSCStatus: BSCStatus

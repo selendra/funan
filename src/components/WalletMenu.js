@@ -9,7 +9,7 @@ export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
   console.log(pathname)
   const { substrateAccountActive } = useContext(AccountContext);
-  const [state] = useFetchBalanceSEL(substrateAccountActive);
+  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection");
 
   return (
     <div>
@@ -71,10 +71,6 @@ export default function WalletMenu({ children }) {
                 <p>Available</p>
               </div>
             )}
-            <div className="wallet-price">
-              <p> $20.782 </p>
-              <p>Available</p>
-            </div>
           </Col>
           <Col xs={12} sm={12} xl={7}>
             {!state.loading && (
@@ -89,10 +85,6 @@ export default function WalletMenu({ children }) {
                 <p>Total</p>
               </div>
             )}
-            <div className="wallet-price">
-              <p> $20.782 </p>
-              <p>Total</p>
-            </div>
           </Col>
         </Row>
       </div>

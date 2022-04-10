@@ -18,6 +18,7 @@ import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
 import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
 import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
+import { Link } from "react-router-dom";
 
 const EditIcon = (props) => <Icon component={Edit} {...props} />;
 const CopyIcon = (props) => <Icon component={Copy} {...props} />;
@@ -97,11 +98,13 @@ export default function Home() {
           <Col span={12}>
             <Row gutter={[32, 32]} justify="start">
               <Col xs={12} sm={6}>
-                <ButtonConnect
-                  className="home-connect-evm"
-                  icon="wallet-1.svg"
-                  title="Connect EVM"
-                />
+                <Link to='/connect'>
+                  <ButtonConnect
+                    className="home-connect-evm"
+                    icon="wallet-1.svg"
+                    title="Connect EVM"
+                  />
+                </Link>
               </Col>
               <Col xs={12} sm={6}>
                 <ButtonConnect
