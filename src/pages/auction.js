@@ -33,7 +33,7 @@ export default function Buy() {
   const { selectedToken } = useContext(TokenContext);
 
   // === >>> State Section <<< ===
-  const [state] = useFetchBalanceSEL("seXZcUAx8Nt1ed8WocFKVWB23YzXX5kjX2XCThZogaKqNNv8N", "Injection", true);
+  const [state] = useFetchBalanceSEL("seXZcUAx8Nt1ed8WocFKVWB23YzXX5kjX2XCThZogaKqNNv8N", "Injection", {testnet: true});
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(0);
@@ -82,7 +82,7 @@ export default function Buy() {
 
   async function approve() {
     try {
-      const contractAddress = "0x32A7C520D5b173B7F7bDE45C4276DEa970C0dD25";
+      const contractAddress = "0x6cB5a691e641a2A78c36F4E621aD36d635a38b88";
       let abi = [
         "function approve(address _spender, uint256 _value) public returns (bool success)",
       ];
@@ -113,21 +113,24 @@ export default function Buy() {
       setLoading(true);
 
       let data;
+      const amountInToken = +(amount / convertAmount).toFixed(5);
       const contract = await Contract(isTrust);
+      // console.log(amountInToken);
+      // console.log(ethers.utils.parseUnits(amountInToken, 18));
 
       if (selectedToken === bnb) {
         data = await contract.order(address, {
-          value: ethers.utils.parseUnits(amount, 18),
+          value: ethers.utils.parseUnits(amountInToken.toString(), 18),
         });
       }
       if (selectedToken !== bnb) {
         data = await contract.orderToken(
           selectedToken,
-          ethers.utils.parseUnits(amount, 18),
+          ethers.utils.parseUnits(amountInToken.toString(), 18),
           address
         );
       }
-      // console.log(data);
+
       await data.wait();
 
       const provider = new ethers.providers.JsonRpcProvider(
@@ -157,7 +160,7 @@ export default function Buy() {
           "\n"
         );
         const amountSEL = estimatedReturn;
-        const amountWithToken = amount.toString() + getTokenName(selectedToken);
+        const amountWithToken = amountInToken.toString() + getTokenName(selectedToken);
         await appendSpreadsheet(
           address,
           amountWithToken,
@@ -180,7 +183,7 @@ export default function Buy() {
     try {
       if (!amount) return;
       setSpinning(true);
-      const contractAddress = "0x32A7C520D5b173B7F7bDE45C4276DEa970C0dD25";
+      const contractAddress = "0x6cB5a691e641a2A78c36F4E621aD36d635a38b88";
       const provider = ethers.getDefaultProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545/"
       );
@@ -217,7 +220,7 @@ export default function Buy() {
   // === >>> Get Amount <<< ===
   async function getPriceUSD() {
     try {
-      const contractAddress = "0x32A7C520D5b173B7F7bDE45C4276DEa970C0dD25";
+      const contractAddress = "0x6cB5a691e641a2A78c36F4E621aD36d635a38b88";
 
       const provider = new ethers.providers.JsonRpcProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545"
@@ -257,7 +260,7 @@ export default function Buy() {
             className="buy__form"
             onFinish={handleOrder}
           >
-            <Form.Item label="Amount" required tooltip="Amount is required!">
+            <Form.Item label="Amount (USD)" required tooltip="Amount is required!">
               <InputNumber
                 className="buy__input"
                 placeholder="Enter Amount in USD"
@@ -272,7 +275,7 @@ export default function Buy() {
                 <Input
                   className="buy__input"
                   value={
-                    amount >= 10 ? Number(amount / convertAmount).toFixed(5) : 0
+                    amount >= 10 ? +(amount / convertAmount).toFixed(5) : 0
                   }
                   readOnly
                   placeholder=""

@@ -10,7 +10,7 @@ import { FormatBalance, isvalidSubstrateAddress } from '../../utils';
 
 export default function Send() {
   const { substrateAccountActive } = useContext(AccountContext);
-  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection");
+  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection", {testnet: true});
   const [amount, setAmount] = useState('');
   const [destination, setDestination] = useState('');
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ export default function Send() {
           SENDER, 
           { signer: injector.signer }, 
           (status) => { 
-            console.log(status.toHuman()) 
+            // console.log(status.toHuman()) 
             if(status.toHuman().status?.Finalized) {
               message.success('Transaction Completed!');
               setLoading(false);
