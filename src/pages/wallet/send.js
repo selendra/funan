@@ -42,7 +42,7 @@ export default function Send() {
       // finds an injector for an address
       const injector = await web3FromAddress(SENDER);
 
-      const provider = new WsProvider('wss://rpc-mainnet.selendra.org');
+      const provider = new WsProvider('wss://rpc1-testnet.selendra.org');
       const api = await ApiPromise.create({ provider });
 
       // eslint-disable-next-line no-undef
