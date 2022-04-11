@@ -63,8 +63,7 @@ h5,
 h6,
 p,
 label,
-i,
-svg {
+i {
   color: var(--text-color) !important;
   margin: 0 !important;
 }

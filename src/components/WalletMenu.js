@@ -9,11 +9,11 @@ export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
   console.log(pathname)
   const { substrateAccountActive } = useContext(AccountContext);
-  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection");
+  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection", {testnet: true});
 
   return (
     <div>
-      <h2>Account: {substrateAccountActive && substrateAccountActive}</h2>
+      <h2>Account: {substrateAccountActive ? substrateAccountActive : 'Please Select Your Selendra Account'}</h2>
       <div className="wallet-background-card">
         <Row gutter={[12, 12]} align="middle">
           <Col xs={24} sm={24} xl={10}>
@@ -64,7 +64,7 @@ export default function WalletMenu({ children }) {
                 <Spin spinning={state.loading} />
                 {!state.loading && (
                   <h1>
-                    {FormatBalance(state.freeBalance)} <span>SEL</span>
+                    {FormatBalance(state.freeBalance)} <span>CDM</span>
                   </h1>
                 )}
                 {/* <p> $20.782 </p> */}
@@ -78,7 +78,7 @@ export default function WalletMenu({ children }) {
                 <Spin spinning={state.loading} />
                 {!state.loading && (
                   <h1>
-                    {FormatBalance(state.freeBalance)} <span>SEL</span>
+                    {FormatBalance(state.freeBalance)} <span>CDM</span>
                   </h1>
                 )}
                 {/* <p> $20.782 </p> */}

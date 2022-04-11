@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 
-export function useFetchBalanceSEL(address, type, testnet) {
+export function useFetchBalanceSEL(address, type, {testnet}) {
   const [state, setState] = useState({
     loading: true,
     freeBalance: null,

@@ -4,7 +4,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 
 export default function Wallet({ account, type }) {
-  const [state] = useFetchBalanceSEL(account, type);
+  const [state] = useFetchBalanceSEL(account, type, {testnet: true});
   // console.log(state);
 
   return (
@@ -31,7 +31,7 @@ export default function Wallet({ account, type }) {
               <Spin spinning={state.loading} />
               {!state.loading && (
                 <div>
-                  <p>{FormatBalance(state.freeBalance)} SEL</p>
+                  <p>{FormatBalance(state.freeBalance)} CDM</p>
                   <p>Available</p>
                 </div>
               )}
@@ -40,7 +40,7 @@ export default function Wallet({ account, type }) {
               <Spin spinning={state.loading} />
               {!state.loading && (
                 <div>
-                  <p>{FormatBalance(state.freeBalance)} SEL</p>
+                  <p>{FormatBalance(state.freeBalance)} CDM</p>
                   <p>Total</p>
                 </div>
               )}
