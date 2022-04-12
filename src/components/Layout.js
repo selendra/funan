@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Drawer, Row, Col } from "antd";
 import menu from "../assets/menu.svg";
+import menuWhite from "../assets/menu-white.svg";
 import logo from "../assets/logo.png";
 import logoWhite from "../assets/logo-white.png";
 import { useTheme } from "next-themes";
@@ -32,25 +33,24 @@ export default function LayoutComponent({ children }) {
             </div>
           </div>
         </Layout.Header> */}
-        <Layout.Header style={{ background: "#FFF" }}>
+        <Layout.Header style={theme === "light" ? { background: 'rgba(255, 255, 255, 0.822)' } : { background: '#2d333b' }}>
           <div className="container">
             <div className="top-menu">
               <Drawer
-                title={
-                  <Row justify="center">
-                    <img
-                      src={theme === "light" ? logo : logoWhite}
-                      alt="selendra-logo"
-                      width="40%"
-                    />
-                  </Row>
-                }
                 width="300"
                 placement="right"
                 closable={false}
                 onClose={onClose}
                 visible={visible}
+                bodyStyle={theme === "light" ? { background: 'rgba(255, 255, 255, 0.822)' } : { background: '#2d333b' }}
               >
+                <div style={{padding: '24px'}}>
+                  <img
+                    src={theme === "light" ? logo : logoWhite}
+                    alt="selendra-logo"
+                    width="50%"
+                  />
+                </div>
                 <MenuList />
               </Drawer>
 
@@ -65,7 +65,7 @@ export default function LayoutComponent({ children }) {
               <img
                 className="mobile-menu-btn"
                 onClick={showDrawer}
-                src={menu}
+                src={theme === "light" ? menu : menuWhite}
                 alt="menu svg"
                 width="25px"
               />

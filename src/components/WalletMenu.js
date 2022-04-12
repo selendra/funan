@@ -31,7 +31,7 @@ export default function WalletMenu({ children }) {
                     </Link>
                   </div>
                 </Col> */}
-                <Col span={6}>
+                <Col span={12}>
                   <div className={`wallet-tabs ${pathname === '/wallet/send' && 'active'}`}>
                     <Link to="/wallet/send">
                       <img
@@ -43,7 +43,7 @@ export default function WalletMenu({ children }) {
                     </Link>
                   </div>
                 </Col>
-                <Col span={6}>
+                <Col span={12}>
                   <div className={`wallet-tabs ${pathname === '/wallet/receive' && 'active'}`}>
                     <Link to="/wallet/receive">
                       <img
