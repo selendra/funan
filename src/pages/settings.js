@@ -2,11 +2,14 @@ import React from "react";
 import LayoutComponent from "../components/Layout";
 import { Form, Input, Button, Checkbox, Row, Col, Select, Switch } from "antd";
 import { useTheme } from "next-themes";
+import { useAddSELToken } from "../hooks/useAddSELToken";
 
 const { Option } = Select;
 
 export default function Settings() {
   const { theme, setTheme } = useTheme();
+  const [state, handleAddSELToken] = useAddSELToken();
+  console.log(state)
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -101,7 +104,7 @@ export default function Settings() {
         <h2>Metamask</h2>
         <div className="sel-card">
           <div className="setting__padding">
-            <div>
+            {/* <div>
               <h2>Networks</h2>
               <Row className="metamask-section" gutter={[0, 20]}>
                 <Col className="add-mainnet">Add Selendra Mainnet</Col>
@@ -110,12 +113,14 @@ export default function Settings() {
             </div>
 
             <br />
-            <br />
+            <br /> */}
             <div>
               <h2>Assets</h2>
               <Row className="metamask-section" gutter={[0, 20]}>
-                <Col className="add-mainnet">Add Token</Col>
-                <Col className="add-testnet">Add Custom Token</Col>
+                <Col>
+                  <Button className="add-mainnet" onClick={handleAddSELToken}>Add SEL Token</Button>
+                </Col>
+                {/* <Col className="add-testnet">Add Custom Token</Col> */}
               </Row>
             </div>
           </div>
