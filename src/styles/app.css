@@ -824,13 +824,14 @@ input,
   margin-bottom: 20px !important;
 }
 .add-mainnet {
-  background-color: #03a9f4;
-  padding: 10px 40px;
-  border-radius: 50px;
-  margin-right: 20px;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
+  height: 55px;
+  color: #fff!important;
+  background-color: #03a9f4!important;
+  font-weight: bold!important;
+  border: none!important;
+  border-radius: 50px!important;
+  padding: 0 24px!important;
+  margin-right: 20px!important;
 }
 .add-testnet {
   background-color: var(--foreground);
