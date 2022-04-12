@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Col, message, Row, Spin } from "antd";
+import { Avatar, Button, Card, Col, message, Row, Spin, Tooltip } from "antd";
 import { FormatBalance, shortenAddress } from "../utils";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
@@ -47,17 +47,19 @@ export default function Wallet({ account, type }) {
             </Col>
             <Col span={5}>
               <CopyToClipboard text={account}>
-                <Button
-                  shape="circle"
-                  type="text"
-                  onClick={() => message.success("Copied")}
-                >
-                  <img
-                    src="/icons/bulk/copy.svg"
-                    alt="money-recive.svg"
-                    height="24px"
-                  />
-                </Button>
+                <Tooltip title='Copy Address' color='#0899dc'>
+                  <Button
+                    shape="circle"
+                    type="text"
+                    onClick={() => message.success("Copied")}
+                  >
+                    <img
+                      src="/icons/bulk/copy.svg"
+                      alt="money-recive.svg"
+                      height="24px"
+                    />
+                  </Button>
+                </Tooltip>
               </CopyToClipboard>
             </Col>
           </Row>

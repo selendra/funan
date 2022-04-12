@@ -877,7 +877,7 @@ input,
 .wallet-tabs p {
   font-size: 15px !important;
 }
-.wallet-tabs.active p {
+.wallet-tabs .active p {
   color: #00a9f9 !important;
 }
 .wallet-tabs-section .active {

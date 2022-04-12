@@ -168,7 +168,7 @@ export default function Home() {
                         style={{ paddingLeft: "0" }}
                         onClick={() => setModal(true)}
                       >
-                        { substrateAccountActive ? 'Change' : 'Select' }
+                        { substrateAccountActive ? 'Switch' : 'Select' }
                       </Button>
                       <CopyToClipboard text={substrateAccount[0].label}>
                         <Button
