@@ -5,6 +5,7 @@ import logoWhite from "../assets/logo-white.png";
 import { AccountContext } from "../context/AccountContext";
 import { useTheme } from "next-themes";
 import MenuList from "./MenuList";
+import { BrowserView } from 'react-device-detect';
 
 export default function Navbar() {
   const { theme } = useTheme();
@@ -45,6 +46,7 @@ export default function Navbar() {
       }}
     >
       {/* === >>> If EVM Extension not found <<< === */}
+      <BrowserView>
       <Modal
         title={false}
         visible={hasEVMWallet === false}
@@ -105,6 +107,7 @@ export default function Navbar() {
           </p>
         </center>
       </Modal>
+      </BrowserView>
 
       <Row align="middle" justify="center">
         <Col xs={0} sm={0} md={0} lg={20} xl={20}>
