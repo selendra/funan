@@ -51,7 +51,7 @@ export default function Footer() {
               <div className="">
                 <span>Find us on</span>
                 {data.map((res) => {
-                  return <i class={res.icon}></i>;
+                  return <i className={res.icon}></i>;
                 })}
 
                 {/* <i class="ri-facebook-fill"></i>

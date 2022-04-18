@@ -106,11 +106,11 @@ export default function Index() {
       <div className="home-container">
         <Row className="index-footer">
           <Col>
-            <i class="ri-facebook-fill"></i>
-            <i class="ri-telegram-fill"></i>
-            <i class="ri-twitter-fill"></i>
-            <i class="ri-linkedin-fill"></i>
-            <i class="ri-medium-fill"></i>
+            <i className="ri-facebook-fill"></i>
+            <i className="ri-telegram-fill"></i>
+            <i className="ri-twitter-fill"></i>
+            <i className="ri-linkedin-fill"></i>
+            <i className="ri-medium-fill"></i>
           </Col>
           <Col>
             <p>2022 © Selendra, Blockchain</p>

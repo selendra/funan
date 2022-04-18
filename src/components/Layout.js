@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Drawer, Row, Col } from "antd";
 import menu from "../assets/menu.svg";
 import menuWhite from "../assets/menu-white.svg";
@@ -11,6 +11,21 @@ import MenuList from "./MenuList";
 export default function LayoutComponent({ children }) {
   const { theme } = useTheme();
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    async function switchChain() {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
+        });
+      } catch (error) {
+        console.log('Error on switching network:', error);
+      }
+    }
+    switchChain();
+  },[]);
+
   const showDrawer = () => {
     setVisible(true);
   };
