@@ -15,6 +15,7 @@ export default function LayoutComponent({ children }) {
   useEffect(() => {
     async function switchChain() {
       try {
+        if(!window.ethereum) return;
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers

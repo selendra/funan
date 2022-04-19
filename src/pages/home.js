@@ -76,6 +76,7 @@ export default function Home() {
         DAI.balanceOf(account),
         USDT.balanceOf(account),
         ETH.balanceOf(account),
+        provider.getBalance(account)
       ]);
       const newArr = data.map((x) => ({
         value: x._hex,
@@ -231,7 +232,7 @@ export default function Home() {
               <TokenBalance
                 image={bnb}
                 TokenName="BNB"
-                balance={balance[3]?.value}
+                balance={balance[4]?.value}
                 loading={loading}
               />
             </div>

@@ -47,66 +47,68 @@ export default function Navbar() {
     >
       {/* === >>> If EVM Extension not found <<< === */}
       <BrowserView>
-      <Modal
-        title={false}
-        visible={hasEVMWallet === false}
-        footer={false}
-        closable={false}
-      >
-        <center>
-          <p>
-            EVM Extension is required!{" "}
-            {userBrowser === "chrome" ? (
-              <a
-                href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>Download Now</b>
-              </a>
-            ) : (
-              <a
-                href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>Download Now</b>
-              </a>
-            )}
-          </p>
-        </center>
-      </Modal>
+        <Modal
+          title={false}
+          visible={hasEVMWallet === false}
+          footer={false}
+          closable={false}
+          className='modal-select-account'
+        >
+          <center>
+            <p>
+              EVM Extension is required!{" "}
+              {userBrowser === "chrome" ? (
+                <a
+                  href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              ) : (
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              )}
+            </p>
+          </center>
+        </Modal>
 
-      {/* === >>> If Selendra Extension not found <<< === */}
-      <Modal
-        title={false}
-        visible={hasSelWallet === false}
-        footer={false}
-        closable={false}
-      >
-        <center>
-          <p>
-            Selendra Extension is required!{" "}
-            {userBrowser === "chrome" ? (
-              <a
-                href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>Download Now</b>
-              </a>
-            ) : (
-              <a
-                href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <b>Download Now</b>
-              </a>
-            )}
-          </p>
-        </center>
-      </Modal>
+        {/* === >>> If Selendra Extension not found <<< === */}
+        <Modal
+          title={false}
+          visible={hasSelWallet === false}
+          footer={false}
+          closable={false}
+          className='modal-select-account'
+        >
+          <center>
+            <p>
+              Selendra Extension is required!{" "}
+              {userBrowser === "chrome" ? (
+                <a
+                  href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              ) : (
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <b>Download Now</b>
+                </a>
+              )}
+            </p>
+          </center>
+        </Modal>
       </BrowserView>
 
       <Row align="middle" justify="center">
