@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
-import { AccountProvider } from "./context/AccountContext";
 import App from "./App";
 
 import "antd/dist/antd.variable.min.css";
@@ -10,6 +9,7 @@ import { ConfigProvider } from "antd";
 
 import "remixicon/fonts/remixicon.css";
 import { TokenProvider } from "./context/TokenContext";
+import { AccountProvider } from "./context/AccountContext";
 
 ConfigProvider.config({
   theme: {

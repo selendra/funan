@@ -16,6 +16,7 @@ import busd from "../assets/tokens/busd.png";
 import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
+import bnb from "../assets/tokens/bnb.png";
 import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
 import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
 import { Link } from "react-router-dom";
@@ -75,6 +76,7 @@ export default function Home() {
         DAI.balanceOf(account),
         USDT.balanceOf(account),
         ETH.balanceOf(account),
+        provider.getBalance(account)
       ]);
       const newArr = data.map((x) => ({
         value: x._hex,
@@ -225,6 +227,12 @@ export default function Home() {
                 image={eth}
                 TokenName="ETH"
                 balance={balance[3]?.value}
+                loading={loading}
+              />
+              <TokenBalance
+                image={bnb}
+                TokenName="BNB"
+                balance={balance[4]?.value}
                 loading={loading}
               />
             </div>

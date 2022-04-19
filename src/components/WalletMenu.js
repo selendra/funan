@@ -7,7 +7,6 @@ import { AccountContext } from "../context/AccountContext";
 
 export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
-  console.log(pathname)
   const { substrateAccountActive } = useContext(AccountContext);
   const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection", {testnet: true});
 

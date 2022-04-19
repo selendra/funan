@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountContext";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,8 @@ export default function Index() {
   const {
     account,
     substrateAccount,
-    connectSubstrate
+    connectSubstrate,
+    connectMetamask
   } = useContext(AccountContext);
   // console.log(account, substrateAccount)
 
@@ -37,15 +38,17 @@ export default function Index() {
           <div className="pos-relative">
             <div className="index-btn-section">
               <Row gutter={[16, 40]}>
-                <Col xs={24} sm={11} md={7} lg={7} xl={7} className="index-btn con-wallet">
-                  <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
-                  Connect EVM
+                <Col xs={24} sm={11} md={10} lg={10} xl={7}>
+                  <Button className="index-btn con-wallet" onClick={connectMetamask}>
+                    <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
+                    Connect EVM
+                  </Button>
                 </Col>
-                <Col xs={24} sm={11} md={7} lg={7} xl={7} className="index-btn con-wallet-sel">
-                  <div onClick={connectSubstrate}>
+                <Col xs={24} sm={11} md={10} lg={10} xl={7}>
+                  <Button className="index-btn con-wallet-sel" onClick={connectSubstrate}>
                     <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
                     Connect Selendra
-                  </div>
+                  </Button>
                 </Col>
                 {/* <Col xs={24} sm={11} md={7} className="index-btn create-wallet">
                   <img
@@ -106,11 +109,11 @@ export default function Index() {
       <div className="home-container">
         <Row className="index-footer">
           <Col>
-            <i class="ri-facebook-fill"></i>
-            <i class="ri-telegram-fill"></i>
-            <i class="ri-twitter-fill"></i>
-            <i class="ri-linkedin-fill"></i>
-            <i class="ri-medium-fill"></i>
+            <i className="ri-facebook-fill"></i>
+            <i className="ri-telegram-fill"></i>
+            <i className="ri-twitter-fill"></i>
+            <i className="ri-linkedin-fill"></i>
+            <i className="ri-medium-fill"></i>
           </Col>
           <Col>
             <p>2022 © Selendra, Blockchain</p>

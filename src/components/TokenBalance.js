@@ -2,6 +2,7 @@ import { Col, Row, Spin } from "antd";
 import { ethers } from "ethers";
 
 export default function TokenBalance({ image, TokenName, loading, balance }) {
+  const formatedBalance = formatBalance(balance);
   function formatBalance(value) {
     if (!value) return;
     return ethers.utils.formatUnits(value, 18);
@@ -26,7 +27,7 @@ export default function TokenBalance({ image, TokenName, loading, balance }) {
         <Spin spinning={loading} />
         {!loading && (
           <div className="profile__estimateValue">
-            <p>{formatBalance(balance) + " " + TokenName}</p>
+            <p>{(+formatedBalance).toFixed(5) + " " + TokenName}</p>
             {/* <p>≈ ${getPrice(balance)} USD</p> */}
           </div>
         )}

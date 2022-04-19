@@ -67,7 +67,7 @@ export const AccountProvider = ({ children }) => {
 
   async function connectSubstrate() {
     try {
-      const extension = await web3Enable("Selendra Park");
+      const extension = await web3Enable("Selendra Funan");
       if (extension.length === 0) {
         setHasSelWallet(false);
         return;
