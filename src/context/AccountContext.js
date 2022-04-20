@@ -72,7 +72,7 @@ export const AccountProvider = ({ children }) => {
         setHasSelWallet(false);
         return;
       } else {
-        const allAccounts = await web3Accounts();
+        const allAccounts = await web3Accounts({ss58Format: 204});
         const reArray = allAccounts.map((i) => {
           const newArr = {};
           newArr.name = i.meta.name;
@@ -80,6 +80,7 @@ export const AccountProvider = ({ children }) => {
           newArr.value = i.address;
           return newArr;
         });
+        console.log(allAccounts)
         setSubstrateAccount(reArray);
         setHasSelWallet(true);
       }

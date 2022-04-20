@@ -148,7 +148,7 @@ export default function Home() {
                 <Badge dot={true} color="green">
                   <Avatar
                     src={`https://avatars.dicebear.com/api/identicon/${
-                      substrateAccount.length > 0 && substrateAccount[0].label
+                      substrateAccount.length > 0 && substrateAccountActive
                     }.svg`}
                     size={64}
                     style={{ background: "#FFF" }}
@@ -158,7 +158,7 @@ export default function Home() {
               <Col sm={14}>
                 {substrateAccount.length !== 0 && (
                   <div>
-                    {substrateAccountActive ? (
+                    { substrateAccountActive ? (
                       <p>{shortenAddress(substrateAccountActive)}</p>
                     ) : (
                       <p>Please Select Your Selendra Account</p>
