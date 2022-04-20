@@ -1,8 +1,8 @@
+import { useContext } from "react";
 import { useTheme } from "next-themes";
 import { Row, Col, Button } from "antd";
-import { useContext } from "react";
-import { AccountContext } from "../context/AccountContext";
 import { useNavigate } from "react-router-dom";
+import { AccountContext } from "../context/AccountContext";
 
 export default function Index() {
   const { theme } = useTheme();
@@ -13,7 +13,6 @@ export default function Index() {
     connectSubstrate,
     connectMetamask
   } = useContext(AccountContext);
-  // console.log(account, substrateAccount)
 
   if(substrateAccount.length !== 0 || account) navigate('/home');
 

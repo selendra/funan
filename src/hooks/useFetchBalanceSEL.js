@@ -48,7 +48,7 @@ export function useFetchBalanceSEL(address, type, {testnet}) {
       return () => (isMounted = false);
     }
     getBalance();
-  }, [address, type]);
+  }, [address, testnet, type]);
 
   return [state];
 }

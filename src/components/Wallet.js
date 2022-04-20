@@ -5,7 +5,6 @@ import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 
 export default function Wallet({ account, type }) {
   const [state] = useFetchBalanceSEL(account, type, {testnet: true});
-  // console.log(state);
 
   return (
     <Card style={{ borderRadius: "8px", margin: "8px 0" }}>

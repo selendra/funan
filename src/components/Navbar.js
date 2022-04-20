@@ -29,7 +29,7 @@ export default function Navbar() {
       collapsible
       collapsed={false}
       onCollapse={() => {
-        console.log(1);
+        // console.log(1);
       }}
       trigger={null}
       theme="light"
@@ -67,7 +67,7 @@ export default function Navbar() {
                 </a>
               ) : (
                 <a
-                  href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
+                  href="https://addons.mozilla.org/en-US/firefox/addon/selendra-extension/"
                   target="_blank"
                   rel="noreferrer"
                 >
