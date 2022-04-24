@@ -16,7 +16,7 @@ import Receive from "./pages/wallet/receive";
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider enableSystem={false}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

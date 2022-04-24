@@ -1,29 +1,45 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useTheme } from "next-themes";
 import { Row, Col, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { AccountContext } from "../context/AccountContext";
+import RestoreWallet from "../components/RestoteWallet";
+import CreateWallet from "../components/CreateWallet";
 
 export default function Index() {
   const { theme } = useTheme();
   let navigate = useNavigate();
-  const {
-    account,
-    substrateAccount,
-    connectSubstrate,
-    connectMetamask
-  } = useContext(AccountContext);
+  const { account, substrateAccount } = useContext(AccountContext);
+  const [visible, setVisible] = useState(false);
+  const [createWalletVisible, setCreateWalletVisible] = useState(false);
 
-  if(substrateAccount.length !== 0 || account) navigate('/home');
+  const [restoreWallet, setRestoreWallet] = useState("keystore");
+
+  const onVisible = () => {
+    setVisible(!visible);
+  };
+  const handleCreateWalletVisible = () => {
+    setCreateWalletVisible(!createWalletVisible);
+  };
+
+  if (substrateAccount.length !== 0 || account) navigate("/home");
 
   return (
     <div className="vertical-layout">
+      <RestoreWallet visible={visible} setVisible={setVisible} />
+      <CreateWallet
+        createWalletVisible={createWalletVisible}
+        setCreateWalletVisible={setCreateWalletVisible}
+      />
+      <div className="modal-wallet">
+        <RestoreWallet />
+      </div>
       <div className="home-navbar">
         <div className="home-container">
           <img
             src="/images/logo-white.png"
             alt="selendra-logo-white"
-            height={60}
+            height={80}
             style={{ marginTop: "15px" }}
           />
 
@@ -36,17 +52,23 @@ export default function Index() {
 
           <div className="pos-relative">
             <div className="index-btn-section">
-              <Row gutter={[16, 40]}>
-                <Col xs={24} sm={11} md={10} lg={10} xl={7}>
-                  <Button className="index-btn con-wallet" onClick={connectMetamask}>
+              <Row gutter={[15, 15]}>
+                <Col xs={24} sm={12} md={12} lg={12} xl={9}>
+                  <Button
+                    className="index-btn con-wallet"
+                    onClick={handleCreateWalletVisible}
+                  >
                     <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
-                    Connect EVM
+                    Create Wallet
                   </Button>
                 </Col>
-                <Col xs={24} sm={11} md={10} lg={10} xl={7}>
-                  <Button className="index-btn con-wallet-sel" onClick={connectSubstrate}>
-                    <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
-                    Connect Selendra
+                <Col xs={24} sm={12} md={12} lg={12} xl={9}>
+                  <Button
+                    className="index-btn con-wallet-sel"
+                    onClick={onVisible}
+                  >
+                    <img src="/icons/bulk/key-white.svg" alt="" height="40px" />
+                    Restore Wallet
                   </Button>
                 </Col>
                 {/* <Col xs={24} sm={11} md={7} className="index-btn create-wallet">

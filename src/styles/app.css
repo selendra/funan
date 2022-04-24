@@ -590,13 +590,13 @@ input,
 */
 
 .index-btn {
-  height: 60px!important;
-  width: 100%!important;
-  padding: 0px 24px!important;
+  height: 60px !important;
+  width: 100% !important;
+  padding: 0px 24px !important;
   text-align: center;
-  border-radius: 50px!important;
+  border-radius: 50px !important;
   font-size: 18px;
-  font-weight: bold!important;
+  font-weight: bold !important;
   transition: 0.3s;
 }
 .index-btn:hover {
@@ -606,12 +606,18 @@ input,
   margin-right: 15px;
 }
 .con-wallet {
-  background-color: #03a9f4!important;
-  color: #fff!important;
+  background-color: #03a9f4 !important;
+  color: #fff !important;
+  border: 1px solid #03a9f4 !important;
+  height: 70px !important;
+  font-size: 18px !important;
 }
 .con-wallet-sel {
-  background-color: #ed1576!important;
-  color: #fff!important;
+  background-color: #ed1576 !important;
+  color: #fff !important;
+  border: 1px solid #ed1576 !important;
+  height: 70px !important;
+  font-size: 18px !important;
 }
 .create-wallet {
   background-color: #f0c90a;
@@ -621,12 +627,121 @@ input,
   background-color: #ed1576;
   color: #fff;
 }
+.modal-title-section {
+  font-size: 22px !important;
+  padding: 15px 0px !important;
+  color: #fff !important;
+  font-weight: bold;
+  text-align: center;
+}
+.ant-modal-header {
+  border-radius: 18px 18px 0px 0px !important;
+  background: #00a9f9 !important;
+  border-bottom: 1px solid #00a9f9 !important;
+}
+.ant-modal-content {
+  border-radius: 18px !important;
+}
+.modal-content {
+  padding: 10px 0px;
+}
+.modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.restore-wallet-card.active {
+  background-color: #e5f7ff;
+  border: 0px solid #00a9f9;
+  padding: 10px 20px;
+  margin: 15px;
+  border-radius: 18px;
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #e5f7ff;
+}
+
+.restore-wallet-card {
+  border: 0px solid #00a9f9;
+  padding: 10px 20px;
+  margin: 15px;
+  border-radius: 18px;
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #d3f1ff;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 20px;
+}
+.restore-wallet-card p {
+  color: #00a9f9 !important;
+  margin-top: 10px !important;
+}
+.btn-upload {
+  border: 2px solid #00a9f9;
+  padding: 10px;
+  border-radius: 50px;
+  text-align: center;
+  font-weight: 700;
+  color: #00a9f9;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.input-back input.ant-input {
+  background-color: #fff !important;
+  border: 0px solid #e5e5e5 !important;
+  border-radius: 8px !important;
+  color: #22272e !important;
+  height: 35px !important;
+}
+.input-back .ant-input-affix-wrapper {
+  border-radius: 12px !important;
+}
+.btn-wallet {
+  height: 50px !important;
+  border-radius: 50px !important;
+  padding: 0px 60px !important;
+}
+.access-btn {
+  background-color: #00a9f9;
+  display: inline-block;
+  padding: 15px 60px;
+  border-radius: 50px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 50px;
+}
+.restore-complete-section {
+  margin-top: 40px;
+}
+.restore-complete-section h3 {
+  font-size: 22px !important;
+  font-weight: bold;
+}
+.restore-complete-section p {
+  font-size: 18px;
+  margin-top: 15px !important;
+}
+.ant-modal-close-x {
+  width: 35px !important;
+  height: 35px !important;
+  line-height: 35px !important;
+  background: #ffffff7a;
+  border-radius: 50%;
+  position: relative;
+  top: 20px;
+  left: -20px;
+}
 .apps-section {
   font-size: 18px;
   text-align: center;
   margin-top: 60px !important;
   width: 70%;
   margin: 0px auto;
+}
+.restore-wallet-section {
+  min-height: 250px;
 }
 .vertical-layout .apps-section {
   -webkit-box-flex: 1 !important;
@@ -641,7 +756,6 @@ input,
 }
 .apps-btn {
   padding: 15px 0;
-
   text-align: center;
   border-radius: 50px;
   font-size: 18px;
@@ -822,13 +936,13 @@ input,
 }
 .add-mainnet {
   height: 55px;
-  color: #fff!important;
-  background-color: #03a9f4!important;
-  font-weight: bold!important;
-  border: none!important;
-  border-radius: 50px!important;
-  padding: 0 24px!important;
-  margin-right: 20px!important;
+  color: #fff !important;
+  background-color: #03a9f4 !important;
+  font-weight: bold !important;
+  border: none !important;
+  border-radius: 50px !important;
+  padding: 0 24px !important;
+  margin-right: 20px !important;
 }
 .add-testnet {
   background-color: var(--foreground);
@@ -1058,47 +1172,47 @@ input,
 
 .send-modal .ant-modal-content {
   background-color: var(--background);
-  border-radius: 8px!important;
+  border-radius: 8px !important;
 }
 .send-modal-title {
   color: var(--text-color);
 }
 .send-cancel {
   width: 100%;
-  height: 40px!important;
-  color: red!important;
-  border-color: red!important;
-  border-radius: 18px!important;
+  height: 40px !important;
+  color: red !important;
+  border-color: red !important;
+  border-radius: 18px !important;
 }
 .send-cancel:hover {
-  color: #FFF!important;
-  background-color: red!important;
+  color: #fff !important;
+  background-color: red !important;
 }
 .send-transfer {
   width: 100%;
-  height: 40px!important;
-  color: #FFF!important;
-  background-color: #03a9f4!important;
-  border: none!important;
-  border-radius: 18px!important;
+  height: 40px !important;
+  color: #fff !important;
+  background-color: #03a9f4 !important;
+  border: none !important;
+  border-radius: 18px !important;
 }
 .receive-address {
   font-size: 16px;
   font-weight: 500;
-  text-overflow: ellipsis;   /* IE, Safari (WebKit) */
-  overflow:hidden;              /* don't show excess chars */
-  white-space:nowrap;   
+  text-overflow: ellipsis; /* IE, Safari (WebKit) */
+  overflow: hidden; /* don't show excess chars */
+  white-space: nowrap;
 }
 .modal-select-account .ant-modal-content {
   background-color: var(--background);
-  border-radius: 8px!important;
+  border-radius: 8px !important;
 }
 .modal-select-account-item {
-  width: 100%!important;
-  height: 50px!important;
-  line-height: 50px!important;
-  border-radius: 16px!important;
-  background-color: transparent!important;
-  margin: 8px 0!important;
-  border-width: 2px!important;
+  width: 100% !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  border-radius: 16px !important;
+  background-color: transparent !important;
+  margin: 8px 0 !important;
+  border-width: 2px !important;
 }
