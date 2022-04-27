@@ -1,20 +1,25 @@
-import { useContext, useState } from "react";
-import { Button, Modal, Input, Form, Checkbox } from "antd";
-import { useNavigate } from "react-router-dom";
-import { AccountContext } from "../context/AccountContext";
+import { useState } from "react";
+import { Button, Modal, Input, Form, message } from "antd";
 import Mnemonic from "./RestoreWallet/mnemonic";
 import PrivateKey from "./RestoreWallet/private-key";
+import keyring from "@polkadot/ui-keyring";
 
 export default function RestoreWallet({ visible, setVisible }) {
-  let navigate = useNavigate();
-  const { account, substrateAccount } = useContext(AccountContext);
-
   const [restoreWallet, setRestoreWallet] = useState("keystore");
   const [unlockWallet, setUnlockWallet] = useState(true);
   const [password, setPassword] = useState(false);
   const [completed, setCompleted] = useState(false);
 
-  if (substrateAccount.length !== 0 || account) navigate("/home");
+  const [files, setFiles] = useState();
+
+  const handleFileChosen = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0]);
+    fileReader.onload = e => {
+      console.log("e.target.result", e.target.result);
+      setFiles(e.target.result);
+    };
+  }
 
   const handleRestoreWallet = (value) => {
     setRestoreWallet(value);
@@ -36,21 +41,43 @@ export default function RestoreWallet({ visible, setVisible }) {
     setCompleted(false);
   };
 
+  async function handleRestore(val) {
+    try {
+      const json = JSON.parse(files);
+      const pair = keyring.restoreAccount(json, val.password);
+      message.success('Done!');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // const MnemonicSteps = [{ component: <StepOne /> }];
 
   // === >>> Keystore <<< ===
   function Keystore() {
     return (
       <div className="restore-wallet-section">
-        <div className="btn-upload">Upload keystore file</div>
+        <label className="btn-upload" for="upload">{files ? JSON.parse(files).address : 'Upload keystore file'}</label>
+        <input
+          id="upload"
+          type="file"
+          label="JSON File"
+          accept=".json"
+          onChange={handleFileChosen}
+          hidden
+        />
         <Form
           name="basic"
           layout="vertical"
           size="large"
           className="input-back"
+          onFinish={handleRestore}
         >
-          <Form.Item label="Enter your wallet password" name="username">
+          <Form.Item label="Enter your wallet password" name="password">
             <Input.Password />
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit" className="restore-btn">Restore</Button>
           </Form.Item>
         </Form>
       </div>

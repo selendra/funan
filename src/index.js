@@ -10,6 +10,7 @@ import { ConfigProvider } from "antd";
 import "remixicon/fonts/remixicon.css";
 import { TokenProvider } from "./context/TokenContext";
 import { AccountProvider } from "./context/AccountContext";
+import { SubstrateContextProvider } from "./context/SubstrateContext";
 
 ConfigProvider.config({
   theme: {
@@ -18,12 +19,14 @@ ConfigProvider.config({
 });
 
 render(
-  <AccountProvider>
-    <TokenProvider>
-      <div className="body-backgrond">
-        <App />
-      </div>
-    </TokenProvider>
-  </AccountProvider>,
+  <SubstrateContextProvider>
+    <AccountProvider>
+      <TokenProvider>
+        <div className="body-backgrond">
+          <App />
+        </div>
+      </TokenProvider>
+    </AccountProvider>
+  </SubstrateContextProvider>,
   document.getElementById("root")
 );

@@ -89,10 +89,10 @@ export const AccountProvider = ({ children }) => {
     }
   }
   
-  useEffect(() => {
-    connectSubstrate();
-    isTrust ? connectTrust() : connectMetamask();
-  }, [isTrust, hasEVMWallet]);
+  // useEffect(() => {
+  //   connectSubstrate();
+  //   isTrust ? connectTrust() : connectMetamask();
+  // }, [isTrust, hasEVMWallet]);
 
   return (
     <AccountContext.Provider

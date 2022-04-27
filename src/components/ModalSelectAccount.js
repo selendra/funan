@@ -1,23 +1,18 @@
-import { useContext, useState } from "react";
 import { Modal, Radio } from "antd";
-import { AccountContext } from "../context/AccountContext";
 
-export default function ModalSelectAccount({accounts, visible, setVisible}) {
-  const [currentActive, setCurrentActive] = 
-    useState(localStorage.getItem("park-substrate-active-account") || "");
-  const { setSubstrateAccountActive } = useContext(AccountContext);
+export default function ModalSelectAccount({
+  accounts, 
+  visible, 
+  setVisible,
+  keyring,
+  currentAccount,
+  setCurrentAccount
+}) {
+  const address = (addr) => addr ? addr.address : '';
 
   function handleChange(e) {
-    // const obj = {
-    //   "name": e.target.value.name,
-    //   "label": e.target.value.value,
-    //   "value": e.target.value.value
-    // };
-
     const { value } = e.target;
-    localStorage.setItem("park-substrate-active-account", value);
-    setSubstrateAccountActive(value);
-    setCurrentActive(value);
+    setCurrentAccount(keyring.getPair(value));
     setVisible(false);
   }
 
@@ -41,7 +36,7 @@ export default function ModalSelectAccount({accounts, visible, setVisible}) {
     >
       <center>
         <h2>Choose Account</h2>
-        <Radio.Group value={currentActive} onChange={handleChange}>
+        <Radio.Group value={address(currentAccount)} onChange={handleChange}>
           { accounts.map((i, key) => 
             <div style={{margin: '8px 0'}} key={key}>
               <Radio.Button value={i.value} className='modal-select-account-item'>{i.value}</Radio.Button>

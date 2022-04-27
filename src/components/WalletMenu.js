@@ -4,15 +4,18 @@ import { FormatBalance } from "../utils";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountContext";
+import { useSubstrateState } from "../context/SubstrateContext";
+
+const address = (addr) => addr ? addr.address : '';
 
 export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
-  const { substrateAccountActive } = useContext(AccountContext);
-  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection", {testnet: true});
+  const { currentAccount } = useSubstrateState();
+  const [ state ] = useFetchBalanceSEL(address(currentAccount), "Injection", { testnet: true });
 
   return (
     <div>
-      <h2>Account: {substrateAccountActive ? substrateAccountActive : 'Please Select Your Selendra Account'}</h2>
+      <h2>Account: {address(currentAccount) ? address(currentAccount) : 'Please Select Your Selendra Account'}</h2>
       <div className="wallet-background-card">
         <Row gutter={[12, 12]} align="middle">
           <Col xs={24} sm={24} xl={10}>

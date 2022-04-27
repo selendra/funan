@@ -13,8 +13,33 @@ import About from "./pages/about";
 import Wallet from "./pages/wallet";
 import Send from "./pages/wallet/send";
 import Receive from "./pages/wallet/receive";
+import { useSubstrateState } from "./context/SubstrateContext";
+import { Spin } from "antd";
 
 export default function App() {
+  const { apiState, apiError, keyringState } = useSubstrateState()
+
+  if (apiState !== 'READY') {
+    return (
+      <div className="connecting-node">
+        <center>
+          <Spin />
+          <h3>Connecting to our node...</h3>
+        </center>
+      </div>
+    )
+  }
+  if (keyringState !== 'READY') {
+    return (
+      <div className="connecting-node">
+        <center>
+          <Spin />
+          <h3>Loading accounts...</h3>
+        </center>
+      </div>
+    )
+  }
+
   return (
     <ThemeProvider enableSystem={false}>
       <BrowserRouter>

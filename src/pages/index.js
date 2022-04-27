@@ -1,15 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useTheme } from "next-themes";
 import { Row, Col, Button } from "antd";
-import { useNavigate } from "react-router-dom";
-import { AccountContext } from "../context/AccountContext";
-import RestoreWallet from "../components/RestoteWallet";
+import RestoreWallet from "../components/RestoreWallet";
 import CreateWallet from "../components/CreateWallet";
 
 export default function Index() {
   const { theme } = useTheme();
-  let navigate = useNavigate();
-  const { account, substrateAccount } = useContext(AccountContext);
   const [visible, setVisible] = useState(false);
   const [createWalletVisible, setCreateWalletVisible] = useState(false);
 
@@ -21,8 +17,6 @@ export default function Index() {
   const handleCreateWalletVisible = () => {
     setCreateWalletVisible(!createWalletVisible);
   };
-
-  if (substrateAccount.length !== 0 || account) navigate("/home");
 
   return (
     <div className="vertical-layout">
