@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Drawer, Row, Col } from "antd";
+import { Layout, Drawer } from "antd";
 import menu from "../assets/menu.svg";
 import menuWhite from "../assets/menu-white.svg";
 import logo from "../assets/logo.png";
 import logoWhite from "../assets/logo-white.png";
 import { useTheme } from "next-themes";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import MenuList from "./MenuList";
 export default function LayoutComponent({ children }) {
   const { theme } = useTheme();

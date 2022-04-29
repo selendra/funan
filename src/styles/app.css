@@ -186,6 +186,12 @@ input,
   color: var(--text-color) !important;
 }
 
+.home-create-wallet {
+  cursor: pointer;
+}
+.home-create-wallet:hover {
+  opacity: 0.8;
+}
 .home-create-wallet img {
   background-color: #fff8d6;
   padding: 10px;
@@ -201,6 +207,12 @@ input,
   color: #f0c90a !important;
 }
 
+.home-restore-wallet {
+  cursor: pointer;
+}
+.home-restore-wallet:hover {
+  opacity: 0.8;
+}
 .home-restore-wallet img {
   background-color: #ffe1ee;
   padding: 10px;
@@ -720,6 +732,7 @@ input,
   color: #fff;
   font-weight: bold;
   margin-top: 50px;
+  cursor: pointer;
 }
 .restore-complete-section {
   margin-top: 40px;
@@ -1180,7 +1193,7 @@ input,
 }
 
 .send-modal .ant-modal-content {
-  background-color: var(--background);
+  background-color: var(--foreground);
   border-radius: 8px !important;
 }
 .send-modal-title {

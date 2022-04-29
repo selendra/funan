@@ -27,7 +27,7 @@ export function useFetchBalanceSEL(address, type, {testnet}) {
         const api = await ApiPromise.create({ provider });
         // Retrieve the initial balance. Since the call has no callback, it is simply a promise
         // that resolves to the current on-chain value
-        let { data: { free: FreeBalance }, nonce: previousNonce } = 
+        let { data: { free: FreeBalance } } = 
           await api.query.system.account(address);
         if(isMounted) {
           setState({

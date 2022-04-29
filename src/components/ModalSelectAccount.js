@@ -16,15 +16,6 @@ export default function ModalSelectAccount({
     setVisible(false);
   }
 
-  const styling = {
-    width: '100%',
-    height: '50px',
-    lineHeight: '50px',
-    margin: '8px 0',
-    borderRadius: '16px'
-    // padding: '10px'
-  }
-
   return (
     <Modal
       title={false}

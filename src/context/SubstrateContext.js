@@ -3,6 +3,8 @@ import { ApiPromise, WsProvider } from "@polkadot/api"
 import { keyring as Keyring } from "@polkadot/ui-keyring"
 import { selendra } from "../constants/node"
 
+const Connected = localStorage.getItem('current-account');
+
 const initialState = {
   // These are the states
   socket: selendra.testnet,
@@ -61,8 +63,8 @@ const connect = (state, dispatch) => {
 
 // Loading accounts from browser
 const loadAccounts = (state, dispatch) => {
-  dispatch({ type: 'LOAD_KEYRING' })
-
+  dispatch({ type: 'LOAD_KEYRING' });
+  
   const asyncLoadAccounts = async () => {
     try {
       // since we don't use extension :)
@@ -75,9 +77,14 @@ const loadAccounts = (state, dispatch) => {
       // }))
 
       // Keyring.
-      Keyring.loadAll({ ss58Format: 204, type: 'sr25519' })
+      Keyring.loadAll({ ss58Format: 204, type: 'sr25519' });
+      // console.log('data', Keyring);
+      dispatch({ type: 'SET_KEYRING', payload: Keyring });
 
-      dispatch({ type: 'SET_KEYRING', payload: Keyring })
+      // get current active acc
+      if(Connected) {
+        dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: getKeypair(Connected) })
+      }
     } catch (e) {
       console.error(e)
       dispatch({ type: 'KEYRING_ERROR' })
@@ -86,12 +93,21 @@ const loadAccounts = (state, dispatch) => {
   asyncLoadAccounts()
 }
 
+function getKeypair(addr) {
+  try {
+    return Keyring.getPair(addr);
+  } catch (error) {
+    // if acc removed return null
+    return null;
+  }
+}
+
 let keyringLoadAll = false;
 
 const SubstrateContext = React.createContext();
 const SubstrateContextProvider = ({children}) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
-  connect(state, dispatch)
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  connect(state, dispatch);
 
   React.useEffect(() => {
     const { apiState, keyringState } = state

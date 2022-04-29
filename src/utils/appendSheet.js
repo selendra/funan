@@ -22,7 +22,7 @@ export async function appendSpreadsheet(
     await doc.loadInfo();
 
     const sheet = doc.sheetsById[SHEET_ID];
-    const result = await sheet.addRow({
+    await sheet.addRow({
       SelendraAddress: SelendraAddress,
       Amount: Amount,
       AmountSEL: AmountSEL,

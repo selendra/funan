@@ -1,7 +1,19 @@
 import React from "react";
-import { Checkbox, Form, Input } from "antd";
+import { Alert, Checkbox, Form, Input } from "antd";
 
-export default function SetPassword({ form, setForm }) {
+export default function SetPassword({ form, setForm, error, setError }) {
+  React.useEffect(() => {
+    if(!form.username) return setError('Please input username!');
+    if(!form.password) return setError('Please input password!');
+    if(form.password !== form.password_con) return setError('Password not match!');
+    else return setError('');
+  },[
+    form.username,
+    form.password,
+    form.password_con,
+    setError
+  ]);
+
   return (
     <>
       <div className="restore-wallet-section">
@@ -10,13 +22,13 @@ export default function SetPassword({ form, setForm }) {
           name="basic"
           layout="vertical"
           size="large"
-          
         >
           <Form.Item className="input-username" label="Set a username">
             <Input 
               onChange={e => setForm({
                 username: e.target.value,
-                password: form.password
+                password: form.password,
+                password_con: form.password_con
               })}
             />
           </Form.Item>
@@ -24,7 +36,8 @@ export default function SetPassword({ form, setForm }) {
             <Input.Password 
               onChange={e => setForm({
                 username: form.username,
-                password: e.target.value
+                password: e.target.value,
+                password_con: form.password_con
               })}
             />
             <p>
@@ -33,9 +46,17 @@ export default function SetPassword({ form, setForm }) {
             </p>
           </Form.Item>
           <Form.Item className="input-back" label="Re-enter password" name="username">
-            <Input.Password />
+            <Input.Password 
+              onChange={e => setForm({
+                username: form.username,
+                password: form.password,
+                password_con: e.target.value
+              })}
+            />
           </Form.Item>
-
+          { error &&
+            <Alert message={error} type="error" style={{borderRadius: '8px'}} showIcon />
+          }
           <Form.Item name="remember" valuePropName="checked">
             <Checkbox>
               I understand that I will need this password to verify all

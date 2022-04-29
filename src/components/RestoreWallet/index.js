@@ -1,25 +1,18 @@
 import { useState } from "react";
 import { Button, Modal, Input, Form, message } from "antd";
-import Mnemonic from "./RestoreWallet/mnemonic";
-import PrivateKey from "./RestoreWallet/private-key";
+import { useNavigate } from "react-router-dom";
 import keyring from "@polkadot/ui-keyring";
+import Mnemonic from "./mnemonic";
+import PrivateKey from "./private-key";
+import { isValidSubstratePassword } from "../../utils";
 
 export default function RestoreWallet({ visible, setVisible }) {
+  const navigate = useNavigate();
   const [restoreWallet, setRestoreWallet] = useState("keystore");
   const [unlockWallet, setUnlockWallet] = useState(true);
   const [password, setPassword] = useState(false);
   const [completed, setCompleted] = useState(false);
-
   const [files, setFiles] = useState();
-
-  const handleFileChosen = (e) => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0]);
-    fileReader.onload = e => {
-      console.log("e.target.result", e.target.result);
-      setFiles(e.target.result);
-    };
-  }
 
   const handleRestoreWallet = (value) => {
     setRestoreWallet(value);
@@ -41,16 +34,29 @@ export default function RestoreWallet({ visible, setVisible }) {
     setCompleted(false);
   };
 
+
+  const handleFileChosen = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0]);
+    fileReader.onload = e => {
+      setFiles(e.target.result);
+    };
+  }
+
   async function handleRestore(val) {
+    if(!isValidSubstratePassword(val.password))
+      return message.error('Incorrect password!');
     try {
       const json = JSON.parse(files);
       const pair = keyring.restoreAccount(json, val.password);
       message.success('Done!');
+      setVisible(false);
+      navigate('/home');
     } catch (error) {
+      message.error('something went wrong!');
       console.log(error);
     }
   }
-
   // const MnemonicSteps = [{ component: <StepOne /> }];
 
   // === >>> Keystore <<< ===
@@ -145,6 +151,7 @@ export default function RestoreWallet({ visible, setVisible }) {
             password={password}
             handleCompleted={handleCompleted}
             completed={completed}
+            setVisible={setVisible}
           />
         ) : (
           <PrivateKey

@@ -9,16 +9,19 @@ import { appendSpreadsheet } from "../utils/appendSheet";
 import { isvalidSubstrateAddress, ErrorHandling, getTokenName, FormatBalance } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { TokenContext } from "../context/TokenContext";
+import { useSubstrateState } from '../context/SubstrateContext';
 import down from "../assets/icons/down.svg";
 import abi from "../abis/token-sale.json";
 import LayoutComponent from "../components/Layout";
 import SelectToken from "../components/SelectToken";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 
+const address = acct => (acct ? acct.address : '');
+
 export default function Buy() {
   // === >>>  Context Section <<< ===
-  const { isTrust, substrateAccount, connectSubstrate } =
-    useContext(AccountContext);
+  const { isTrust } = useContext(AccountContext);
+  const { keyring, currentAccount } = useSubstrateState();
   const { selectedToken } = useContext(TokenContext);
 
   // === >>> State Section <<< ===
@@ -34,6 +37,13 @@ export default function Buy() {
 
   // === >>> Varible Section <<< ===
   const bnb = "0x0000000000000000000000000000000000000000";
+  // Get the list of accounts
+  const keyringOptions = keyring.getPairs().map(account => ({
+    key: account.address,
+    value: account.address,
+    text: account.meta.name.toUpperCase(),
+    icon: 'user',
+  }))
 
   // === >>> useEffect Section <<< ===
   useEffect(() => {
@@ -61,7 +71,7 @@ export default function Buy() {
   // === >>> Function Section <<< ===
 
   function connectSelendra() {
-    connectSubstrate();
+    // connectSubstrate();
     // setModal(errorExtension);
   }
 
@@ -289,14 +299,14 @@ export default function Buy() {
               <div style={{ marginTop: "8px" }} />
               <SelectToken />
             </Form.Item>
-            {substrateAccount.length !== 0 && (
+            {keyringOptions.length > 0 && (
               <Form.Item label="Selendra Address">
                 <Row gutter={[8, 8]} align="middle">
                   <Col span={24}>
                     <Select
                       className="buy__inputSelect"
                       placeholder="Enter Selendra Address"
-                      options={substrateAccount}
+                      options={keyringOptions}
                       onChange={onChangeHandler}
                       style={{ width: "100%" }}
                     />
@@ -324,9 +334,9 @@ export default function Buy() {
             ) : (
               ""
             )}
-            {substrateAccount.length === 0 ? (
-              <Button className="buy__button" onClick={connectSelendra}>
-                Connect Selendra
+            {keyringOptions.length === 0 ? (
+              <Button className="buy__button">
+                Look like you don't have Selendra account!
               </Button>
             ) : (
               <Form.Item>

@@ -1,23 +1,25 @@
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { web3FromAddress } from '@polkadot/extension-dapp';
 import { Button, Col, Form, Input, message, Modal, Row } from 'antd';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import LayoutComponent from '../../components/Layout';
 import WalletMenu from '../../components/WalletMenu';
-import { AccountContext } from '../../context/AccountContext';
+import { useSubstrateState } from '../../context/SubstrateContext';
 import { useFetchBalanceSEL } from '../../hooks/useFetchBalanceSEL';
 import { FormatBalance, isvalidSubstrateAddress } from '../../utils';
 
+const address = (addr) => addr ? addr.address : '';
+
 export default function Send() {
-  const { substrateAccountActive } = useContext(AccountContext);
-  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection", {testnet: true});
+  const { currentAccount, api } = useSubstrateState();
+  const [state] = useFetchBalanceSEL(address(currentAccount), "Injection", {testnet: true});
   const [amount, setAmount] = useState('');
   const [destination, setDestination] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
 
   function balanceNotEnough(value) {
     if(Number(FormatBalance(state.freeBalance)) < Number(value)) {
+      console.log(Number(FormatBalance(state.freeBalance)), Number(value));
       return true;
     } else {
       return false;
@@ -38,30 +40,28 @@ export default function Send() {
     try {
       setModal(false);
       setLoading(true);
-      const SENDER = substrateAccountActive;
-      // finds an injector for an address
-      const injector = await web3FromAddress(SENDER);
-
-      const provider = new WsProvider('wss://rpc1-testnet.selendra.org');
-      const api = await ApiPromise.create({ provider });
 
       // eslint-disable-next-line no-undef
       const parsedAmount = BigInt(amount * Math.pow(10, 18));
 
-      await api.tx.balances
-        .transfer(destination, parsedAmount.toString())
+      const trx = await api.tx.balances
+        .transfer(destination, parsedAmount.toString());
+      // decrypt pair
+      currentAccount.decodePkcs8(password);
+      const hash = await trx
         .signAndSend(
-          SENDER, 
-          { signer: injector.signer }, 
+          currentAccount, 
           (status) => { 
-            // console.log(status.toHuman()) 
             if(status.toHuman().status?.Finalized) {
               message.success('Transaction Completed!');
               setLoading(false);
             }
           }
         );
+      console.log('Transaction sent with hash: ', hash);
     } catch (error) {
+      console.log(error);
+      message.error('Something went wrong!');
       setLoading(false);
     }
   }
@@ -104,6 +104,15 @@ export default function Send() {
           bodyStyle={{borderRadius: '8px'}}
         >
           <h2 className='send-modal-title'>Do you want to send transaction?</h2>
+          <div style={{padding: '16px 0'}} />
+          <label style={{display: 'block', paddingBottom: '8px'}}>Password:</label>
+          <Input 
+            className="buy__input" 
+            placeholder='Enter Password'
+            type='password'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
           <div style={{padding: '16px 0'}} />
           <Row gutter={[16, 16]} justify='end'>
             <Col span={6}>

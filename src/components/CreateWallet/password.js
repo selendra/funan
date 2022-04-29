@@ -3,8 +3,10 @@ import { Alert, Button, Checkbox, Col, Form, Input, message, Row, Steps } from "
 import { mnemonicGenerate } from "@polkadot/util-crypto";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import keyring from "@polkadot/ui-keyring";
+import { useNavigate } from "react-router-dom";
 
-export default function CreatePassword() {
+export default function CreatePassword({setCreateWalletVisible}) {
+  const navigate = useNavigate();
   const [current, setCurrent] = React.useState(0);
   const [random, setRandom] = React.useState();
   const [verify, setVerify] = React.useState('');
@@ -59,8 +61,12 @@ export default function CreatePassword() {
       link.href = href;
       link.download = `${json.address}.json`;
       link.click();
+      message.success('Done!');
+      setCreateWalletVisible(false);
+      navigate('/home');
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      message.error('Something went wrong!');
     }
   }
 

@@ -9,6 +9,8 @@ import ModalSelectAccount from './ModalSelectAccount';
 import ButtonConnect from './ButtonConnect';
 import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
 import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
+import CreateWallet from './CreateWallet';
+import RestoreWallet from "./RestoreWallet";
 
 const EditIcon = (props) => <Icon component={Edit} {...props} />;
 const CopyIcon = (props) => <Icon component={Copy} {...props} />;
@@ -17,6 +19,8 @@ const address = (addr) => addr ? addr.address : '';
 
 export default function AccountSelector({ keyringOptions }) {
   const [modal, setModal] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+  const [createWalletVisible, setCreateWalletVisible] = React.useState(false);
   const {
     setCurrentAccount,
     state: { keyring, currentAccount },
@@ -35,6 +39,11 @@ export default function AccountSelector({ keyringOptions }) {
 
   return (
     <div>
+      <RestoreWallet visible={visible} setVisible={setVisible} />
+      <CreateWallet
+        createWalletVisible={createWalletVisible}
+        setCreateWalletVisible={setCreateWalletVisible}
+      />
       <ModalSelectAccount
         accounts={keyringOptions}
         keyring={keyring}
@@ -57,14 +66,14 @@ export default function AccountSelector({ keyringOptions }) {
             </Col>
             <Col xs={12} sm={6}>
             </Col>
-            <Col span={6}>
+            <Col span={6} onClick={() => setCreateWalletVisible(true)}>
               <ButtonConnect
                 className="home-create-wallet"
                 icon="wallet-add-1-yellow.svg"
                 title="Create Wallet"
               />
             </Col>
-            <Col span={6}>
+            <Col span={6} onClick={() => setVisible(true)}>
               <ButtonConnect
                 className="home-restore-wallet"
                 icon="key-pink.svg"

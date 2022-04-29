@@ -1,6 +1,6 @@
-import { Button } from "antd";
-import { Link } from "react-router-dom";
-import notfound from "../assets/404.svg";
+// import { Button } from "antd";
+// import { Link } from "react-router-dom";
+// import notfound from "../assets/404.svg";
 import LayoutComponent from "../components/Layout";
 
 export default function NotFound() {

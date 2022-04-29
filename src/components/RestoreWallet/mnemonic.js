@@ -4,6 +4,7 @@ import SetPassword from "./setPassword";
 import CompleteStep from "./complete";
 import keyring from "@polkadot/ui-keyring";
 import { mnemonicValidate } from "@polkadot/util-crypto";
+import { useNavigate } from "react-router-dom";
 
 export default function Mnemonic({
   handleUnlockWallet,
@@ -12,18 +13,22 @@ export default function Mnemonic({
   handlePassword,
   completed,
   handleCompleted,
+  setVisible
 }) {
+  const navigate = useNavigate();
   const [ mnemonic, setMnemonic ] = React.useState('');
+  const [error, setError]= React.useState('');
   const [form, setForm] = React.useState({
     username: '',
-    password: ''
+    password: '',
+    password_con: ''
   });
 
   function validateMnemonic(str) {
     return mnemonicValidate(str);
   }
 
-  function handleRestoreMnemonic(val) {
+  function handleRestoreMnemonic() {
     try {
       const { pair, json } = keyring.addUri(
         mnemonic,
@@ -39,6 +44,9 @@ export default function Mnemonic({
       link.href = href;
       link.download = `${json.address}.json`;
       link.click();
+      message.success('Done!');
+      setVisible(false);
+      navigate('/home');
     } catch (error) {
       message.error('something went wrong!');
     }
@@ -67,7 +75,7 @@ export default function Mnemonic({
         </Form>
       )}
 
-      {password && <SetPassword form={form} setForm={setForm} />}
+      {password && <SetPassword form={form} setForm={setForm} error={error} setError={setError} />}
       {completed && <CompleteStep handleRestore={handleRestoreMnemonic} />}
 
       {!completed && (
@@ -82,7 +90,7 @@ export default function Mnemonic({
                 ? handlePassword
                 : handleCompleted
             }
-            disabled={validateMnemonic(mnemonic) ? false : true}
+            disabled={(validateMnemonic(mnemonic) && !error) ? false : true}
           >
             Unlock Wallet
           </Button>

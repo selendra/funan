@@ -15,7 +15,7 @@ export default function CreateWallet({
         footer={null}
         width={600}
       >
-        <CreatePassword />
+        <CreatePassword setCreateWalletVisible={setCreateWalletVisible} />
       </Modal>
     </>
   );

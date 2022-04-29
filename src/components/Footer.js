@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 import { useTheme } from "next-themes";
 import React from "react";
 import logo from "../assets/logo.png";

@@ -15,9 +15,9 @@ import AccountSelector from "../components/AccountSelector";
 import { useSubstrate } from "../context/SubstrateContext";
 
 export default function Home() {
+  const { account } = useContext(AccountContext);
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { account } = useContext(AccountContext);
   const {
     state: { keyring }
   } = useSubstrate();
@@ -91,7 +91,7 @@ export default function Home() {
         }
         {keyringOptions.length > 0 &&
           keyringOptions.map((account, key) => (
-            <Wallet key={key} account={account.value} type="Injection" />
+            <Wallet key={key} account={account.value} type="Selendra" />
           ))}
       </div>
 

@@ -1,12 +1,10 @@
-import { Button, message, Row } from 'antd';
-import { QRCode } from 'react-qrcode-logo'
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import LayoutComponent from '../../components/Layout'
-import WalletMenu from '../../components/WalletMenu'
-import { ReactComponent as Copy } from "../../../public/icons/bulk/copy.svg";
 import Icon from "@ant-design/icons";
-import { useContext } from 'react';
-import { AccountContext } from '../../context/AccountContext';
+import { Button, message, Row } from 'antd';
+import { QRCode } from "react-qrcode-logo";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import LayoutComponent from "../../components/Layout";
+import WalletMenu from "../../components/WalletMenu";
+import { ReactComponent as Copy } from "../../../public/icons/bulk/copy.svg";
 import { useSubstrateState } from '../../context/SubstrateContext';
 
 const CopyIcon = (props) => <Icon component={Copy} {...props} />;

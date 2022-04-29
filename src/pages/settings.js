@@ -1,6 +1,6 @@
 import React from "react";
 import LayoutComponent from "../components/Layout";
-import { Form, Input, Button, Checkbox, Row, Col, Select, Switch } from "antd";
+import { Form, Button, Row, Col, Select, Switch } from "antd";
 import { useTheme } from "next-themes";
 import { useAddSELToken } from "../hooks/useAddSELToken";
 
@@ -130,11 +130,11 @@ export default function Settings() {
         <h2>Links</h2>
         <div className="sel-card">
           <div className="setting__padding">
-            <a href="#">
+            <a href="/setting">
               <p>How to use Selendra fWallet </p>
             </a>
             <br />
-            <a href="#">
+            <a href="/setting">
               <p>Selendra Explorer </p>
             </a>
 

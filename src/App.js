@@ -1,11 +1,11 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/app.css";
 import Auction from "./pages/auction";
 import Connect from "./pages/connect";
 import Home from "./pages/home";
-import Exchange from "./pages/exchange";
+// import Exchange from "./pages/exchange";
 import NotFound from "./pages/notfound";
-import Bridge from "./pages/bridge";
+// import Bridge from "./pages/bridge";
 import Index from "./pages";
 import Settings from "./pages/settings";
 import { ThemeProvider } from "next-themes";
@@ -14,7 +14,7 @@ import Wallet from "./pages/wallet";
 import Send from "./pages/wallet/send";
 import Receive from "./pages/wallet/receive";
 import { useSubstrateState } from "./context/SubstrateContext";
-import { Spin } from "antd";
+import { Alert, Spin } from "antd";
 
 export default function App() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -35,6 +35,15 @@ export default function App() {
         <center>
           <Spin />
           <h3>Loading accounts...</h3>
+        </center>
+      </div>
+    )
+  }
+  if(apiError === 'ERROR') {
+    return (
+      <div className="connecting-node">
+        <center>
+          <Alert message="Connecting to node failed!" type="error" />
         </center>
       </div>
     )

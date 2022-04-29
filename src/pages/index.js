@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Row, Col, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useSubstrateState } from "../context/SubstrateContext";
 import RestoreWallet from "../components/RestoreWallet";
 import CreateWallet from "../components/CreateWallet";
 
 export default function Index() {
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  const { keyring } = useSubstrateState();
   const [visible, setVisible] = useState(false);
   const [createWalletVisible, setCreateWalletVisible] = useState(false);
 
-  const [restoreWallet, setRestoreWallet] = useState("keystore");
+  // const [restoreWallet, setRestoreWallet] = useState("keystore");
 
   const onVisible = () => {
     setVisible(!visible);
@@ -18,6 +22,18 @@ export default function Index() {
     setCreateWalletVisible(!createWalletVisible);
   };
 
+  useEffect(() => {
+    // Get the list of accounts we possess the private key for
+    const keyringOptions = keyring.getPairs().map(account => ({
+      key: account.address,
+      value: account.address,
+      text: account.meta.name.toUpperCase(),
+      icon: 'user',
+    }))
+
+    if(keyringOptions.length > 0) navigate('/home');
+  },[keyring, navigate]);
+   
   return (
     <div className="vertical-layout">
       <RestoreWallet visible={visible} setVisible={setVisible} />
@@ -25,9 +41,9 @@ export default function Index() {
         createWalletVisible={createWalletVisible}
         setCreateWalletVisible={setCreateWalletVisible}
       />
-      <div className="modal-wallet">
+      {/* <div className="modal-wallet">
         <RestoreWallet />
-      </div>
+      </div> */}
       <div className="home-navbar">
         <div className="home-container">
           <img
