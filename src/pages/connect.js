@@ -1,12 +1,21 @@
-import { Button, Card, Col, Row } from "antd";
-import { useContext } from "react";
+import { Button, Card, Col, message, Row } from "antd";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import metamask from "../assets/metamask.png";
 import trustwallet from "../assets/trustwallet.png";
 import LayoutComponent from "../components/Layout";
 import { AccountContext } from "../context/AccountContext";
 
 export default function Connect() {
-  const { connectMetamask, connectTrust } = useContext(AccountContext);
+  const { connectMetamask, connectTrust, account } = useContext(AccountContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(account) {
+      navigate('/home');
+      message.info('You has already connected!')
+    }
+  },[account, navigate]);
 
   return (
     <LayoutComponent>

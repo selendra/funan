@@ -1,19 +1,20 @@
 import { createContext, useEffect, useState } from "react";
 import { providers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { useNavigate } from "react-router-dom";
 
 export const AccountContext = createContext();
 export const AccountProvider = ({ children }) => {
   const [account, setAccount] = useState("");
+  const [hasEVMWallet, setHasEVMWallet] = useState(null);
+  const [isTrust, setIsTrust] = useState(
+    false || localStorage.getItem("wallet") === "walletconnect"
+  );
   // const [substrateAccount, setSubstrateAccount] = useState([]);
   // const [substrateAccountActive, setSubstrateAccountActive] = useState(
   //   localStorage.getItem('park-substrate-active-account') || ''
   // );
   // const [hasSelWallet, setHasSelWallet] = useState(null);
-  const [hasEVMWallet, setHasEVMWallet] = useState(null);
-  const [isTrust, setIsTrust] = useState(
-    false || localStorage.getItem("wallet") === "walletconnect"
-  );
 
   function disconnect() {
     localStorage.setItem("wallet", "");
@@ -88,10 +89,13 @@ export const AccountProvider = ({ children }) => {
   //   }
   // }
   
-  // useEffect(() => {
-  //   connectSubstrate();
-  //   isTrust ? connectTrust() : connectMetamask();
-  // }, [isTrust, hasEVMWallet]);
+  useEffect(() => {
+    if(isTrust) {
+      connectTrust()
+    } else if(localStorage.getItem('wallet') === 'metamask') {
+      connectMetamask();
+    }
+  }, [isTrust, hasEVMWallet]);
 
   return (
     <AccountContext.Provider

@@ -15,7 +15,7 @@ import AccountSelector from "../components/AccountSelector";
 import { useSubstrate } from "../context/SubstrateContext";
 
 export default function Home() {
-  const { account } = useContext(AccountContext);
+  const { account, isTrust } = useContext(AccountContext);
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
   const {
@@ -87,7 +87,7 @@ export default function Home() {
       <p className="profile-home">Wallet</p>
       <div>
         { account &&
-          <Wallet account={account} type="Metamask" />
+          <Wallet account={account} type={isTrust ? 'Trust Wallet' : 'Metamask'} />
         }
         {keyringOptions.length > 0 &&
           keyringOptions.map((account, key) => (

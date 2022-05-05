@@ -1165,6 +1165,18 @@ input,
     padding: 10px 0;
   }
 }
+.auction-wallet {
+  color: #00a9f9;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 169, 249, .1);
+  padding: 8px;
+  border: 1px solid #00a9f9;
+  border-radius: 8px;
+}
+.auction-wallet span {
+  margin-left: 8px;
+}
 
 @media screen and (max-width: 576px) {
   .container {
@@ -1286,4 +1298,33 @@ input,
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.modal-account-form .ant-input-affix-wrapper {
+  height: 45px;
+  background-color: transparent !important;
+  border-radius: 8px !important;
+}
+.modal-account-form .ant-input-affix-wrapper .anticon-eye-invisible {
+  color: #fff !important;
+}
+.modal-account-form .ant-btn {
+  width: 100% !important;
+  color: #FFF;
+  background-color: #00a9f9;
+  border: none;
+  border-radius: 8px;
+}
+.modal-account-btnRemove {
+  color: #ED1576 !important;
+  border-color: #ED1576 !important;
+  border-radius: 16px !important;
+}
+.modal-account-form .ant-btn:focus {
+  color: #FFF;
+  background-color: #00a9f9;
+}
+.modal-account-form .ant-btn:hover {
+  color: #FFF;
+  background-color: #00a9f9;
+  opacity: 0.8;
 }

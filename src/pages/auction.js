@@ -12,15 +12,18 @@ import { TokenContext } from "../context/TokenContext";
 import { useSubstrateState } from '../context/SubstrateContext';
 import down from "../assets/icons/down.svg";
 import abi from "../abis/token-sale.json";
+import metamask from "../assets/metamask.png";
+import trustwallet from "../assets/trustwallet.png";
 import LayoutComponent from "../components/Layout";
 import SelectToken from "../components/SelectToken";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
+import { Link } from "react-router-dom";
 
 const address = acct => (acct ? acct.address : '');
 
 export default function Buy() {
   // === >>>  Context Section <<< ===
-  const { isTrust } = useContext(AccountContext);
+  const { isTrust, account } = useContext(AccountContext);
   const { keyring, currentAccount } = useSubstrateState();
   const { selectedToken } = useContext(TokenContext);
 
@@ -253,6 +256,24 @@ export default function Buy() {
               token up to USD 100.00 and limited time bound.
             </p>
           </center>
+          <div style={{marginTop: '1rem'}}>
+            { account ? 
+                isTrust ?
+                <div className="auction-wallet">
+                  <img alt='' src={trustwallet} width={20} height={20} />
+                  <span>{account}</span>
+                </div>
+                :
+                <div className="auction-wallet">
+                  <img alt='' src={metamask} width={20} height={20} />
+                  <span>{account}</span>
+                </div>
+              : 
+              <div className="auction-wallet">
+                <Link to='/connect'>Please connect your evm Wallet</Link>
+              </div>
+            }
+          </div>
           <Form
             layout="vertical"
             size="large"
