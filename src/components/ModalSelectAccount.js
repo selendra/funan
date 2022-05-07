@@ -30,7 +30,9 @@ export default function ModalSelectAccount({
         <Radio.Group value={address(currentAccount)} onChange={handleChange}>
           { accounts.map((i, key) => 
             <div style={{margin: '8px 0'}} key={key}>
-              <Radio.Button value={i.value} className='modal-select-account-item'>{i.value}</Radio.Button>
+              <Radio.Button value={i.value} className='modal-select-account-item'>
+                <p>{i.value}</p>
+              </Radio.Button>
             </div>
           )}
         </Radio.Group>

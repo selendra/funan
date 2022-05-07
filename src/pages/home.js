@@ -86,6 +86,9 @@ export default function Home() {
 
       <p className="profile-home">Wallet</p>
       <div>
+        { !account && keyringOptions.length === 0 &&
+          <p>You don't have any wallet yet.</p>
+        }
         { account &&
           <Wallet account={account} type={isTrust ? 'Trust Wallet' : 'Metamask'} />
         }

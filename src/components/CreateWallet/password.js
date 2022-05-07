@@ -161,7 +161,7 @@ export default function CreatePassword({ setCreateWalletVisible }) {
             {mnemonic &&
               mnemonic.array.map((i, key) => (
                 <Col span={6} className="each-mnemonic">
-                  <p>{key + ". " + i}</p>
+                  <p>{(key + 1) + ". " + i}</p>
                 </Col>
               ))}
           </Row>
@@ -202,7 +202,7 @@ export default function CreatePassword({ setCreateWalletVisible }) {
             setup process.
           </p>
           <Form layout="vertical" size="large">
-            <Form.Item className="input-username" label={`Word #${random}`}>
+            <Form.Item className="input-username" label={`Word #${random + 1}`}>
               <Input
                 value={verify}
                 onChange={(e) => setVerify(e.target.value)}
@@ -243,7 +243,7 @@ export default function CreatePassword({ setCreateWalletVisible }) {
             type="primary"
             className="btn-wallet"
             style={{ width: "100%" }}
-            // disabled={unlockWallet}
+            disabled={current === 2 && verify !== mnemonic.array[random]}
             onClick={next}
           >
             Next
@@ -254,7 +254,7 @@ export default function CreatePassword({ setCreateWalletVisible }) {
             type="primary"
             className="btn-wallet"
             style={{ width: "100%" }}
-            disabled={verify !== mnemonic.array[random]}
+            // disabled={verify !== mnemonic.array[random]} 
             onClick={handleComplete}
           >
             Complete

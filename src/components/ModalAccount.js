@@ -9,14 +9,18 @@ export default function ModalAccount({
   type
 }) {
   const { keyring } = useSubstrateState();
+  const [confirmModal, setConfirmModal] = React.useState(false);
 
   function forgetAccount() {
     try {
       if(type === 'Selendra') {
         keyring.forgetAccount(account);
+        setConfirmModal(false);
         setVisible(false);
       } else {
         localStorage.setItem('wallet', '');
+        setConfirmModal(false);
+        setVisible(false);
       }
     } catch (error) {
       console.log(error);      
@@ -55,91 +59,114 @@ export default function ModalAccount({
   }
 
   return (
-    <Modal
-      title={false}
-      visible={visible}
-      footer={false}
-      closable={false}
-      onCancel={() => setVisible(false)}
-      className='modal-select-account'
-    >
-      <div>
+    <div>
+      <Modal
+        title={false}
+        visible={confirmModal}
+        footer={false}
+        closable={false}
+        onCancel={() => setConfirmModal(false)}
+        className='modal-select-account'
+      >
         <center>
-          <h2>Wallet Setting</h2>
+          <h2>Are you sure you want to remove wallet</h2>
+          <p>{account} ?</p>
         </center><br />
-        <h3>Address</h3>
-        <Row align='middle' gutter={[8,8]}>
-          <Col>
-            <p>{account}</p>
+        <Row gutter={[16, 16]} justify='end'>
+          <Col span={6}>
+            <Button type='ghost' className='send-cancel' onClick={() => setConfirmModal(false)}>Cancel</Button>
           </Col>
-          <Col>
-            <Button onClick={forgetAccount} type='ghost' className='modal-account-btnRemove'>Remove Wallet</Button>
+          <Col span={6}>
+            <Button className='send-transfer' onClick={forgetAccount}>Remove</Button>
           </Col>
-        </Row><br/>
-        <h3>Type</h3>
-        <p>{type}</p>
-        <br/>
-        { type === 'Selendra' &&
-          <Form
-            layout='vertical'
-            className='modal-account-form'
-            onFinish={changePassword}
-          >
-            <center>
-              <h3>Change Password</h3><br/>
-            </center>
-            <Form.Item 
-              name='oldPass' 
-              label='Current Password'
-              rules={[
-                { required: true, 
-                  message: 'Please Input Current Password!'
-                }
-              ]} 
+        </Row>
+      </Modal>
+      <Modal
+        title={false}
+        visible={visible}
+        footer={false}
+        closable={false}
+        onCancel={() => setVisible(false)}
+        className='modal-select-account'
+      >
+        <div>
+          <center>
+            <h2>Wallet Setting</h2>
+          </center><br />
+          <h3>Address</h3>
+          <Row align='middle' gutter={[8,8]}>
+            <Col>
+              <p>{account}</p>
+            </Col>
+            <Col>
+              <Button onClick={() => setConfirmModal(true)} type='ghost' className='modal-account-btnRemove'>Remove Wallet</Button>
+            </Col>
+          </Row><br/>
+          <h3>Type</h3>
+          <p>{type}</p>
+          <br/>
+          { type === 'Selendra' &&
+            <Form
+              layout='vertical'
+              className='modal-account-form'
+              onFinish={changePassword}
             >
-              <Input.Password size='large'/>
-            </Form.Item>
-            <Form.Item 
-              name='newPass' 
-              label='New Password'
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your new password!',
-                },
-              ]}
-              hasFeedback  
-            >
-              <Input.Password size='large' />
-            </Form.Item>
-            <Form.Item 
-              name='confirmPass' 
-              label='Confirm New Password'
-              dependencies={['newPass']}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your new password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('newPass') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              <center>
+                <h3>Change Password</h3><br/>
+              </center>
+              <Form.Item 
+                name='oldPass' 
+                label='Current Password'
+                rules={[
+                  { required: true, 
+                    message: 'Please Input Current Password!'
+                  }
+                ]} 
+              >
+                <Input.Password size='large'/>
+              </Form.Item>
+              <Form.Item 
+                name='newPass' 
+                label='New Password'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your new password!',
                   },
-                }),
-              ]}
-            >
-              <Input.Password size='large' />
-            </Form.Item>
-            <Form.Item>
-              <Button size='large' htmlType='submit'>Change Password</Button>
-            </Form.Item>
-          </Form>
-        }
-      </div>
-    </Modal>
+                ]}
+                hasFeedback  
+              >
+                <Input.Password size='large' />
+              </Form.Item>
+              <Form.Item 
+                name='confirmPass' 
+                label='Confirm New Password'
+                dependencies={['newPass']}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please confirm your new password!',
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('newPass') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password size='large' />
+              </Form.Item>
+              <Form.Item>
+                <Button size='large' htmlType='submit'>Change Password</Button>
+              </Form.Item>
+            </Form>
+          }
+        </div>
+      </Modal>
+    </div>
   )
 }

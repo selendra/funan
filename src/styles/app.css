@@ -1250,6 +1250,9 @@ input,
   margin: 8px 0 !important;
   border-width: 2px !important;
 }
+.modal-select-account-item p {
+  word-break: break-all !important;
+}
 .each-mnemonic {
   font-weight: 500;
   color: #fff;

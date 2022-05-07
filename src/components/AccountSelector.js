@@ -53,7 +53,7 @@ export default function AccountSelector({ keyringOptions }) {
         setVisible={setModal}
       />
       <Row gutter={[8, 8]} align="middle" justify="space-between">
-        <Col span={12}>
+        <Col xs={10} sm={11}>
           <Row gutter={[32, 32]} justify="start">
             <Col xs={12} sm={4}>
               <Link to='/connect'>
@@ -66,14 +66,14 @@ export default function AccountSelector({ keyringOptions }) {
             </Col>
             <Col xs={12} sm={6}>
             </Col>
-            <Col span={6} onClick={() => setCreateWalletVisible(true)}>
+            <Col xs={12} sm={6} onClick={() => setCreateWalletVisible(true)}>
               <ButtonConnect
                 className="home-create-wallet"
                 icon="wallet-add-1-yellow.svg"
                 title="Create Wallet"
               />
             </Col>
-            <Col span={6} onClick={() => setVisible(true)}>
+            <Col xs={12} sm={6} onClick={() => setVisible(true)}>
               <ButtonConnect
                 className="home-restore-wallet"
                 icon="key-pink.svg"
@@ -89,18 +89,20 @@ export default function AccountSelector({ keyringOptions }) {
 
         <Col xs={10} sm={11}>
           <Row gutter={[8, 8]} align="middle" justify="center">
-            <Col span={6}>
-              <Badge dot={true} color="green">
-                <Avatar
-                  src={
-                    `https://avatars.dicebear.com/api/identicon/${address(currentAccount)}.svg`
-                  }
-                  size={64}
-                  style={{ background: "#FFF" }}
-                />
-              </Badge>
+            <Col xs={24} sm={12}>
+              <Row justify='center'>
+                <Badge dot={true} color="green">
+                  <Avatar
+                    src={
+                      `https://avatars.dicebear.com/api/identicon/${address(currentAccount)}.svg`
+                    }
+                    size={64}
+                    style={{ background: "#FFF" }}
+                  />
+                </Badge>
+              </Row>
             </Col>
-            <Col sm={14}>
+            <Col xs={24} sm={12}>
               <div>
                 <p>{shortenAddress(address(currentAccount))}</p>
                 <Row gutter={[8, 8]}>
