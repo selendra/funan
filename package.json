@@ -5,6 +5,7 @@
   "dependencies": {
     "@polkadot/api": "^7.10.1",
     "@polkadot/extension-dapp": "^0.42.7",
+    "@polkadot/ui-keyring": "^1.1.1",
     "@polkadot/util": "^8.4.1",
     "@polkadot/util-crypto": "^8.4.1",
     "@walletconnect/web3-provider": "^1.7.3",
@@ -14,6 +15,7 @@
     "net": "^1.0.2",
     "next-themes": "^0.1.1",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "process": "^0.11.10",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",
     "react-device-detect": "^2.2.2",
@@ -23,7 +25,9 @@
     "react-scripts": "^5.0.0",
     "remixicon": "^2.5.0",
     "stream-browserify": "^3.0.0",
-    "tls": "^0.0.1"
+    "tls": "^0.0.1",
+    "util": "^0.12.4",
+    "webpack": "^5.72.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
@@ -33,7 +37,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=3003 react-app-rewired start",
+    "start": "PORT=3003 GENERATE_SOURCEMAP=false react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "CI=true react-app-rewired test",
     "eject": "react-scripts eject"

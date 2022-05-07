@@ -1,20 +1,20 @@
 import { createContext, useEffect, useState } from "react";
 import { providers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
+import { useNavigate } from "react-router-dom";
 
 export const AccountContext = createContext();
 export const AccountProvider = ({ children }) => {
   const [account, setAccount] = useState("");
-  const [substrateAccount, setSubstrateAccount] = useState([]);
-  const [substrateAccountActive, setSubstrateAccountActive] = useState(
-    localStorage.getItem('park-substrate-active-account') || ''
-  );
-  const [hasSelWallet, setHasSelWallet] = useState(null);
   const [hasEVMWallet, setHasEVMWallet] = useState(null);
   const [isTrust, setIsTrust] = useState(
     false || localStorage.getItem("wallet") === "walletconnect"
   );
+  // const [substrateAccount, setSubstrateAccount] = useState([]);
+  // const [substrateAccountActive, setSubstrateAccountActive] = useState(
+  //   localStorage.getItem('park-substrate-active-account') || ''
+  // );
+  // const [hasSelWallet, setHasSelWallet] = useState(null);
 
   function disconnect() {
     localStorage.setItem("wallet", "");
@@ -61,53 +61,56 @@ export const AccountProvider = ({ children }) => {
       setHasEVMWallet(true);
       localStorage.setItem("wallet", "walletconnect");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
-  async function connectSubstrate() {
-    try {
-      const extension = await web3Enable("Selendra Funan");
-      if (extension.length === 0) {
-        setHasSelWallet(false);
-        return;
-      } else {
-        const allAccounts = await web3Accounts({ss58Format: 204});
-        const reArray = allAccounts.map((i) => {
-          const newArr = {};
-          newArr.name = i.meta.name;
-          newArr.label = i.address;
-          newArr.value = i.address;
-          return newArr;
-        });
-        console.log(allAccounts)
-        setSubstrateAccount(reArray);
-        setHasSelWallet(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async function connectSubstrate() {
+  //   try {
+  //     const extension = await web3Enable("Selendra Funan");
+  //     if (extension.length === 0) {
+  //       setHasSelWallet(false);
+  //       return;
+  //     } else {
+  //       const allAccounts = await web3Accounts({ss58Format: 204});
+  //       const reArray = allAccounts.map((i) => {
+  //         const newArr = {};
+  //         newArr.name = i.meta.name;
+  //         newArr.label = i.address;
+  //         newArr.value = i.address;
+  //         return newArr;
+  //       });
+  //       console.log(allAccounts)
+  //       setSubstrateAccount(reArray);
+  //       setHasSelWallet(true);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   
   useEffect(() => {
-    connectSubstrate();
-    isTrust ? connectTrust() : connectMetamask();
+    if(isTrust) {
+      connectTrust()
+    } else if(localStorage.getItem('wallet') === 'metamask') {
+      connectMetamask();
+    }
   }, [isTrust, hasEVMWallet]);
 
   return (
     <AccountContext.Provider
       value={{
         account,
-        substrateAccount,
-        substrateAccountActive,
         isTrust,
-        hasSelWallet,
         hasEVMWallet,
         connectMetamask,
         connectTrust,
-        connectSubstrate,
-        setSubstrateAccountActive,
         disconnect,
+        // substrateAccount,
+        // substrateAccountActive,
+        // hasSelWallet,
+        // connectSubstrate,
+        // setSubstrateAccountActive,
       }}
     >
       {children}

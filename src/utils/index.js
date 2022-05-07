@@ -4,6 +4,11 @@ import { u8aToHex } from "@polkadot/util";
 import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
 import { formatBalance } from "@polkadot/util";
 import { tokens } from "../constants/tokenContract";
+import keyring from '@polkadot/ui-keyring';
+
+export function isValidSubstratePassword(pass) {
+  return keyring.isPassValid(pass);
+}
 
 export function isvalidSubstrateAddress(address) {
   const check = checkAddress(address, 42);

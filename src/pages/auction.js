@@ -9,16 +9,22 @@ import { appendSpreadsheet } from "../utils/appendSheet";
 import { isvalidSubstrateAddress, ErrorHandling, getTokenName, FormatBalance } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { TokenContext } from "../context/TokenContext";
+import { useSubstrateState } from '../context/SubstrateContext';
 import down from "../assets/icons/down.svg";
 import abi from "../abis/token-sale.json";
+import metamask from "../assets/metamask.png";
+import trustwallet from "../assets/trustwallet.png";
 import LayoutComponent from "../components/Layout";
 import SelectToken from "../components/SelectToken";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
+import { Link } from "react-router-dom";
+
+const address = acct => (acct ? acct.address : '');
 
 export default function Buy() {
   // === >>>  Context Section <<< ===
-  const { isTrust, substrateAccount, connectSubstrate } =
-    useContext(AccountContext);
+  const { isTrust, account } = useContext(AccountContext);
+  const { keyring, currentAccount } = useSubstrateState();
   const { selectedToken } = useContext(TokenContext);
 
   // === >>> State Section <<< ===
@@ -34,6 +40,13 @@ export default function Buy() {
 
   // === >>> Varible Section <<< ===
   const bnb = "0x0000000000000000000000000000000000000000";
+  // Get the list of accounts
+  const keyringOptions = keyring.getPairs().map(account => ({
+    key: account.address,
+    value: account.address,
+    text: account.meta.name.toUpperCase(),
+    icon: 'user',
+  }))
 
   // === >>> useEffect Section <<< ===
   useEffect(() => {
@@ -61,7 +74,7 @@ export default function Buy() {
   // === >>> Function Section <<< ===
 
   function connectSelendra() {
-    connectSubstrate();
+    // connectSubstrate();
     // setModal(errorExtension);
   }
 
@@ -243,6 +256,24 @@ export default function Buy() {
               token up to USD 100.00 and limited time bound.
             </p>
           </center>
+          <div style={{marginTop: '1rem'}}>
+            { account ? 
+                isTrust ?
+                <div className="auction-wallet">
+                  <img alt='' src={trustwallet} width={20} height={20} />
+                  <span>{account}</span>
+                </div>
+                :
+                <div className="auction-wallet">
+                  <img alt='' src={metamask} width={20} height={20} />
+                  <span>{account}</span>
+                </div>
+              : 
+              <div className="auction-wallet">
+                <Link to='/connect'>Please connect your evm Wallet</Link>
+              </div>
+            }
+          </div>
           <Form
             layout="vertical"
             size="large"
@@ -289,14 +320,14 @@ export default function Buy() {
               <div style={{ marginTop: "8px" }} />
               <SelectToken />
             </Form.Item>
-            {substrateAccount.length !== 0 && (
+            {keyringOptions.length > 0 && (
               <Form.Item label="Selendra Address">
                 <Row gutter={[8, 8]} align="middle">
                   <Col span={24}>
                     <Select
                       className="buy__inputSelect"
                       placeholder="Enter Selendra Address"
-                      options={substrateAccount}
+                      options={keyringOptions}
                       onChange={onChangeHandler}
                       style={{ width: "100%" }}
                     />
@@ -324,9 +355,9 @@ export default function Buy() {
             ) : (
               ""
             )}
-            {substrateAccount.length === 0 ? (
-              <Button className="buy__button" onClick={connectSelendra}>
-                Connect Selendra
+            {keyringOptions.length === 0 ? (
+              <Button className="buy__button">
+                Look like you don't have Selendra account!
               </Button>
             ) : (
               <Form.Item>

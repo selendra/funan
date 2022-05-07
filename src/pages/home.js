@@ -1,46 +1,34 @@
 import { useContext, useEffect, useState } from "react";
+import { Card } from "antd";
 import { ethers } from "ethers";
-import Icon from "@ant-design/icons";
-import { useTheme } from "next-themes";
-import { Avatar, Badge, Button, Card, Col, Divider, message, Row } from "antd";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { shortenAddress } from "../utils";
 import { AccountContext } from "../context/AccountContext";
 import { tokens } from "../constants/tokenContract";
 import Wallet from "../components/Wallet";
 import LayoutComponent from "../components/Layout";
 import TokenBalance from "../components/TokenBalance";
-import ButtonConnect from "../components/ButtonConnect";
-import ModalSelectAccount from "../components/ModalSelectAccount";
 import busd from "../assets/tokens/busd.png";
 import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
 import bnb from "../assets/tokens/bnb.png";
-import { ReactComponent as Edit } from "../../public/icons/bulk/edit-2.svg";
-import { ReactComponent as Copy } from "../../public/icons/bulk/copy.svg";
-import { Link } from "react-router-dom";
-
-const EditIcon = (props) => <Icon component={Edit} {...props} />;
-const CopyIcon = (props) => <Icon component={Copy} {...props} />;
+import AccountSelector from "../components/AccountSelector";
+import { useSubstrate } from "../context/SubstrateContext";
 
 export default function Home() {
-  const { theme } = useTheme();
+  const { account, isTrust } = useContext(AccountContext);
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [modal, setModal] = useState(false);
   const {
-    account,
-    substrateAccount,
-    substrateAccountActive,
-    connectSubstrate,
-  } = useContext(AccountContext);
+    state: { keyring }
+  } = useSubstrate();
 
-  // useEffect(() => {
-  //   const account = JSON.parse(localStorage.getItem('park-substrate-active-account'));
-  //   if(!account) return;
-  //   setSubstrateAccountActive(account);
-  // }, [substrateAccountActive]);
+  // Get the list of accounts
+  const keyringOptions = keyring.getPairs().map(account => ({
+    key: account.address,
+    value: account.address,
+    text: account.meta.name.toUpperCase(),
+    icon: 'user',
+  }));
 
   useEffect(() => {
     if (!account) return;
@@ -89,121 +77,31 @@ export default function Home() {
 
   return (
     <LayoutComponent>
-      <ModalSelectAccount
-        accounts={substrateAccount}
-        visible={modal}
-        setVisible={setModal}
-      />
       <p className="profile-home">Home</p>
       <Card style={{ borderRadius: "8px" }} className="sel-card">
-        <Row gutter={[8, 8]} align="middle" justify="space-between">
-          <Col span={12}>
-            <Row gutter={[32, 32]} justify="start">
-              <Col xs={12} sm={6}>
-                <Link to='/connect'>
-                  <ButtonConnect
-                    className="home-connect-evm"
-                    icon="wallet-1.svg"
-                    title="Connect EVM"
-                  />
-                </Link>
-              </Col>
-              <Col xs={12} sm={6}>
-                <ButtonConnect
-                  className="home-connect-sel"
-                  icon={
-                    theme === "light"
-                      ? "wallet-check.svg"
-                      : "wallet-check-dark.svg"
-                  }
-                  title="Connect Selendra"
-                  onClick={connectSubstrate}
-                  router={false}
-                />
-              </Col>
-              {/* <Col span={6}>
-                <ButtonConnect
-                  className="home-create-wallet"
-                  icon="wallet-add-1-yellow.svg"
-                  title="Create Wallet"
-                />
-              </Col>
-              <Col span={6}>
-                <ButtonConnect
-                  className="home-restore-wallet"
-                  icon="key-pink.svg"
-                  title="Restore Wallet"
-                />
-              </Col> */}
-            </Row>
-          </Col>
-          <Divider
-            type="vertical"
-            style={{ height: "7em", borderLeft: "2px solid rgba(0,0,0,.07)" }}
-          />
-
-          <Col xs={10} sm={11}>
-            <Row gutter={[8, 8]} align="middle" justify="center">
-              <Col span={6}>
-                <Badge dot={true} color="green">
-                  <Avatar
-                    src={`https://avatars.dicebear.com/api/identicon/${
-                      substrateAccount.length > 0 && substrateAccountActive
-                    }.svg`}
-                    size={64}
-                    style={{ background: "#FFF" }}
-                  />
-                </Badge>
-              </Col>
-              <Col sm={14}>
-                {substrateAccount.length !== 0 && (
-                  <div>
-                    { substrateAccountActive ? (
-                      <p>{shortenAddress(substrateAccountActive)}</p>
-                    ) : (
-                      <p>Please Select Your Selendra Account</p>
-                    )}
-                    <Row gutter={[8, 8]}>
-                      <Button
-                        type="link"
-                        icon={<EditIcon />}
-                        style={{ paddingLeft: "0" }}
-                        onClick={() => setModal(true)}
-                      >
-                        { substrateAccountActive ? 'Switch' : 'Select' }
-                      </Button>
-                      <CopyToClipboard text={substrateAccount[0].label}>
-                        <Button
-                          type="link"
-                          icon={<CopyIcon />}
-                          style={{ paddingLeft: "0" }}
-                          onClick={() => message.success("Copied")}
-                        >
-                          Copy
-                        </Button>
-                      </CopyToClipboard>
-                    </Row>
-                  </div>
-                )}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <AccountSelector 
+          keyringOptions={keyringOptions} 
+        />
       </Card>
 
       <p className="profile-home">Wallet</p>
       <div>
-        <Wallet account={account} type="Metamask" />
-        {substrateAccount.length > 0 &&
-          substrateAccount.map((account, key) => (
-            <Wallet key={key} account={account.label} type="Injection" />
+        { !account && keyringOptions.length === 0 &&
+          <p>You don't have any wallet yet.</p>
+        }
+        { account &&
+          <Wallet account={account} type={isTrust ? 'Trust Wallet' : 'Metamask'} />
+        }
+        {keyringOptions.length > 0 &&
+          keyringOptions.map((account, key) => (
+            <Wallet key={key} account={account.value} type="Selendra" />
           ))}
       </div>
 
       <p className="profile-home">Assets</p>
       <div className="profile-desc">
         <Card style={{ borderRadius: "8px" }}>
-          {account && (
+          {account ? (
             <div>
               <TokenBalance
                 image={usdt}
@@ -236,6 +134,8 @@ export default function Home() {
                 loading={loading}
               />
             </div>
+          ):(
+            <p>Please connect your evm wallet.</p>
           )}
         </Card>
       </div>

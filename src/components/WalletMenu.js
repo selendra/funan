@@ -2,17 +2,18 @@ import { Col, Row, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { FormatBalance } from "../utils";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
-import { useContext } from "react";
-import { AccountContext } from "../context/AccountContext";
+import { useSubstrateState } from "../context/SubstrateContext";
+
+const address = (addr) => addr ? addr.address : '';
 
 export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
-  const { substrateAccountActive } = useContext(AccountContext);
-  const [state] = useFetchBalanceSEL(substrateAccountActive, "Injection", {testnet: true});
+  const { currentAccount } = useSubstrateState();
+  const [ state ] = useFetchBalanceSEL(address(currentAccount), "Injection", { testnet: true });
 
   return (
     <div>
-      <h2>Account: {substrateAccountActive ? substrateAccountActive : 'Please Select Your Selendra Account'}</h2>
+      <h2>Account: {address(currentAccount) ? address(currentAccount) : 'Please Select Your Selendra Account'}</h2>
       <div className="wallet-background-card">
         <Row gutter={[12, 12]} align="middle">
           <Col xs={24} sm={24} xl={10}>
@@ -60,12 +61,13 @@ export default function WalletMenu({ children }) {
           <Col xs={12} sm={12} xl={7}>
             {!state.loading && (
               <div className="wallet-price">
-                <Spin spinning={state.loading} />
-                {!state.loading && (
+                {state.loading ? 
+                  <Spin />
+                  :
                   <h1>
                     {FormatBalance(state.freeBalance)} <span>CDM</span>
                   </h1>
-                )}
+                }
                 {/* <p> $20.782 </p> */}
                 <p>Available</p>
               </div>
