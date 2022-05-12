@@ -31,7 +31,7 @@ export default function Index() {
       icon: 'user',
     }))
 
-    // if(keyringOptions.length > 0) navigate('/home');
+    if(keyringOptions.length > 0) navigate('/home');
   },[keyring, navigate]);
    
   return (

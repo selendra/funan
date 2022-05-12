@@ -17,8 +17,8 @@ export const AccountProvider = ({ children }) => {
   // const [hasSelWallet, setHasSelWallet] = useState(null);
 
   function disconnect() {
-    localStorage.setItem("wallet", "");
     setAccount("");
+    localStorage.setItem("wallet", "");
   }
 
   async function connectMetamask() {

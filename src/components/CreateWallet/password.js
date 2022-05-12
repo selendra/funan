@@ -14,9 +14,11 @@ import { mnemonicGenerate } from "@polkadot/util-crypto";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import keyring from "@polkadot/ui-keyring";
 import { useNavigate } from "react-router-dom";
+import { useSubstrate } from "../../context/SubstrateContext";
 
 export default function CreatePassword({ setCreateWalletVisible }) {
   const navigate = useNavigate();
+  const { state, dispatch, loadAccounts } = useSubstrate(); 
   const [current, setCurrent] = React.useState(0);
   const [random, setRandom] = React.useState();
   const [verify, setVerify] = React.useState("");
@@ -75,6 +77,7 @@ export default function CreatePassword({ setCreateWalletVisible }) {
       message.success("Done!");
       setCreateWalletVisible(false);
       navigate("/home");
+      loadAccounts(state, dispatch);
     } catch (error) {
       // console.log(error);
       message.error("Something went wrong!");

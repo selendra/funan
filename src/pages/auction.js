@@ -72,19 +72,13 @@ export default function Buy() {
   }, [amount, selectedToken]);
 
   // === >>> Function Section <<< ===
-
-  function connectSelendra() {
-    // connectSubstrate();
-    // setModal(errorExtension);
-  }
-
   function onChangeHandler(val) {
     setAddress(val);
   }
 
   async function approve() {
     try {
-      const contractAddress = "0x6cB5a691e641a2A78c36F4E621aD36d635a38b88";
+      const contractAddress = "0x2B89cA76EB4423990DD1f4FACCcA4d924D7A2b0b";
       let abi = [
         "function approve(address _spender, uint256 _value) public returns (bool success)",
       ];
@@ -175,7 +169,7 @@ export default function Buy() {
       message.success("Transaction completed!");
     } catch (error) {
       ErrorHandling(error);
-      console.log(error);
+      // console.log(error);
       setLoading(false);
     }
   }
@@ -185,7 +179,7 @@ export default function Buy() {
     try {
       if (!amount) return;
       setSpinning(true);
-      const contractAddress = "0x6cB5a691e641a2A78c36F4E621aD36d635a38b88";
+      const contractAddress = "0x2B89cA76EB4423990DD1f4FACCcA4d924D7A2b0b";
       const provider = ethers.getDefaultProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545/"
       );
@@ -222,7 +216,7 @@ export default function Buy() {
   // === >>> Get Amount <<< ===
   async function getPriceUSD() {
     try {
-      const contractAddress = "0x6cB5a691e641a2A78c36F4E621aD36d635a38b88";
+      const contractAddress = "0x2B89cA76EB4423990DD1f4FACCcA4d924D7A2b0b";
 
       const provider = new ethers.providers.JsonRpcProvider(
         "https://data-seed-prebsc-1-s1.binance.org:8545"
@@ -357,7 +351,9 @@ export default function Buy() {
             )}
             {keyringOptions.length === 0 ? (
               <Button className="buy__button">
-                Look like you don't have Selendra account!
+                <Link to='/home'>
+                  Look like you don't have Selendra wallet!
+                </Link>
               </Button>
             ) : (
               <Form.Item>

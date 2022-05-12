@@ -27,14 +27,20 @@ export default function AccountSelector({ keyringOptions }) {
   } = useSubstrate();
 
   const initialAddress =
-    keyringOptions.length > 0 ? keyringOptions[0].value : '';
+  keyringOptions.length > 0 ? keyringOptions[0].value : '';
+  
+  // when all account got removed
+  React.useEffect(() => {
+    currentAccount &&
+    keyringOptions.length === 0 && setCurrentAccount('');
+  },[currentAccount, keyringOptions, setCurrentAccount]);
 
   // Set the initial address
   React.useEffect(() => {
     // `setCurrentAccount()` is called only when currentAccount is null (uninitialized)
     !currentAccount &&
       initialAddress.length > 0 &&
-      setCurrentAccount(keyring.getPair(initialAddress))
+      setCurrentAccount(keyring.getPair(initialAddress));
   }, [currentAccount, setCurrentAccount, keyring, initialAddress]);
 
   return (
@@ -103,29 +109,33 @@ export default function AccountSelector({ keyringOptions }) {
               </Row>
             </Col>
             <Col xs={24} sm={12}>
-              <div>
-                <p>{shortenAddress(address(currentAccount))}</p>
-                <Row gutter={[8, 8]}>
-                  <Button
-                    type="link"
-                    icon={<EditIcon />}
-                    style={{ paddingLeft: "0" }}
-                    onClick={() => setModal(true)}
-                  >
-                    Switch
-                  </Button>
-                  <CopyToClipboard text={address(currentAccount)}>
+              { keyringOptions.length > 0 ?
+                <div>
+                  <p>{shortenAddress(address(currentAccount))}</p>
+                  <Row gutter={[8, 8]}>
                     <Button
                       type="link"
-                      icon={<CopyIcon />}
+                      icon={<EditIcon />}
                       style={{ paddingLeft: "0" }}
-                      onClick={() => message.success("Copied")}
+                      onClick={() => setModal(true)}
                     >
-                      Copy
+                      Switch
                     </Button>
-                  </CopyToClipboard>
-                </Row>
-              </div>
+                    <CopyToClipboard text={address(currentAccount)}>
+                      <Button
+                        type="link"
+                        icon={<CopyIcon />}
+                        style={{ paddingLeft: "0" }}
+                        onClick={() => message.success("Copied")}
+                      >
+                        Copy
+                      </Button>
+                    </CopyToClipboard>
+                  </Row>
+                </div>
+                :
+                <p>You don't have Selendra wallet yet.</p>
+              }
             </Col>
           </Row>
         </Col>

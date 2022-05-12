@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import LayoutComponent from "../../components/Layout";
-import WalletMenu from "../../components/WalletMenu";
 
 export default function Wallet() {
   let navigate = useNavigate();
@@ -9,11 +7,6 @@ export default function Wallet() {
   useEffect(() => {
     navigate('/wallet/send');
   },[navigate]);
-  
-  
-  return (
-    <LayoutComponent>
-      <WalletMenu />
-    </LayoutComponent>
-  );
+
+  return null;
 }

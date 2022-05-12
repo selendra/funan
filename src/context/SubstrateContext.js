@@ -113,18 +113,18 @@ const SubstrateContextProvider = ({children}) => {
     const { apiState, keyringState } = state
     if (apiState === 'READY' && !keyringState && !keyringLoadAll) {
       keyringLoadAll = true
-      loadAccounts(state, dispatch)
+      loadAccounts(state, dispatch);
+      // keyringLoadAll = false
     }
   }, [state, dispatch])
 
   function setCurrentAccount(acct) {
-    // console.log(acct)
     localStorage.setItem('current-account', acct.address);
     dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: acct });
   }
 
   return (
-    <SubstrateContext.Provider value={{ state, setCurrentAccount }}>
+    <SubstrateContext.Provider value={{ state, dispatch, loadAccounts, setCurrentAccount }}>
       {children}
     </SubstrateContext.Provider>
   )

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Col, Form, Input, message, Modal, Row } from 'antd';
 import { useSubstrateState } from '../context/SubstrateContext';
+import { AccountContext } from '../context/AccountContext';
 
 export default function ModalAccount({
   visible, 
@@ -9,7 +10,9 @@ export default function ModalAccount({
   type
 }) {
   const { keyring } = useSubstrateState();
+  const { disconnect } = useContext(AccountContext);
   const [confirmModal, setConfirmModal] = React.useState(false);
+  const [passwordModal, setPasswordModal] = React.useState(false);
 
   function forgetAccount() {
     try {
@@ -18,12 +21,32 @@ export default function ModalAccount({
         setConfirmModal(false);
         setVisible(false);
       } else {
-        localStorage.setItem('wallet', '');
+        disconnect();
         setConfirmModal(false);
         setVisible(false);
       }
     } catch (error) {
       console.log(error);      
+    }
+  }
+
+  function exportWallet(val) {
+    if(!account) return;
+    try {
+      const addressKeyring = account && keyring.getPair(account);
+      const json = addressKeyring && keyring.backupAccount(addressKeyring, val.password);
+      
+      const strJSON = JSON.stringify(json);
+      const blob = new Blob([strJSON], { type: "application/json" });
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = href;
+      link.download = `${json.address}.json`;
+      link.click();
+      setPasswordModal(false);
+    } catch (error) {
+      message.error('Make sure your password is correct!');
+      return;
     }
   }
 
@@ -60,6 +83,7 @@ export default function ModalAccount({
 
   return (
     <div>
+      {/* modal confirm before remove wallet */}
       <Modal
         title={false}
         visible={confirmModal}
@@ -73,13 +97,40 @@ export default function ModalAccount({
           <p>{account} ?</p>
         </center><br />
         <Row gutter={[16, 16]} justify='end'>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
             <Button type='ghost' className='send-cancel' onClick={() => setConfirmModal(false)}>Cancel</Button>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
             <Button className='send-transfer' onClick={forgetAccount}>Remove</Button>
           </Col>
         </Row>
+      </Modal>
+      {/* modal ask for password to export wallet */}
+      <Modal
+        title={false}
+        visible={passwordModal}
+        footer={false}
+        closable={false}
+        onCancel={() => setPasswordModal(false)}
+        className='modal-select-account'
+      >
+        <div>
+          <center>
+            <h2>Export Wallet</h2>
+          </center>
+          <Form
+            layout='vertical'
+            className='modal-account-form'
+            onFinish={exportWallet}
+          >
+            <Form.Item name='password' label='Password'>
+              <Input.Password size='large' />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType='submit' size='large'>Export Wallet</Button>
+            </Form.Item>
+          </Form>
+        </div>
       </Modal>
       <Modal
         title={false}
@@ -95,9 +146,14 @@ export default function ModalAccount({
           </center><br />
           <h3>Address</h3>
           <Row align='middle' gutter={[8,8]}>
-            <Col>
+            <Col span={24}>
               <p>{account}</p>
             </Col>
+            { type === 'Selendra' &&
+              <Col>
+                <Button onClick={() => setPasswordModal(true)} type='ghost' className='modal-account-btnExport'>Export Wallet</Button>
+              </Col>
+            }
             <Col>
               <Button onClick={() => setConfirmModal(true)} type='ghost' className='modal-account-btnRemove'>Remove Wallet</Button>
             </Col>

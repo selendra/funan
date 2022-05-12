@@ -12,23 +12,31 @@ import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
 import bnb from "../assets/tokens/bnb.png";
 import AccountSelector from "../components/AccountSelector";
-import { useSubstrate } from "../context/SubstrateContext";
+import { useAccounts } from "../hooks/useAccounts";
 
 export default function Home() {
-  const { account, isTrust } = useContext(AccountContext);
+  const { allAccounts } = useAccounts();
+  const { account: accountContext, isTrust } = useContext(AccountContext);
+  const [account, setAccount] = useState(accountContext);
+  const [keyringOptions, setKeyringOptions] = useState([]);
   const [balance, setBalance] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {
-    state: { keyring }
-  } = useSubstrate();
+  
+  useEffect(() => {
+    setAccount(accountContext);
+  },[accountContext]);
+  
+  useEffect(() => {
+    // Get the list of accounts
+    const keyringOptions = 
+    allAccounts.map((account) => ({
+      key: account,
+      value: account,
+      icon: 'user',
+    }));
 
-  // Get the list of accounts
-  const keyringOptions = keyring.getPairs().map(account => ({
-    key: account.address,
-    value: account.address,
-    text: account.meta.name.toUpperCase(),
-    icon: 'user',
-  }));
+    setKeyringOptions(keyringOptions);
+  },[allAccounts]);
 
   useEffect(() => {
     if (!account) return;
@@ -89,13 +97,16 @@ export default function Home() {
         { !account && keyringOptions.length === 0 &&
           <p>You don't have any wallet yet.</p>
         }
+        {/* Metamask wallet */}
         { account &&
           <Wallet account={account} type={isTrust ? 'Trust Wallet' : 'Metamask'} />
         }
-        {keyringOptions.length > 0 &&
+        {/* Selendra wallet */}
+        { keyringOptions.length > 0 &&
           keyringOptions.map((account, key) => (
             <Wallet key={key} account={account.value} type="Selendra" />
-          ))}
+          ))
+        }
       </div>
 
       <p className="profile-home">Assets</p>
