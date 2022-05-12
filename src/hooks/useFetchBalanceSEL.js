@@ -12,7 +12,7 @@ export function useFetchBalanceSEL(address, type, {testnet}) {
     let isMounted = true;  // prevent memory leak
     async function getBalance() {
       if(!address || !type) return;
-      if(type !== 'Injection') {
+      if(type !== 'Selendra') {
         setState({
           loading: false,
           freeBalance: null,
@@ -29,6 +29,7 @@ export function useFetchBalanceSEL(address, type, {testnet}) {
         // that resolves to the current on-chain value
         let { data: { free: FreeBalance } } = 
           await api.query.system.account(address);
+        console.log(FreeBalance.toJSON())
         if(isMounted) {
           setState({
             loading: false,
