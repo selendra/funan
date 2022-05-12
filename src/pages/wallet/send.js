@@ -1,5 +1,6 @@
 import { Button, Col, Form, Input, message, Modal, Row } from 'antd';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import LayoutComponent from '../../components/Layout';
 import WalletMenu from '../../components/WalletMenu';
 import { useSubstrateState } from '../../context/SubstrateContext';
@@ -19,7 +20,7 @@ export default function Send() {
 
   function balanceNotEnough(value) {
     if(Number(FormatBalance(state.freeBalance)) < Number(value)) {
-      console.log(Number(FormatBalance(state.freeBalance)), Number(value));
+      // console.log(Number(FormatBalance(state.freeBalance)), Number(value));
       return true;
     } else {
       return false;
@@ -60,7 +61,6 @@ export default function Send() {
         );
       console.log('Transaction sent with hash: ', hash);
     } catch (error) {
-      console.log(error);
       message.error('Something went wrong!');
       setLoading(false);
     }
@@ -90,11 +90,20 @@ export default function Send() {
             />
           </Form.Item>
           <Form.Item>
-            <Button loading={loading} onClick={handleConfirm} className="buy__button">
-              Transfer
-            </Button>
+            { currentAccount ?
+              <Button loading={loading} onClick={handleConfirm} className="buy__button">
+                Transfer
+              </Button>
+              :
+              <Button className="buy__button">
+                <Link to='/home'>
+                  Look like you don't have Selendra wallet yet.
+                </Link>
+              </Button>
+            }
           </Form.Item>
         </Form>
+        
         <Modal
           title=""
           footer=""

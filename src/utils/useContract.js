@@ -4,7 +4,7 @@ import abi from '../abis/token-sale.json';
 
 export async function Contract(isTrust) {
   let signer;
-  const contractAddress = '0x6cB5a691e641a2A78c36F4E621aD36d635a38b88';
+  const contractAddress = '0x2B89cA76EB4423990DD1f4FACCcA4d924D7A2b0b';
   
   if(isTrust) {
     console.log('trust wallet');

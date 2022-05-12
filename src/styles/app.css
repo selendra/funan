@@ -1176,6 +1176,7 @@ input,
 }
 .auction-wallet span {
   margin-left: 8px;
+  word-break: break-all;
 }
 
 @media screen and (max-width: 576px) {
@@ -1251,7 +1252,10 @@ input,
   border-width: 2px !important;
 }
 .modal-select-account-item p {
-  word-break: break-all !important;
+  text-overflow: ellipsis;   /* IE, Safari (WebKit) */
+  overflow:hidden;              /* don't show excess chars */
+  white-space:nowrap;           /* force single line */
+  /* max-width: 220px; */
 }
 .each-mnemonic {
   font-weight: 500;
@@ -1320,6 +1324,11 @@ input,
 .modal-account-btnRemove {
   color: #ED1576 !important;
   border-color: #ED1576 !important;
+  border-radius: 16px !important;
+}
+.modal-account-btnExport {
+  color: #00a9f9 !important;
+  border-color: #00a9f9 !important;
   border-radius: 16px !important;
 }
 .modal-account-form .ant-btn:focus {
