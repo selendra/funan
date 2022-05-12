@@ -9,7 +9,7 @@ const address = (addr) => addr ? addr.address : '';
 export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
   const { currentAccount } = useSubstrateState();
-  const [ state ] = useFetchBalanceSEL(address(currentAccount), "Injection", { testnet: true });
+  const [ state ] = useFetchBalanceSEL(address(currentAccount), "Selendra", { testnet: true });
 
   return (
     <div>

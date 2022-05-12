@@ -28,7 +28,7 @@ export default function Buy() {
   const { selectedToken } = useContext(TokenContext);
 
   // === >>> State Section <<< ===
-  const [state] = useFetchBalanceSEL("seXZcUAx8Nt1ed8WocFKVWB23YzXX5kjX2XCThZogaKqNNv8N", "Injection", {testnet: true});
+  const [state] = useFetchBalanceSEL("seXZcUAx8Nt1ed8WocFKVWB23YzXX5kjX2XCThZogaKqNNv8N", "Selendra", {testnet: true});
   const [spinning, setSpinning] = useState(true);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(0);
