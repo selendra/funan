@@ -65,7 +65,7 @@ export default function AccountSelector({ keyringOptions }) {
       <Row gutter={[{sm: [40, 40], md: [32,64]}]} justify="space-between">
         <Col xs={24} sm={12} md={12} lg={12} xl={12}>
           <Row gutter={[32, 32]} justify="center">
-            <Col xs={6} sm={6} md={8} lg={6} xl={6}>
+            <Col xs={6} sm={6} md={8} lg={8} xl={8}>
               { account ? 
                 <ButtonConnect
                   className="home-connect-evm"
