@@ -11,7 +11,7 @@ const address = (addr) => addr ? addr.address : '';
 
 export default function Send() {
   const { currentAccount, api } = useSubstrateState();
-  const [state] = useFetchBalanceSEL(address(currentAccount), "Selendra", {testnet: true});
+  const [state] = useFetchBalanceSEL(address(currentAccount), "Selendra", api);
   const [amount, setAmount] = useState('');
   const [destination, setDestination] = useState('');
   const [password, setPassword] = useState('');
