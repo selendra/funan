@@ -1,47 +1,44 @@
 import { useEffect, useState } from "react";
+import { useIsMountedRef } from "./useIsMountedRef";
+
+const EMPTY = {
+  loading: false,
+  freeBalance: null,
+  error: null
+}
 
 export function useFetchBalanceSEL(address, type, api) {
-  const [state, setState] = useState({
-    loading: true,
-    freeBalance: null,
-    error: null
-  });
+  const mountedRef = useIsMountedRef();
+  const [state, setState] = useState(EMPTY);
 
   useEffect(() => {
-    let isMounted = true;  // prevent memory leak
     async function getBalance() {
       if(!address || !type) return;
-      if(type !== 'Selendra') {
-        setState({
-          loading: false,
-          freeBalance: null,
-          error: null
-        });
-        return;
-      }
+      if(type !== 'Selendra') return;
       try {
-        let { data: { free: FreeBalance } } = await api.query.system.account(address);
-        
-        if(isMounted) {
+        const subscription = await api.query.system.account(address, ({data: { free: FreeBalance }}) => {
+          mountedRef.current &&
           setState({
             loading: false,
             freeBalance: FreeBalance.toJSON(),
             error: null
           });
-        }
+        });
+
+        return () => {
+          setTimeout(() => subscription.unsubscribe(), 0);
+        };
       } catch (error) {
-        if(isMounted) {
-          setState({
-            loading: false,
-            freeBalance: null,
-            error: error
-          });
-        }
+        mountedRef.current &&
+        setState({
+          loading: false,
+          freeBalance: null,
+          error: error
+        });
       }
-      return () => (isMounted = false);
     }
     getBalance();
-  }, [address, type]);
+  }, [address, type, mountedRef, api.query.system]);
 
   return [state];
 }
