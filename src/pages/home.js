@@ -1,18 +1,18 @@
-import { useContext, useEffect, useState } from "react";
-import { Card } from "antd";
+import { Card, Spin } from "antd";
 import { ethers } from "ethers";
+import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../context/AccountContext";
+import { useAccounts } from "../hooks/useAccounts";
 import { tokens } from "../constants/tokenContract";
 import Wallet from "../components/Wallet";
 import LayoutComponent from "../components/Layout";
 import TokenBalance from "../components/TokenBalance";
+import AccountSelector from "../components/AccountSelector";
 import busd from "../assets/tokens/busd.png";
 import usdt from "../assets/tokens/usdt.png";
 import dai from "../assets/tokens/dai.png";
 import eth from "../assets/tokens/eth.png";
 import bnb from "../assets/tokens/bnb.png";
-import AccountSelector from "../components/AccountSelector";
-import { useAccounts } from "../hooks/useAccounts";
 
 export default function Home() {
   const { allAccounts } = useAccounts();
@@ -29,11 +29,11 @@ export default function Home() {
   useEffect(() => {
     // Get the list of accounts
     const keyringOptions = 
-    allAccounts.map((account) => ({
-      key: account,
-      value: account,
-      icon: 'user',
-    }));
+      allAccounts.map((account) => ({
+        key: account,
+        value: account,
+        icon: 'user',
+      }));
 
     setKeyringOptions(keyringOptions);
   },[allAccounts]);
@@ -42,43 +42,40 @@ export default function Home() {
     if (!account) return;
     async function getBalance() {
       const tokenABI = ["function balanceOf(address) view returns (uint)"];
-      const provider = ethers.getDefaultProvider(
-        "https://data-seed-prebsc-1-s1.binance.org:8545/"
-      );
+      const provider = ethers.getDefaultProvider("https://data-seed-prebsc-1-s1.binance.org:8545/");
       setLoading(true);
-      const BUSD = new ethers.Contract(
-        tokens[0].tokenAddress,
-        tokenABI,
-        provider
-      );
-      const DAI = new ethers.Contract(
-        tokens[1].tokenAddress,
-        tokenABI,
-        provider
-      );
-      const USDT = new ethers.Contract(
-        tokens[2].tokenAddress,
-        tokenABI,
-        provider
-      );
-      const ETH = new ethers.Contract(
-        tokens[3].tokenAddress,
-        tokenABI,
-        provider
-      );
-
-      const data = await Promise.all([
-        BUSD.balanceOf(account),
-        DAI.balanceOf(account),
-        USDT.balanceOf(account),
-        ETH.balanceOf(account),
-        provider.getBalance(account)
-      ]);
-      const newArr = data.map((x) => ({
-        value: x._hex,
-      }));
-      setBalance(newArr);
-      setLoading(false);
+      await Promise.all(
+        tokens.map((i) =>
+          new ethers.Contract(
+            i.tokenAddress,
+            tokenABI,
+            provider
+          )
+        )
+      )
+      .then(async([BUSD, DAI, USDT, ETH]) => {
+        await Promise.all([
+          BUSD.balanceOf(account),
+          DAI.balanceOf(account),
+          USDT.balanceOf(account),
+          ETH.balanceOf(account),
+          provider.getBalance(account)
+        ])
+        .then(([BUSD, DAI, USDT, ETH, BNB]) => {
+          const data = [
+            { title: 'BUSD', value: BUSD._hex, icon: busd },
+            { title: 'DAI', value: DAI._hex, icon: dai },
+            { title: 'USDT', value: USDT._hex, icon: usdt },
+            { title: 'ETH', value: ETH._hex, icon: eth },
+            { title: 'BNB', value: BNB._hex, icon: bnb },
+          ]
+          setBalance(data);
+          setLoading(false);
+        })
+      })
+      .catch((e) => {
+        setLoading(false);
+      })
     }
     getBalance();
   }, [account]);
@@ -87,9 +84,7 @@ export default function Home() {
     <LayoutComponent>
       <p className="profile-home">Home</p>
       <Card style={{ borderRadius: "8px" }} className="sel-card">
-        <AccountSelector 
-          keyringOptions={keyringOptions} 
-        />
+        <AccountSelector keyringOptions={keyringOptions} />
       </Card>
 
       <p className="profile-home">Wallet</p>
@@ -112,42 +107,29 @@ export default function Home() {
       <p className="profile-home">Assets</p>
       <div className="profile-desc">
         <Card style={{ borderRadius: "8px" }}>
-          {account ? (
+          { account ?
             <div>
-              <TokenBalance
-                image={usdt}
-                TokenName="USDT"
-                balance={balance[2]?.value}
-                loading={loading}
-              />
-              <TokenBalance
-                image={busd}
-                TokenName="BUSD"
-                balance={balance[0]?.value}
-                loading={loading}
-              />
-              <TokenBalance
-                image={dai}
-                TokenName="DAI"
-                balance={balance[1]?.value}
-                loading={loading}
-              />
-              <TokenBalance
-                image={eth}
-                TokenName="ETH"
-                balance={balance[3]?.value}
-                loading={loading}
-              />
-              <TokenBalance
-                image={bnb}
-                TokenName="BNB"
-                balance={balance[4]?.value}
-                loading={loading}
-              />
+              { loading ?
+                <center>
+                  <Spin />
+                </center>
+                :
+                <center>
+                  { balance.map((i, key) =>
+                    <TokenBalance
+                      image={i.icon}
+                      TokenName={i.title}
+                      balance={i.value}
+                      loading={loading}
+                      key={key}
+                    />
+                  )}
+                </center>
+              }
             </div>
-          ):(
+            :
             <p>Please connect your evm wallet.</p>
-          )}
+          }
         </Card>
       </div>
     </LayoutComponent>

@@ -2,11 +2,11 @@ import { Col, Row, Spin } from "antd";
 import { ethers } from "ethers";
 
 export default function TokenBalance({ image, TokenName, loading, balance }) {
-  const formatedBalance = formatBalance(balance);
   function formatBalance(value) {
     if (!value) return;
     return ethers.utils.formatUnits(value, 18);
   }
+  const formatedBalance = formatBalance(balance);
 
   return (
     <Row justify="space-between" align="middle" style={{ margin: "16px 0" }}>
@@ -18,7 +18,6 @@ export default function TokenBalance({ image, TokenName, loading, balance }) {
           <Col>
             <div className="profile__selPrice">
               <p>{TokenName}</p>
-              {/* <p>$ 0.03</p> */}
             </div>
           </Col>
         </Row>
@@ -28,7 +27,6 @@ export default function TokenBalance({ image, TokenName, loading, balance }) {
         {!loading && (
           <div className="profile__estimateValue">
             <p>{(+formatedBalance).toFixed(5) + " " + TokenName}</p>
-            {/* <p>≈ ${getPrice(balance)} USD</p> */}
           </div>
         )}
       </Col>

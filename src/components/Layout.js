@@ -8,6 +8,7 @@ import { useTheme } from "next-themes";
 import Navbar from "./Navbar";
 // import Footer from "./Footer";
 import MenuList from "./MenuList";
+
 export default function LayoutComponent({ children }) {
   const { theme } = useTheme();
   const [visible, setVisible] = useState(false);
