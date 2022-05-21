@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { ApiPromise, WsProvider } from "@polkadot/api";
 
-export function useFetchBalanceSEL(address, type, {testnet}) {
+export function useFetchBalanceSEL(address, type, api) {
   const [state, setState] = useState({
     loading: true,
     freeBalance: null,
@@ -21,15 +20,8 @@ export function useFetchBalanceSEL(address, type, {testnet}) {
         return;
       }
       try {
-        let provider;
-        if(testnet) provider = new WsProvider('wss://rpc1-testnet.selendra.org');
-        else provider = new WsProvider('wss://rpc-mainnet.selendra.org');
-        const api = await ApiPromise.create({ provider });
-        // Retrieve the initial balance. Since the call has no callback, it is simply a promise
-        // that resolves to the current on-chain value
-        let { data: { free: FreeBalance } } = 
-          await api.query.system.account(address);
-        console.log(FreeBalance.toJSON())
+        let { data: { free: FreeBalance } } = await api.query.system.account(address);
+        
         if(isMounted) {
           setState({
             loading: false,
@@ -49,7 +41,7 @@ export function useFetchBalanceSEL(address, type, {testnet}) {
       return () => (isMounted = false);
     }
     getBalance();
-  }, [address, testnet, type]);
+  }, [address, type]);
 
   return [state];
 }

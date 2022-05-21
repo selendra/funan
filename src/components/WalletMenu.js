@@ -8,12 +8,12 @@ const address = (addr) => addr ? addr.address : '';
 
 export default function WalletMenu({ children }) {
   const { pathname } = useLocation();
-  const { currentAccount } = useSubstrateState();
-  const [ state ] = useFetchBalanceSEL(address(currentAccount), "Selendra", { testnet: true });
+  const { currentAccount, api } = useSubstrateState();
+  const [ state ] = useFetchBalanceSEL(address(currentAccount), "Selendra", api);
 
   return (
     <div>
-      <h2>Account: {address(currentAccount) ? address(currentAccount) : 'Please Create Selendra Wallet'}</h2>
+      <h2 style={{wordBreak: 'break-all'}}>Account: {address(currentAccount) ? address(currentAccount) : 'Please Create Selendra Wallet'}</h2>
       <div className="wallet-background-card">
         <Row gutter={[12, 12]} align="middle">
           <Col xs={24} sm={24} xl={10}>

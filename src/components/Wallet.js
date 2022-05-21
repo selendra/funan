@@ -1,12 +1,17 @@
-import { Avatar, Button, Card, Col, message, Row, Spin, Tooltip } from "antd";
+import { Button, Card, Col, message, Row, Spin, Tooltip } from "antd";
 import { FormatBalance, shortenAddress } from "../utils";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 import { useState } from "react";
 import ModalAccount from "./ModalAccount";
+import metamask from '../assets/metamask.png';
+import trustwallet from '../assets/trustwallet.png';
+import sel from '../assets/sel-icon.svg';
+import { useSubstrateState } from "../context/SubstrateContext";
 
 export default function Wallet({ account, type }) {
-  const [state] = useFetchBalanceSEL(account, type, {testnet: true});
+  const { api } = useSubstrateState();
+  const [state] = useFetchBalanceSEL(account, type, api);
   const[visible, setVisible] = useState(false);
 
   return (
@@ -22,11 +27,22 @@ export default function Wallet({ account, type }) {
           <Col xs={24} sm={8}>
             <Row gutter={[16, 16]}>
               <Col>
-                <Avatar
-                  src={`https://avatars.dicebear.com/api/identicon/${account}.svg`}
-                  size={64}
-                  style={{ background: "#FFF" }}
-                />
+                <div className="wallet-avatar">
+                  <img
+                    alt=''
+                    src={ 
+                      type === 'Metamask' ?
+                      metamask
+                      :
+                      type === 'Selendra' ?
+                      sel
+                      :
+                      trustwallet
+                    }
+                    width={50}
+                    height={50}
+                  />
+                </div>
               </Col>
               <Col>
                 <p style={{ paddingBottom: "8px" }}>{shortenAddress(account)}</p>

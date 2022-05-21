@@ -1,8 +1,8 @@
 import { message } from 'antd';
 import { Contract } from "ethers";
 import { u8aToHex } from "@polkadot/util";
-import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
 import { formatBalance } from "@polkadot/util";
+import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
 import { tokens } from "../constants/tokenContract";
 import keyring from '@polkadot/ui-keyring';
 

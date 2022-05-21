@@ -6,21 +6,21 @@ function MenuList() {
   // ==== >>> Selendra Routes <<< ====
   const routes = [
     {
-      icon: "home-2.svg",
-      name: "Home",
+      icon: "wallet-2.svg",
+      name: "Wallet",
       route: "/home",
       disable: false,
     },
     {
-      icon: "wallet-2.svg",
-      name: "Wallet",
-      route: "/wallet",
+      icon: "arrange-square.svg",
+      name: "Transfer",
+      route: "/wallet/send",
       disable: false,
     },
     {
-      icon: "reserve.svg",
-      name: "Auction",
-      route: "/auction",
+      icon: "scan-barcode.svg",
+      name: "Launchpad",
+      route: "/launchpad",
       disable: false,
     },
     {
@@ -31,20 +31,20 @@ function MenuList() {
     },
     {
       icon: "convertshape-2.svg",
-      name: "Exchange",
-      route: "/exchange",
+      name: "Swap",
+      route: "/swap",
       disable: true,
     },
     {
       icon: "money-recive.svg",
-      name: "Borrow",
-      route: "/borrow",
+      name: "DeFi",
+      route: "/defi",
       disable: true,
     },
     {
       icon: "trend-up.svg",
-      name: "Stake/Earn",
-      route: "/stake",
+      name: "Earn",
+      route: "/earn",
       disable: true,
     },
   ];

@@ -1,6 +1,6 @@
 import Icon from "@ant-design/icons";
 import { QRCode } from "react-qrcode-logo";
-import { Button, message, Row } from 'antd';
+import { Button, Col, message, Row } from 'antd';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import LayoutComponent from "../../components/Layout";
 import WalletMenu from "../../components/WalletMenu";
@@ -17,22 +17,31 @@ export default function Receive() {
     <LayoutComponent>
       <WalletMenu>
         { currentAccount ?
-          <center>
-            <QRCode size={200} value={address(currentAccount)} />
-            <Row gutter={[16, 16]} justify='center' align='middle' style={{marginTop: '16px'}}>
-              <p className='receive-address'>{address(currentAccount)}</p>
-              <CopyToClipboard text={address(currentAccount)}>
-                <Button
-                  type="link"
-                  icon={<CopyIcon />}
-                  style={{ paddingLeft: "0" }}
-                  onClick={() => message.success("Copied")}
-                >
-                  <span style={{fontWeight: '500', margin: '0'}}>Copy</span>
-                </Button>
-              </CopyToClipboard>
-            </Row>
-          </center>
+          <Row gutter={[16, 16]} justify='center'>
+            <center>
+              <QRCode size={200} value={address(currentAccount)} />
+              <Row justify="space-between">
+                <Col>
+                  <p>Wallet Address:</p>
+                </Col>
+                <Col>
+                  <CopyToClipboard text={address(currentAccount)}>
+                    <Button
+                      type="link"
+                      icon={<CopyIcon />}
+                      style={{ padding: '0 8px' }}
+                      onClick={() => message.success("Copied")}
+                    >
+                      <span style={{fontWeight: '500'}}>Copy</span>
+                    </Button>
+                  </CopyToClipboard>
+                </Col>
+              </Row>
+              <Row className="receive-address-container" gutter={[0, 16]}>
+                <p className='receive-address'>{address(currentAccount)}</p>
+              </Row>
+            </center>
+          </Row>
           :
           <p>Look like you don't have Selendra wallet yet.</p>
         }
