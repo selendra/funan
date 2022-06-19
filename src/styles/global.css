@@ -1,0 +1,177 @@
+/*===>> GLOBAL-COMPONENTS-STYLING <<===*/
+html {
+  --primary: #03A9F4;
+  --secondary: #ED1576;
+}
+html[data-theme="dark"] {
+  --background: #22272e;
+  --foreground: #2d333b;
+  --background-input: #f3f3f3;
+  --text-color: rgb(187, 187, 187);
+  --box-shadow: rgba(255, 255, 255, 0) 0px 0px 0px;
+  --btn-background: #22272e;
+  --menu-background: #22272e;
+  --background-home-image: url("../assets/background1.png");
+  --active-color: #22272e;
+}
+html[data-theme="light"] {
+  --background: rgba(243, 243, 243, 0.938) !important;
+  --foreground: rgba(255, 255, 255, 1);
+  --background-input: #f3f3f3;
+  --text-color: #22272e;
+  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --btn-background: #f5f5f5;
+  --menu-background: rgb(219, 248, 255);
+  --background-home-image: url("../assets/background.png");
+  --active-color: #e4f7ff;
+}
+
+/*===>> ANT-MODAL <<===*/
+.ant-modal-content 
+  {
+    border-radius: 18px !important;
+  }
+.funan-modal .ant-modal-content 
+  {
+    background-color: var(--foreground) !important;
+  }
+/*===>> ANT-BUTTON <<===*/
+.funan-btn 
+  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500 !important;
+    height: 40px !important;
+    color: #F5F5F5;
+    border: none !important;
+    border-radius: 20px !important;
+    margin: 8px 0 !important;
+  }
+.funan-btn img 
+  {
+    margin-right: 8px;
+  }
+.funan-btnPrimary 
+  {
+    background-color: var(--primary);
+  }
+.funan-btnSecondary 
+  {
+    background-color: var(--secondary) !important; 
+  }
+.funan-btnDanger 
+  {
+    background-color: var(--secondary) !important;
+  }
+.funan-btnAccent 
+  {
+    color: var(--text-color) !important;
+    background-color: var(--background) !important;
+  }
+.funan-btnPrimaryMedium,
+.funan-btnSecondaryMedium,
+.funan-btnAccentMedium 
+  {
+    height: 55px !important;
+    border-radius: 25px !important;
+  }
+.funan-btnPrimaryLarge,
+.funan-btnSecondaryLarge 
+  {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    height: 70px !important;
+    border-radius: 35px !important;
+  }
+.funan-btnPrimary:hover,
+.funan-btnPrimary:focus 
+  {
+    color: #F5F5F5;
+    background-color: var(--primary);
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+  }
+.funan-btnSecondary:hover,
+.funan-btnSecondary:focus 
+  {
+    color: #f5f5f5;
+    background-color: var(--secondary) !important; 
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+  }
+.funan-btnOutline {
+  border-radius: 16px;
+  border: 2px solid !important;
+  line-height: 0;
+}
+.funan-btnOutlinePrimary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.funan-btnOutlineDanger {
+  color: var(--secondary);
+  border-color: var(--secondary);
+}
+.funan-btnOutlineDanger:hover,
+.funan-btnOutlineDanger:focus {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
+/*===>> ANT-INPUT <<===*/
+.ant-input::placeholder {
+  color: rgba(149, 157, 165, 0.2);
+}
+.funan-input {
+  color: var(--text-color) !important;
+  background-color: var(--background) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  margin: 4px 0 !important;
+}
+.funan-inputMedium {
+  height: 55px !important;
+  font-size: 16px !important;
+  border-radius: 16px !important;
+}
+.funan-inputPassword input {
+  color: var(--text-color) !important;
+  background-color: transparent !important;
+}
+.ant-input-affix-wrapper {
+  background-color: var(--background) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  margin: 4px 0 !important;
+}
+.ant-input-affix-wrapper .anticon-eye,
+.ant-input-affix-wrapper .anticon-eye-invisible {
+  color: var(--text-color) !important;
+}
+.funan-inputPassword-medium {
+  height: 55px !important;
+  font-size: 16px !important;
+  border-radius: 16px !important;
+}
+.funan-inputArea {
+  color: var(--text-color);
+  background-color: var(--background);
+  border-radius: 16px;
+}
+/*===>> ANT-CARD <<===*/
+.funan-card {
+  border-radius: 22px !important;
+  font-size: 16px !important;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background: var(--foreground) !important;
+  backdrop-filter: blur(60px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(60px) saturate(180%) !important;
+  border: 0px !important;
+}
+@media screen and (max-width: 768px) {
+  .funan-card {
+    padding: 0;
+  }
+}

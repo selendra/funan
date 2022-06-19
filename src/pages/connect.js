@@ -1,11 +1,11 @@
-import { Button, Card, Col, message, Row } from "antd";
-import { useContext, useEffect, useState } from "react";
+import { Col, message, Row } from "antd";
+import { Card } from "globalComponents";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { AccountContext } from "../context/AccountContext";
+import ModalMetamask from "../components/ModalMetamask";
 import metamask from "../assets/metamask.png";
 import trustwallet from "../assets/trustwallet.png";
-import LayoutComponent from "../components/Layout";
-import ModalMetamask from "../components/ModalMetamask";
-import { AccountContext } from "../context/AccountContext";
 
 export default function Connect() {
   const { connectMetamask, connectTrust, account } = useContext(AccountContext);
@@ -25,11 +25,7 @@ export default function Connect() {
   }
 
   return (
-    <LayoutComponent>
-      <ModalMetamask
-        visible={visible}
-        setVisible={setVisible}
-      />
+    <div>
       <div className="connect__container">
         <Card style={{ borderRadius: "12px" }}>
           <center>
@@ -51,6 +47,11 @@ export default function Connect() {
           </Row>
         </Card>
       </div>
-    </LayoutComponent>
+
+      <ModalMetamask
+        visible={visible}
+        setVisible={setVisible}
+      />
+    </div>
   );
 }

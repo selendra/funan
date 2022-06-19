@@ -13,7 +13,7 @@ export function useFetchBalanceSEL(address, type, api) {
 
   useEffect(() => {
     async function getBalance() {
-      if(!address || !type) return;
+      if(!address || !type || !api) return;
       if(type !== 'Selendra') return;
       try {
         const subscription = await api.query.system.account(address, ({data: { free: FreeBalance }}) => {
@@ -38,7 +38,7 @@ export function useFetchBalanceSEL(address, type, api) {
       }
     }
     getBalance();
-  }, [address, type, mountedRef, api.query.system]);
+  }, [address, type, mountedRef, api]);
 
   return [state];
 }

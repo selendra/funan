@@ -1,9 +1,10 @@
-import React from "react"
-import { ApiPromise, WsProvider } from "@polkadot/api"
-import { keyring as Keyring } from "@polkadot/ui-keyring"
-import { selendra } from "../constants/node"
+import React from "react";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import { keyring as Keyring } from "@polkadot/ui-keyring";
+import { selendra } from "../constants/node";
 
 const Connected = localStorage.getItem('current-account');
+console.log(Connected)
 
 const initialState = {
   // These are the states
@@ -14,6 +15,10 @@ const initialState = {
   apiError: null,
   apiState: null,
   currentAccount: null,
+  consts: {
+    expectedBlockTime: 0,
+    existentialDeposit: 0
+  }
 }
 
 const reducer = (state, action) => {
@@ -34,6 +39,8 @@ const reducer = (state, action) => {
       return { ...state, keyring: null, keyringState: 'ERROR' }
     case 'SET_CURRENT_ACCOUNT':
       return { ...state, currentAccount: action.payload }
+    case 'SET_CONSTS':
+      return { ...state, consts: action.payload}
     default:
       throw new Error(`Unknown type: ${action.type}`)
   }
@@ -47,18 +54,20 @@ const connect = (state, dispatch) => {
 
   dispatch({ type: 'CONNECT_INIT' });
 
-  console.log(`Connected socket: ${socket}`);
   const provider = new WsProvider(socket);
-  const _api = new ApiPromise({ provider })
-
+  const _api = new ApiPromise({ provider });
+  
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {
-    dispatch({ type: 'CONNECT', payload: _api })
+    dispatch({ type: 'CONNECT', payload: _api });
     // `ready` event is not emitted upon reconnection and is checked explicitly here.
-    _api.isReady.then(_api => dispatch({ type: 'CONNECT_SUCCESS' }))
-  })
-  _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }))
-  _api.on('error', err => dispatch({ type: 'CONNECT_ERROR', payload: err }))
+    _api.isReady.then(_api => {
+      dispatch({ type: 'CONNECT_SUCCESS' });
+    });
+    console.log(`Connected socket: ${socket}`);
+  });
+  _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }));
+  _api.on('error', err => dispatch({ type: 'CONNECT_ERROR', payload: err }));
 }
 
 // Loading accounts from browser
@@ -67,37 +76,49 @@ const loadAccounts = (state, dispatch) => {
   
   const asyncLoadAccounts = async () => {
     try {
-      // since we don't use extension :)
-      // await web3Enable(config.APP_NAME)
-      // let allAccounts = await web3Accounts()
-
-      // allAccounts = allAccounts.map(({ address, meta }) => ({
-      //   address,
-      //   meta: { ...meta, name: `${meta.name} (${meta.source})` },
-      // }))
-
-      // Keyring.
       Keyring.loadAll({ ss58Format: 204, type: 'sr25519' });
-      // console.log('data', Keyring);
       dispatch({ type: 'SET_KEYRING', payload: Keyring });
 
-      // get current active acc
+      // Get current active account
       if(Connected) {
-        dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: getKeypair(Connected) })
+        dispatch({ 
+          type: 'SET_CURRENT_ACCOUNT', 
+          payload: getKeypair(Connected) 
+        });
       }
-    } catch (e) {
-      console.error(e)
-      dispatch({ type: 'KEYRING_ERROR' })
+    } catch(e) {
+      console.error(e);
+      dispatch({ type: 'KEYRING_ERROR' });
     }
   }
-  asyncLoadAccounts()
+  asyncLoadAccounts();
+}
+
+const fetchConsts = async (state, dispatch) => {
+  const { apiState, api } = state;
+  if(apiState !== 'READY' || !api) return;
+  try {
+    const promise = await Promise.all([ 
+      await api.consts.babe.expectedBlockTime,
+      await api.consts.balances.existentialDeposit
+    ]);
+    dispatch({ 
+      type: 'SET_CONSTS', 
+      payload: {
+        expectedBlockTime: promise[0],
+        existentialDeposit: promise[1]
+      }
+    });
+  } catch(error){
+    
+  }
 }
 
 function getKeypair(addr) {
   try {
     return Keyring.getPair(addr);
   } catch (error) {
-    // if acc removed return null
+    // if account removed return null
     return null;
   }
 }
@@ -112,25 +133,33 @@ const SubstrateContextProvider = ({children}) => {
   React.useEffect(() => {
     const { apiState, keyringState } = state
     if (apiState === 'READY' && !keyringState && !keyringLoadAll) {
-      keyringLoadAll = true
+      keyringLoadAll = true;
       loadAccounts(state, dispatch);
       // keyringLoadAll = false
+      fetchConsts(state, dispatch);
     }
-  }, [state, dispatch])
+  }, [state, dispatch]);
 
-  function setCurrentAccount(acct) {
-    localStorage.setItem('current-account', acct.address);
-    dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: acct });
+  function setCurrentAccount(account) {
+    localStorage.setItem('current-account', account.address);
+    dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: account });
   }
-
+  
   return (
-    <SubstrateContext.Provider value={{ state, dispatch, loadAccounts, setCurrentAccount }}>
+    <SubstrateContext.Provider 
+      value={{ 
+        state, 
+        dispatch, 
+        loadAccounts, 
+        setCurrentAccount 
+      }}
+    >
       {children}
     </SubstrateContext.Provider>
   )
 }
 
-const useSubstrate = () => React.useContext(SubstrateContext)
-const useSubstrateState = () => React.useContext(SubstrateContext).state
+const useSubstrate = () => React.useContext(SubstrateContext);
+const useSubstrateState = () => React.useContext(SubstrateContext).state;
 
-export { SubstrateContextProvider, useSubstrate, useSubstrateState }
+export { SubstrateContextProvider, useSubstrate, useSubstrateState };

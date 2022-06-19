@@ -1,8 +1,9 @@
-import React from "react";
-import { Alert, Checkbox, Form, Input } from "antd";
+import { useEffect } from "react";
+import { Alert, Checkbox, Form } from "antd";
+import { Input } from "globalComponents";
 
 export default function SetPassword({ form, setForm, error, setError }) {
-  React.useEffect(() => {
+  useEffect(() => {
     if(!form.username) return setError('Please input username!');
     if(!form.password) return setError('Please input password!');
     if(form.password !== form.password_con) return setError('Password not match!');
@@ -16,15 +17,16 @@ export default function SetPassword({ form, setForm, error, setError }) {
 
   return (
     <>
-      <div className="restore-wallet-section">
-        <h3>Set up wallet </h3>
-        <Form
-          name="basic"
-          layout="vertical"
-          size="large"
-        >
-          <Form.Item className="input-username" label="Set a username">
-            <Input 
+      <div>
+        <center>
+          <h2>Set up wallet</h2>
+        </center>
+        <br />
+        <Form layout="vertical">
+          <Form.Item label="Set a username">
+            <Input.Text 
+              medium
+              value={form.username}
               onChange={e => setForm({
                 username: e.target.value,
                 password: form.password,
@@ -32,21 +34,21 @@ export default function SetPassword({ form, setForm, error, setError }) {
               })}
             />
           </Form.Item>
-          <Form.Item className="input-back" label="Set a new password" name="username">
+          <Form.Item label="Set a new password">
             <Input.Password 
+              medium
+              value={form.password}
               onChange={e => setForm({
                 username: form.username,
                 password: e.target.value,
                 password_con: form.password_con
               })}
             />
-            <p>
-              Make sure to enter at least 8 and max 200 characters, including
-              one upper-case letter, a symbol and a number{" "}
-            </p>
           </Form.Item>
-          <Form.Item className="input-back" label="Re-enter password" name="username">
+          <Form.Item label="Re-enter password">
             <Input.Password 
+              medium
+              value={form.password_con}
               onChange={e => setForm({
                 username: form.username,
                 password: form.password,
@@ -57,6 +59,7 @@ export default function SetPassword({ form, setForm, error, setError }) {
           { error &&
             <Alert message={error} type="error" style={{borderRadius: '8px'}} showIcon />
           }
+          <br />
           <Form.Item name="remember" valuePropName="checked">
             <Checkbox>
               I understand that I will need this password to verify all

@@ -1,5 +1,4 @@
-import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal } from 'globalComponents';
 import { isAndroid, isChrome, isDesktop, isFirefox, isIOS, isMobile } from 'react-device-detect';
 
 let link;
@@ -12,32 +11,21 @@ if(isMobile) {
 } 
 
 export default function ModalMetamask({visible, setVisible}) {
-  const styling = {
-    borderRadius: '32px',
-    height: '40px',
-    maxWidth: '180px',
-    width: '100%',
-    background: '#03a9f4',
-    color: '#FFF'
-  }
-
   return (
     <Modal
-      className='modal-select-account'
       visible={visible}
-      footer={false}
       closable={false}
       onCancel={() => setVisible(false)}
     >
       <div>
         <center>
           <h2>Add Metamask Account</h2><br/>
-          <p>Metamask not Installed.</p>
-          <Button style={styling}>
+          <p>Metamask not Installed.</p><br/>
+          <Button.Primary>
             <a href={link} target='_blank' rel="noreferrer">
               Install Metamask
             </a>
-          </Button>
+          </Button.Primary>
         </center>
       </div>
     </Modal>
