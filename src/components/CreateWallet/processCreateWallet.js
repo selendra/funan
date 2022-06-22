@@ -84,6 +84,7 @@ export default function ProcessCreateWallet({ setVisible }) {
             <Form.Item label="Set a username">
               <Input.Text
                 medium
+                placeholder='Enter username'
                 value={form.username}
                 onChange={(e) =>
                   setForm({
@@ -97,6 +98,7 @@ export default function ProcessCreateWallet({ setVisible }) {
             <Form.Item label="Set a new password">
               <Input.Password
                 medium
+                placeholder='Enter password'
                 value={form.password}
                 onChange={(e) =>
                   setForm({
@@ -114,6 +116,7 @@ export default function ProcessCreateWallet({ setVisible }) {
             <Form.Item label="Re-enter password">
               <Input.Password
                 medium
+                placeholder='Enter confirm password'
                 value={form.password_con}
                 onChange={(e) =>
                   setForm({

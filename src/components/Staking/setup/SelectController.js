@@ -1,9 +1,7 @@
-import { Col, Row } from 'antd'
-import { Card } from 'globalComponents'
-import { useEffect, useState } from 'react'
-import { useAccounts } from '../../../hooks/useAccounts';
-import { useStaking } from '../../../context/StakingContext';
-import { getUsername, shortenAddress } from '../../../utils';
+import { Col, Row } from 'antd';
+import { Card } from 'globalComponents';
+import { useAccounts } from 'hooks/useAccounts';
+import { getUsername, shortenAddress } from 'utils';
 import ErrorHandling from '../ErrorHandling';
 
 const selectedStyle = {
@@ -13,19 +11,11 @@ const selectedStyle = {
 export default function SelectController({
   nominate,
   form,
-  setForm
+  setForm,
+  warning,
+  error
 }) {
   const { allAccounts } = useAccounts();
-  const { getAccountLedger } = useStaking();
-  const [ledger, setLedger] = useState();
-
-  useEffect(() => {
-    async function _getAccountLedger() {
-      const ledger = await getAccountLedger(form.controller);
-      setLedger(ledger);
-    }
-    _getAccountLedger();
-  }, [form, getAccountLedger]);
 
   return (
     <Card>
@@ -51,15 +41,15 @@ export default function SelectController({
                 width={40}
                 style={{borderRadius: '20px'}}
               />
-              <h3>{getUsername(i).toUpperCase()}</h3>
+              <h3>{getUsername(i)}</h3>
               <p>{shortenAddress(i)}</p>
             </div>
           </Col>
         )}
         {/* Controller error */}
         <ErrorHandling 
-          form={form} 
-          ledger={ledger} 
+          warning={warning}
+          error={error}
         />
       </Row>
     </Card>

@@ -1,19 +1,10 @@
 import moment from 'moment';
 import { createContext, useContext, useEffect, useState } from "react";
-import { useSubstrateState } from "./SubstrateContext";
-import { useIsMountedRef } from "../hooks/useIsMountedRef";
-import { useBalance } from './BalanceContext';
+import { useSubstrateState } from "../SubstrateContext";
+import { useIsMountedRef } from "../../hooks/useIsMountedRef";
+import { useBalance } from '../BalanceContext';
 import { BigNumber } from 'bignumber.js';
-
-const EMPTY_SESSION_ERA = {
-  eraLength: 0,
-  eraProgress: 0
-}
-const EMPTY_BONDOPTIONS = {
-  freeToBond: 0,
-  totalUnlocking: 0,
-  totalUnlocked: 0,
-}
+import { EMPTY_SESSION_ERA, EMPTY_BONDOPTIONS } from './default';
 
 const StakingContext = createContext();
 const StakingProvider = ({children}) => {
@@ -67,7 +58,7 @@ const StakingProvider = ({children}) => {
           mountedRef.current &&
           setStaking({
             activeEra: _activeEra.toJSON(),
-            minNominatorBond: _minNominatorBond.toJSON(),
+            minNominatorBond: new BigNumber(_minNominatorBond).toNumber(),
             payee: _payee.toHuman(),
             historyDepth: _historyDepth.toJSON()
           })

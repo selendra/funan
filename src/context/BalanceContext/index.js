@@ -1,21 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useSubstrateState } from './SubstrateContext';
-import { useIsMountedRef } from "../hooks/useIsMountedRef";
-import { formatBN } from "../utils";
-
-const EMPTY_BALANCE = {
-  free: 0,
-  reserved: 0,
-  miscFrozen: 0,
-  feeFrozen: 0,
-  freeAfterReserve: 0
-}
-const EMPTY_LEDGER = {
-  stash: '',
-  total: '',
-  active: '',
-  unlocking: ''
-}
+import { useSubstrateState } from '../SubstrateContext';
+import { useIsMountedRef } from "hooks/useIsMountedRef";
+import { EMPTY_BALANCE, EMPTY_LEDGER } from "./default";
+import { formatBN } from "utils";
 
 const BalanceContext = createContext();
 const BalanceProvider = ({children}) => {
@@ -72,7 +59,7 @@ const BalanceProvider = ({children}) => {
       }
     }
     subscribeToLedger();
-  }, [api, apiState, currentAccount, mountedRef]);
+  }, [api, apiState, currentAccount ,mountedRef]);
 
   useEffect(() => {
     async function subscribeToBalances() {

@@ -209,6 +209,9 @@ i {
   .wrapper {
     margin: 0;
   }
+  .sidebar-top {
+    min-height: initial;
+  }
 }
 @media screen and (max-width: 768px) {
   .container {
@@ -372,6 +375,9 @@ i {
   transition: .5s all;
   cursor: pointer;
 }
+.staking-controller h3 {
+  margin-top: 8px !important;
+}
 .staking-controller:hover {
   border-color: #03A9F4;
 }
@@ -439,7 +445,8 @@ i {
   filter: brightness(0.8);
   -webkit-filter: brightness(0.8);
 }
-
+/*===>> END STAKING <<===*/
+/*===>> LOADING <<===*/
 .connecting-node {
   width: 100%;
   height: 100vh;
@@ -449,3 +456,4 @@ i {
   color: #FFF;
   background-color: #22272E;
 }
+/*===>> END LOADING <<===*/

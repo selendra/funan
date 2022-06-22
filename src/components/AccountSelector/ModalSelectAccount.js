@@ -44,7 +44,7 @@ export default function ModalSelectAccount({
           >
             <Row>
               <Col span={24}>
-                <h3>{getUsername(address(i)).toUpperCase()}</h3>
+                <h3>{getUsername(address(i))}</h3>
               </Col>
               <Col>
                 <p>{address(i)}</p>

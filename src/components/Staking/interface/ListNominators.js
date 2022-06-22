@@ -5,6 +5,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import StopNominator from '../modal/StopNominator';
 import { useValidator } from '../../../context/ValidatorContext';
 import { useBalance } from 'context/BalanceContext';
+import Nominate from '../modal/Nominate';
+import copy from 'assets/icons/copy.svg';
 
 const selectedStyle = {
   borderColor: '#03a9f4'
@@ -14,7 +16,9 @@ export default function ListNominators() {
   const { getValidatorPrefs } = useValidator();
   const { bondedAccounts } = useBalance();
   const [modal, setModal] = useState(false);
+  const [visibleSelectNominator, setVisibleSelectNominator]= useState(false);
   const [selected, setSelected] = useState([]);
+  const [nominate, setNominate] = useState([]);
   const [nominationsMeta, setNominationsMeta] = useState([]);
 
   useEffect(() => {
@@ -56,7 +60,7 @@ export default function ListNominators() {
             { nominationsMeta.length > 0 ?
               <Button.Primary onClick={() => setModal(true)}>Stop All</Button.Primary>
               :
-              <Button.Primary>Nominate</Button.Primary>
+              <Button.Primary onClick={() => setVisibleSelectNominator(true)}>Nominate</Button.Primary>
             }
           </Col>
         </Row>
@@ -68,7 +72,12 @@ export default function ListNominators() {
         </Row>
         <br/>
         { nominationsMeta.length > 0 && nominationsMeta.map((i, key) =>
-          <div className='staking_nominate' style={selected.includes(i.address) ? selectedStyle : {}} key={key} onClick={() => selectNominees(i.address)}>
+          <div 
+            key={key} 
+            className='staking-nominate' 
+            style={selected.includes(i.address) ? selectedStyle : {}} 
+            onClick={() => selectNominees(i.address)}
+          >
             <Row justify='space-between'>
               <Col span={20}>
                 <Row gutter={[8,8]} align='middle'>
@@ -92,8 +101,8 @@ export default function ListNominators() {
                     <Tooltip title='Copy Address' color='#03A9F4'>
                       <Button onClick={() => message.success("Copied")}>
                         <img
-                          src="/icons/bulk/copy.svg"
-                          alt="money-recive.svg"
+                          src={copy}
+                          alt=""
                           height="24px"
                         />
                       </Button>
@@ -124,6 +133,12 @@ export default function ListNominators() {
         visible={modal}
         setVisible={setModal}
         selected={selected}
+      />
+      <Nominate 
+        visible={visibleSelectNominator}
+        setVisible={setVisibleSelectNominator}
+        nominate={nominate}
+        setNominate={setNominate}
       />
     </div>
   )

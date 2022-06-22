@@ -4,7 +4,8 @@ import { useStaking } from '../../../context/StakingContext';
 export default function InputBondAmount({
   form,
   setForm,
-  nominate
+  nominate,
+  bondError
 }) {
   const { getBondOptions } = useStaking();
   const { freeToBond } = getBondOptions();
@@ -26,6 +27,7 @@ export default function InputBondAmount({
           nominate: nominate
         })}
       />
+      <p>{bondError}</p>
     </Card>
   )
 }

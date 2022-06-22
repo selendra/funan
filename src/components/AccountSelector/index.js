@@ -106,7 +106,7 @@ export default function AccountSelector({ keyringOptions }) {
               <Col>
                 { keyringOptions.length > 0 ?
                   <div>
-                    <h3>{getUsername(address(currentAccount)).toUpperCase()}</h3>
+                    <h3>{getUsername(address(currentAccount))}</h3>
                     <p>{shortenAddress(address(currentAccount))}</p>
                     <Row gutter={[8, 8]}>
                       <Button

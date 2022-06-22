@@ -8,7 +8,10 @@ import ModalConfirmTrx from '../../Modal/ModalConfirmTrx';
 export default function Summary({
   form,
   nominate,
-  api
+  api,
+  warning,
+  error,
+  bondError
 }) {
   const [password, setPassword] = useState('');
   const [modal, setModal] = useState(false);
@@ -73,6 +76,7 @@ export default function Summary({
       <Col span={24}>
         <Button.Primary 
           block 
+          disabled={error || bondError}
           loading={submitting}
           onClick={() => setModal(true)} 
         >Confirm</Button.Primary>

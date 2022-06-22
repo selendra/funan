@@ -12,6 +12,7 @@ export default function SelectNominator({
   setNominate
 }) {
   const { validators } = useValidator();
+  
   function handleSelectValidator(address) {
     if(!nominate.includes(address)) {
       setNominate(

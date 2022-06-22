@@ -1,18 +1,18 @@
 import moment from 'moment';
 import { Col, Row, Tooltip } from 'antd';
 import { Card } from 'globalComponents';
-import { useEraTimeLeft } from '../../hooks/useEraTimeLeft';
-import { useStaking } from '../../context/StakingContext';
-import Status from '../../components/Staking/interface/Status';
-import ActiveEraGraph from '../../components/Staking/ActiveEraGraph';
-import ListNominators from '../../components/Staking/interface/ListNominators';
-import BondedFund from '../../components/Staking/interface/BondedFund';
+import { useEraTimeLeft } from 'hooks/useEraTimeLeft';
+import { useStaking } from 'context/StakingContext';
+import Status from 'components/Staking/interface/Status';
+import ActiveEraGraph from 'components/Staking/ActiveEraGraph';
+import ListNominators from 'components/Staking/interface/ListNominators';
+import BondedFund from 'components/Staking/interface/BondedFund';
 
 export default function Earn() {
   const eraTimeLeft = useEraTimeLeft();
   const { staking, sessionEra, getNominationsStatus } = useStaking();
 
-  const _nominations = getNominationsStatus()
+  const _nominations = getNominationsStatus();
   const activeNominations = 
     _nominations.length > 0 ? 
     _nominations.filter((i) => i.status === 'Active')

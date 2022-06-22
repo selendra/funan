@@ -26,7 +26,7 @@ export function getUsername(address) {
   if(!address) return;
   try {
     const account = keyring.getPair(address);
-    return account ? account.meta.name : '';
+    return account ? account.meta.name.toUpperCase() : '';
   } catch (error) {}
 }
 

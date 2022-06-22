@@ -39,7 +39,7 @@ export default function Wallet({ account, type }) {
                 />
               </Col>
               <Col>
-                <h3 className="wallet-username">{getUsername(account).toUpperCase()}</h3>
+                <h3 className="wallet-username">{getUsername(account)}</h3>
                 <p>{shortenAddress(account)}</p>
                 <p>{type}</p>
               </Col>
