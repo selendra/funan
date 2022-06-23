@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSubstrateState } from "./SubstrateContext";
 import { removePercentage } from "../utils";
-import { useBalance } from "./BalanceContext";
 import { useStaking } from "./StakingContext";
 
 const ValidatorContext = createContext();

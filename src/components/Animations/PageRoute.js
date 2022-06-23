@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 
-export default function PageRouteAnimation({children, key}) {
+export default function PageRouteAnimation({children, myKey}) {
   return (
     <motion.div
-      key={key}
+      key={myKey}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}

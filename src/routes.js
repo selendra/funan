@@ -27,7 +27,7 @@ const routes = [
     icon: wallet,
     element: (
       <Sidebar>
-        <PageRouteAnimation key='home'>
+        <PageRouteAnimation myKey='home'>
           <Home />
         </PageRouteAnimation>
       </Sidebar>
@@ -39,7 +39,7 @@ const routes = [
     icon: transfer,
     element: (
       <Sidebar>
-        <PageRouteAnimation key='wallet'>
+        <PageRouteAnimation myKey='wallet'>
           <Wallet />
         </PageRouteAnimation>
       </Sidebar>
@@ -49,7 +49,7 @@ const routes = [
     path: 'wallet/send',
     element: (
       <Sidebar>
-        <PageRouteAnimation key='wallet/send'>
+        <PageRouteAnimation myKey='wallet/send'>
           <Send />
         </PageRouteAnimation>
       </Sidebar>
@@ -59,7 +59,7 @@ const routes = [
     path: 'wallet/receive',
     element: (
       <Sidebar>
-        <PageRouteAnimation key='wallet/receive'>
+        <PageRouteAnimation myKey='wallet/receive'>
           <Receive />
         </PageRouteAnimation>
       </Sidebar>
@@ -71,7 +71,7 @@ const routes = [
     icon: earn,
     element: (
       <Sidebar>
-        <PageRouteAnimation key='earn'>
+        <PageRouteAnimation myKey='earn'>
           <Earn />
         </PageRouteAnimation>
       </Sidebar>
@@ -81,7 +81,7 @@ const routes = [
     path: '/earn/setup',
     element: (
       <Sidebar>
-        <PageRouteAnimation key='earn'>
+        <PageRouteAnimation myKey='earn'>
           <SetupStaking />
         </PageRouteAnimation>
       </Sidebar>
@@ -91,7 +91,7 @@ const routes = [
     path: 'about',
     element: (
       <Sidebar>
-        <PageRouteAnimation key='about'>
+        <PageRouteAnimation myKey='about'>
           <About />
         </PageRouteAnimation>
       </Sidebar>
@@ -101,7 +101,7 @@ const routes = [
     path: 'settings',
     element: (
       <Sidebar>
-        <PageRouteAnimation key='about'>
+        <PageRouteAnimation myKey='about'>
           <Setting />
         </PageRouteAnimation>
       </Sidebar>
@@ -111,7 +111,7 @@ const routes = [
     path: 'connect',
     element: (
       <Sidebar>
-        <PageRouteAnimation key='about'>
+        <PageRouteAnimation myKey='about'>
           <Connect />
         </PageRouteAnimation>
       </Sidebar>

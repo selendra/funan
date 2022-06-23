@@ -47,7 +47,7 @@ export default function MenuList() {
         <Link to={i.path}>
           <p className={`sidebar-itemTitle ${active(i.path) && 'sidebar-itemActive'}`}>{i.name}</p>
         </Link>
-      ),
+      )
     }   
   })
 

@@ -4,7 +4,6 @@ import { keyring as Keyring } from "@polkadot/ui-keyring";
 import { selendra } from "../constants/node";
 
 const Connected = localStorage.getItem('current-account');
-console.log(Connected)
 
 const initialState = {
   // These are the states

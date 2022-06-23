@@ -25,9 +25,7 @@ export default function BondExtra({visible, setVisible}) {
       
       trx = api.tx.staking.bondExtra(parsedAmount);
       return trx;
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
 
   const { submitTx, estimatedFee, submitting } = useSubmitExtrinsic({
@@ -60,6 +58,7 @@ export default function BondExtra({visible, setVisible}) {
         <Row justify='end'>
           <p>Estimated Tx Fee: {FormatFee(estimatedFee)} CDM</p>
         </Row>
+        <br />
         <Button.Primary 
           block 
           loading={submitting} 

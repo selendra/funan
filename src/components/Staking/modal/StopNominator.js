@@ -5,6 +5,7 @@ import ModalConfirmTrx from '../../Modal/ModalConfirmTrx';
 import { useSubmitExtrinsic } from '../../../hooks/useSubmitExtrinsic';
 import { FormatFee } from '../../../utils';
 import { useBalance } from '../../../context/BalanceContext';
+import { useValidator } from '../../../context/ValidatorContext';
 
 export default function StopNominator({
   visible,
@@ -13,6 +14,7 @@ export default function StopNominator({
 }) {
   const { api, apiState } = useSubstrateState();
   const { nominations } = useBalance();
+  const { validators } = useValidator();
   const [modal, setModal] = useState(false);
   const [password, setPassword] = useState('');
 
@@ -20,22 +22,20 @@ export default function StopNominator({
     let trx = null;
     if(apiState !== 'READY' || !api || !nominations) return trx;
 
-    trx = api.tx.staking.chill();
-    // if(selected.length === nominations.targets.length) {
-    // } else {
-    //   let targetsToSubmit;
-    //   for(let item of selected) {
-    //     // item !== 
-    //     // targetsToSubmit = item
-    //   }
-    //   targetsToSubmit = selected.map((item) => {
-    //     return {
-    //       Id: item,
-    //     };
-    //   });
-    //   // console.log(targetsToSubmit);
-    //   trx = api.tx.staking.nominate(targetsToSubmit);
-    // }
+    if(selected.length === nominations.targets.length) {
+      trx = api.tx.staking.chill();
+    } else {
+      const _nominations = [...validators].filter((n) => {
+        return !selected.map((_s) => _s).includes(n.address);
+      });
+      const targetsToSubmit = _nominations.map((item) => {
+        return {
+          Id: item.address,
+        };
+      });
+      // console.log(targetsToSubmit);
+      trx = api.tx.staking.nominate(targetsToSubmit);
+    }
     return trx;
   }
 
@@ -60,13 +60,14 @@ export default function StopNominator({
       >
         <h3>Stop Nominating</h3><br/>
         {/* <h2>Stop {selected.length === nominations?.targets.length ? 'All' : selected.length} Nominations</h2> */}
-        <h2>Stop All Nominations</h2>
+        <h2>Stop {selected.length} Nomination</h2>
         <hr style={{margin: '18px 0'}}/>
 
         <p>
           Once submitted, your nominations will be removed from your dashboard immediately, 
           and will not be nominated from the start of the next era.
-        </p><br/>
+        </p>
+        <br/>
 
         <p>Estimated Tx Fee: {FormatFee(estimatedFee)} CDM</p>
         <Button.Primary 
