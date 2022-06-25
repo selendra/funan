@@ -38,7 +38,6 @@ export default function ProcessCreateWallet({ setVisible }) {
       string: seed,
       array: arr,
     });
-    toast.success('New Mnemonic generated!');
   }
 
   function getRandomIndex() {
