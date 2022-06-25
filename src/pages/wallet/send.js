@@ -1,11 +1,14 @@
-import { Button, Col, Form, Input, message, Modal, Row } from 'antd';
 import { useState } from 'react';
+import { Form } from 'antd';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import LayoutComponent from '../../components/Layout';
-import WalletMenu from '../../components/WalletMenu';
+import { Button, Input } from 'globalComponents';
 import { useSubstrateState } from '../../context/SubstrateContext';
 import { useFetchBalanceSEL } from '../../hooks/useFetchBalanceSEL';
+import { useSubmitExtrinsic } from '../../hooks/useSubmitExtrinsic';
 import { FormatBalance, isvalidSubstrateAddress } from '../../utils';
+import WalletMenu from '../../components/WalletMenu';
+import ModalConfirmTrx from '../../components/Modal/ModalConfirmTrx';
 
 const address = (addr) => addr ? addr.address : '';
 
@@ -15,12 +18,10 @@ export default function Send() {
   const [amount, setAmount] = useState('');
   const [destination, setDestination] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
 
   function balanceNotEnough(value) {
     if(Number(FormatBalance(state.freeBalance)) < Number(value)) {
-      // console.log(Number(FormatBalance(state.freeBalance)), Number(value));
       return true;
     } else {
       return false;
@@ -29,110 +30,82 @@ export default function Send() {
 
   function handleConfirm() {
     if(!amount || !destination)
-      return message.error('Please fill the form!');
+      return toast.error('Please fill the form!');
     if(!isvalidSubstrateAddress(destination))
-      return message.error('Look like wallet address is not correct!');
+      return toast.error('Look like wallet address is not correct!');
     if(balanceNotEnough(amount))
-      return message.error('Not enough balance!');
+      return toast.error('Not enough balance!');
     setModal(true);
   }
 
-  async function handleTransfer() {
-    try {
-      setModal(false);
-      setLoading(true);
+  function handleTransfer() {
+    let trx = null;
+    if(!api || !destination || !amount) return trx;
+    // eslint-disable-next-line no-undef
+    const parsedAmount = BigInt(amount * Math.pow(10, 18));
+    // console.log(parsedAmount, destination)
 
-      // eslint-disable-next-line no-undef
-      const parsedAmount = BigInt(amount * Math.pow(10, 18));
-
-      const trx = await api.tx.balances
-        .transfer(destination, parsedAmount.toString());
-      // decrypt pair
-      currentAccount.decodePkcs8(password);
-      const hash = await trx
-        .signAndSend(
-          currentAccount, 
-          (status) => { 
-            if(status.toHuman().status?.Finalized) {
-              message.success('Transaction Completed!');
-              setLoading(false);
-            }
-          }
-        );
-      console.log('Transaction sent with hash: ', hash);
-    } catch (error) {
-      message.error('Something went wrong!');
-      setLoading(false);
-    }
+    trx = api.tx.balances
+      .transfer(destination, parsedAmount);
+    return trx;
   }
 
+  const {submitTx, estimatedFee, submitting} = useSubmitExtrinsic({
+    tx: handleTransfer(),
+    password: password,
+    shouldSubmit: true,
+    callbackSubmit: () => {
+      setModal(false);
+    },
+    callbackInBlock: () => {}
+  })
+
   return (
-    <LayoutComponent>
-      <WalletMenu>
-        <Form
-          layout="vertical"
-          size="large"
-        >
-          <Form.Item label="Destination">
-            <Input 
-              className="buy__input" 
-              placeholder='Enter Destination' 
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item label="Amount">
-            <Input 
-              className="buy__input" 
-              placeholder='Enter Amount' 
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item>
-            { currentAccount ?
-              <Button loading={loading} onClick={handleConfirm} className="buy__button">
-                Transfer
-              </Button>
-              :
-              <Button className="buy__button">
-                <Link to='/home'>
-                  Look like you don't have Selendra wallet yet.
-                </Link>
-              </Button>
-            }
-          </Form.Item>
-        </Form>
-        
-        <Modal
-          title=""
-          footer=""
-          closable={false}
-          visible={modal}
-          className='send-modal'
-          bodyStyle={{borderRadius: '8px'}}
-        >
-          <h2 className='send-modal-title'>Do you want to send transaction?</h2>
-          <div style={{padding: '16px 0'}} />
-          <label style={{display: 'block', paddingBottom: '8px'}}>Password:</label>
-          <Input 
-            className="buy__input" 
-            placeholder='Enter Password'
-            type='password'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
+    <WalletMenu>
+      <Form layout="vertical">
+        <Form.Item label="Destination">
+          <Input.Text 
+            medium
+            placeholder='Enter Destination' 
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
           />
-          <div style={{padding: '16px 0'}} />
-          <Row gutter={[16, 16]} justify='end'>
-            <Col span={6}>
-              <Button type='ghost' className='send-cancel' onClick={() => setModal(false)}>Cancel</Button>
-            </Col>
-            <Col span={6}>
-              <Button className='send-transfer' onClick={handleTransfer}>Transfer</Button>
-            </Col>
-          </Row>
-        </Modal>
-      </WalletMenu>
-    </LayoutComponent>
+        </Form.Item>
+        <Form.Item label="Amount">
+          <Input.Text 
+            medium
+            placeholder='Enter Amount' 
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item style={{margin: '0'}}>
+          { currentAccount ?
+            <Button.Primary 
+              block
+              medium
+              loading={submitting} 
+              onClick={handleConfirm}
+            >
+              Transfer
+            </Button.Primary>
+            :
+            <Button.Secondary medium block>
+              <Link to='/home'>
+                Look like you don't have Selendra wallet yet.
+              </Link>
+            </Button.Secondary>
+          }
+        </Form.Item>
+      </Form>
+      
+      <ModalConfirmTrx 
+        visible={modal}
+        setVisible={setModal}
+        password={password}
+        setPassword={setPassword}
+        handleTrx={() => submitTx()}
+      />
+    </WalletMenu>
   )
 }

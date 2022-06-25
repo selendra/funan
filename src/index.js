@@ -1,16 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
+import { ConfigProvider } from "antd";
+import { Toaster } from "react-hot-toast";
+import Provider from "./provider";
 import App from "./App";
 
 import "antd/dist/antd.variable.min.css";
-import "./styles/index.css";
-
-import { ConfigProvider } from "antd";
-
+import "./styles/global.css";
 import "remixicon/fonts/remixicon.css";
-import { TokenProvider } from "./context/TokenContext";
-import { AccountProvider } from "./context/AccountContext";
-import { SubstrateContextProvider } from "./context/SubstrateContext";
 
 ConfigProvider.config({
   theme: {
@@ -19,14 +16,16 @@ ConfigProvider.config({
 });
 
 render(
-  <SubstrateContextProvider>
-    <AccountProvider>
-      <TokenProvider>
-        <div className="body-backgrond">
-          <App />
-        </div>
-      </TokenProvider>
-    </AccountProvider>
-  </SubstrateContextProvider>,
+  <Provider>
+    <Toaster 
+      position="top-right"
+      toastOptions={{
+        className: 'toast-styling'
+      }}
+    />
+    <div className="body-backgrond">
+      <App />
+    </div>
+  </Provider>,
   document.getElementById("root")
 );

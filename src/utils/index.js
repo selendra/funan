@@ -1,10 +1,11 @@
-import { message } from 'antd';
 import { Contract } from "ethers";
 import { u8aToHex } from "@polkadot/util";
+import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from "@polkadot/util";
 import { checkAddress, decodeAddress } from '@polkadot/util-crypto';
+import { BigNumber } from 'bignumber.js';
 import { tokens } from "../constants/tokenContract";
-import keyring from '@polkadot/ui-keyring';
+import { payee } from '../constants/staking';
 
 export function isValidSubstratePassword(pass) {
   return keyring.isPassValid(pass);
@@ -21,14 +22,17 @@ export function isvalidSubstrateAddress(address) {
   }
 }
 
+export function getUsername(address) {
+  if(!address) return;
+  try {
+    const account = keyring.getPair(address);
+    return account ? account.meta.name.toUpperCase() : '';
+  } catch (error) {}
+}
+
 export function shortenAddress(address) {
   if(!address) return;
   return address.slice(0, 5) + '...' + address.slice(-4);
-}
-
-export function ErrorHandling(err) {
-  if(err.code === 4001) message.error('The request was rejected!');
-  if(err.code === -32603) message.error(err.data.message);
 }
 
 export function getContract(address, abi, signerOrProvider) {
@@ -50,6 +54,38 @@ export function getTokenName(address) {
   else return;
 }
 
+export function getRewardDest(_payee) {
+  let rewardDest;
+  payee.map((i, key) => {
+    if(i.value === _payee) return rewardDest = payee[key].title;
+    return rewardDest;
+  })
+  return rewardDest;
+}
+
 export function FormatBalance(amount) {
   return formatBalance(amount, { withSi: false, forceUnit: '-' }, 18)
+}
+
+export function FormatFee(amount) {
+  return formatBalance(amount, {withSiFull: true, decimals: 18, withUnit: false })
+}
+
+export const removePercentage = (str) => {
+  return Number(str.slice(0, -1));
+}
+
+export function formatBN(amount) {
+  if(!amount) return;
+  return new BigNumber(amount)
+  .dividedBy(Math.pow(10, 18))
+  .toNumber()
+}
+
+export function rmCommas(val) {
+  return val.replace(/,/g, '');
+};
+
+export function getAddress() {
+  
 }

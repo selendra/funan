@@ -1,5 +1,7 @@
-import React from "react";
-import { Button, Form, Input, message } from "antd";
+import { useState } from "react";
+import { Form } from "antd";
+import { toast } from "react-hot-toast";
+import { Input, Button } from "globalComponents";
 import SetPassword from "./setPassword";
 import CompleteStep from "./complete";
 import keyring from "@polkadot/ui-keyring";
@@ -16,17 +18,13 @@ export default function Mnemonic({
   setVisible,
 }) {
   const navigate = useNavigate();
-  const [mnemonic, setMnemonic] = React.useState("");
-  const [error, setError] = React.useState("");
-  const [form, setForm] = React.useState({
+  const [mnemonic, setMnemonic] = useState("");
+  const [error, setError] = useState("");
+  const [form, setForm] = useState({
     username: "",
     password: "",
     password_con: "",
   });
-
-  function validateMnemonic(str) {
-    return mnemonicValidate(str);
-  }
 
   function handleRestoreMnemonic() {
     try {
@@ -44,24 +42,23 @@ export default function Mnemonic({
       link.href = href;
       link.download = `${json.address}.json`;
       link.click();
-      message.success("Done!");
+      toast.success("Done!");
       setVisible(false);
       navigate("/home");
     } catch (error) {
-      message.error("something went wrong!");
+      toast.error("something went wrong!");
     }
   }
 
   return (
-    <div className="restore-wallet-section">
-      {unlockWallet && (
+    <div>
+      { unlockWallet && (
         <Form
           name="basic"
           layout="vertical"
           size="large"
-          className="input-back"
         >
-          <Form.Item label="Please type in your 12 or 24 word mnemonic phrase, all lower-case, separate by single spaces">
+          <Form.Item label="Please type in your 12 word mnemonic phrase, all lower-case, separate by single spaces">
             <Input.TextArea
               // status={validateMnemonic(mnemonic) ? "" : "error"}
               rows={4}
@@ -72,21 +69,23 @@ export default function Mnemonic({
         </Form>
       )}
 
-      {password && (
+      { password && 
         <SetPassword
           form={form}
           setForm={setForm}
           error={error}
           setError={setError}
         />
-      )}
-      {completed && <CompleteStep handleRestore={handleRestoreMnemonic} />}
+      }
+      { completed && 
+        <CompleteStep handleRestore={handleRestoreMnemonic} />
+      }
 
-      {!completed && (
+      { !completed &&
         <center>
-          <Button
-            type="primary"
-            className="btn-wallet"
+          <Button.Primary
+            block
+            medium
             onClick={
               unlockWallet
                 ? handleUnlockWallet
@@ -94,12 +93,12 @@ export default function Mnemonic({
                 ? handlePassword
                 : handleCompleted
             }
-            disabled={validateMnemonic(mnemonic) && !error ? false : true}
+            disabled={mnemonicValidate(mnemonic) && !error ? false : true}
           >
             Unlock Wallet
-          </Button>
+          </Button.Primary>
         </center>
-      )}
+      }
     </div>
   );
 }

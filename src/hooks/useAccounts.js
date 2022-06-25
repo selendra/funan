@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import keyring from "@polkadot/ui-keyring";
+import keyring from '@polkadot/ui-keyring';
+import { useEffect, useState } from 'react';
 import { useIsMountedRef } from './useIsMountedRef';
 
 const EMPTY = {

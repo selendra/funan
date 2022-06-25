@@ -1,11 +1,11 @@
-import { Card, Spin } from "antd";
+import { Spin } from "antd";
 import { ethers } from "ethers";
+import { Card } from "globalComponents";
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../context/AccountContext";
 import { useAccounts } from "../hooks/useAccounts";
 import { tokens } from "../constants/tokenContract";
 import Wallet from "../components/Wallet";
-import LayoutComponent from "../components/Layout";
 import TokenBalance from "../components/TokenBalance";
 import AccountSelector from "../components/AccountSelector";
 import busd from "../assets/tokens/busd.png";
@@ -81,16 +81,19 @@ export default function Home() {
   }, [account]);
 
   return (
-    <LayoutComponent>
-      <p className="profile-home">Home</p>
-      <Card style={{ borderRadius: "8px" }} className="sel-card">
+    <div>
+      <p className="home-title">Home</p>
+      { keyringOptions.length >= 0 &&
         <AccountSelector keyringOptions={keyringOptions} />
-      </Card>
-
-      <p className="profile-home">Wallet</p>
+      }
+    
+      <div className="home-spacing" />
+      <p className="home-title">Wallet</p>
       <div>
         { !account && keyringOptions.length === 0 &&
-          <p>You don't have any wallet yet.</p>
+          <Card>
+            <p>You don't have any wallet yet.</p>
+          </Card>
         }
         {/* Metamask wallet */}
         { account &&
@@ -104,7 +107,8 @@ export default function Home() {
         }
       </div>
 
-      <p className="profile-home">Assets</p>
+      <div className="home-spacing" />
+      <p className="home-title">Assets</p>
       <div className="profile-desc">
         <Card style={{ borderRadius: "8px" }}>
           { account ?
@@ -128,10 +132,10 @@ export default function Home() {
               }
             </div>
             :
-            <p>Please connect your evm wallet.</p>
+            <p>You're not connect to your evm wallet.</p>
           }
         </Card>
       </div>
-    </LayoutComponent>
+    </div>
   );
 }

@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { Button, Modal, Input, Form, message } from "antd";
+import { Form, Row, Col } from "antd";
+import { toast } from "react-hot-toast";
+import { Modal, Input, Button } from 'globalComponents';
 import { useNavigate } from "react-router-dom";
 import keyring from "@polkadot/ui-keyring";
 import Mnemonic from "./mnemonic";
 import PrivateKey from "./private-key";
 import { isValidSubstratePassword } from "../../utils";
+import keystore from "assets/icons/keystore.svg";
+import mnemonic from "assets/icons/mnemonic.svg";
+import close from "assets/icons/close.svg";
+import upload from "assets/icons/upload.svg";
 
 export default function RestoreWallet({ visible, setVisible }) {
   const navigate = useNavigate();
@@ -45,25 +51,33 @@ export default function RestoreWallet({ visible, setVisible }) {
 
   async function handleRestore(val) {
     if(!isValidSubstratePassword(val.password))
-      return message.error('Incorrect password!');
+      return toast.error('Incorrect password!');
     try {
       const json = JSON.parse(files);
       const pair = keyring.restoreAccount(json, val.password);
-      message.success('Done!');
+      toast.success('Wallet Restored!');
       setVisible(false);
       navigate('/home');
     } catch (error) {
-      message.error('something went wrong!');
+      toast.error('something went wrong!');
       console.log(error);
     }
   }
-  // const MnemonicSteps = [{ component: <StepOne /> }];
 
   // === >>> Keystore <<< ===
   function Keystore() {
     return (
-      <div className="restore-wallet-section">
-        <label className="btn-upload" for="upload">{files ? JSON.parse(files).address : 'Upload keystore file'}</label>
+      <div>
+        <label className="restore-wallet-btnUpload" htmlFor="upload">
+          { files ? 
+            JSON.parse(files).address 
+            : 
+            <Row justify="center" align="middle">
+              <img alt='' src={upload} width={24} />
+              Upload keystore file
+            </Row>
+          }
+        </label>
         <input
           id="upload"
           type="file"
@@ -72,18 +86,20 @@ export default function RestoreWallet({ visible, setVisible }) {
           onChange={handleFileChosen}
           hidden
         />
+        <br/>
         <Form
-          name="basic"
           layout="vertical"
-          size="large"
-          className="input-back"
           onFinish={handleRestore}
         >
-          <Form.Item label="Enter your wallet password" name="password">
-            <Input.Password />
+          <Form.Item label="Wallet password" name="password">
+            <Input.Password medium placeholder='Enter wallet password' />
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" className="restore-btn">Restore</Button>
+            <Button.Primary 
+              block 
+              medium 
+              htmlType="submit" 
+            >Restore</Button.Primary>
           </Form.Item>
         </Form>
       </div>
@@ -91,79 +107,80 @@ export default function RestoreWallet({ visible, setVisible }) {
   }
 
   return (
-    <>
-      <Modal
-        title={<div className="modal-title-section">Restore wallet</div>}
-        visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
-        footer={null}
-        width={600}
-        afterClose={() => {
-          setUnlockWallet(true);
-          setPassword(false);
-          setCompleted(false);
-        }}
-      >
-        {unlockWallet && (
-          <div className="modal-content">
+    <Modal
+      visible={visible}
+      closable={false}
+      width={600}
+      afterClose={() => {
+        setUnlockWallet(true);
+        setPassword(false);
+        setCompleted(false);
+      }}
+    >
+      <Row justify="end">
+        <img 
+          alt=''
+          src={close}
+          width={32}
+          style={{cursor: 'pointer'}}
+          onClick={() => setVisible(false)}
+        />
+      </Row>
+      { unlockWallet && (
+        <Row justify="center">
+          <Col>
             <div
-              className={`restore-wallet-card ${
-                restoreWallet === "keystore" && "active"
-              }`}
+              className={`
+                restore-wallet-card 
+                ${restoreWallet === "keystore" && "restore-wallet-card-active"}
+              `}
               onClick={() => handleRestoreWallet("keystore")}
             >
               <img
-                src="/icons/bulk/mobile-programming.svg"
+                src={keystore}
                 alt="Keystore"
                 height={60}
               />
               <p>Keystore</p>
             </div>
+          </Col>
+          <Col>
             <div
-              className={`restore-wallet-card ${
-                restoreWallet === "mnemonic" && "active"
-              }`}
+              className={`
+                restore-wallet-card 
+                ${restoreWallet === "mnemonic" && "restore-wallet-card-active"}
+              `}
               onClick={() => handleRestoreWallet("mnemonic")}
             >
-              <img src="/icons/bulk/note.svg" alt="Mnemonic" height={60} />
+              <img src={mnemonic} alt="Mnemonic" height={60} />
               <p>Mnemonic</p>
             </div>
-            <div
-              className={`restore-wallet-card ${
-                restoreWallet === "private-key" && "active"
-              }`}
-              onClick={() => handleRestoreWallet("private-key")}
-            >
-              <img src="/icons/bulk/key-blue.svg" alt="Private" height={60} />
-              <p>Private Key</p>
-            </div>
-          </div>
-        )}
+          </Col>
+        </Row>
+      )}
 
-        {restoreWallet === "keystore" ? (
-          <Keystore />
-        ) : restoreWallet === "mnemonic" ? (
-          <Mnemonic
-            handleUnlockWallet={handleUnlockWallet}
-            unlockWallet={unlockWallet}
-            handlePassword={handlePassword}
-            password={password}
-            handleCompleted={handleCompleted}
-            completed={completed}
-            setVisible={setVisible}
-          />
-        ) : (
-          <PrivateKey
-            handleUnlockWallet={handleUnlockWallet}
-            unlockWallet={unlockWallet}
-            handlePassword={handlePassword}
-            password={password}
-            handleCompleted={handleCompleted}
-            completed={completed}
-          />
-        )}
-      </Modal>
-    </>
+      { restoreWallet === "keystore" ? (
+        <Keystore />
+      ) : restoreWallet === "mnemonic" ? (
+        <Mnemonic
+          handleUnlockWallet={handleUnlockWallet}
+          unlockWallet={unlockWallet}
+          handlePassword={handlePassword}
+          password={password}
+          handleCompleted={handleCompleted}
+          completed={completed}
+          setVisible={setVisible}
+        />
+      ) : (
+        <PrivateKey
+          handleUnlockWallet={handleUnlockWallet}
+          unlockWallet={unlockWallet}
+          handlePassword={handlePassword}
+          password={password}
+          handleCompleted={handleCompleted}
+          completed={completed}
+        />
+      )}
+    </Modal>
   );
 }

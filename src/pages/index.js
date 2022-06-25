@@ -1,19 +1,26 @@
-import { useEffect, useState } from "react";
+import { Row, Col } from "antd";
 import { useTheme } from "next-themes";
-import { Row, Col, Button } from "antd";
+import { Button } from "globalComponents";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSubstrateState } from "../context/SubstrateContext";
-import RestoreWallet from "../components/RestoreWallet";
-import CreateWallet from "../components/CreateWallet";
+import { useSubstrateState } from "context/SubstrateContext";
+import RestoreWallet from "components/RestoreWallet";
+import CreateWallet from "components/CreateWallet";
+import logoWhite from "assets/logo-white.png";
+import createWallet from "assets/icons/create-wallet-white.svg";
+import restoreWallet from "assets/icons/restore-white.svg";
+import androidWhite from "assets/icons/android-white.svg";
+import android from "assets/icons/android.svg";
+import appleWhite from "assets/icons/apple-white.svg";
+import apple from "assets/icons/apple.svg";
+
 
 export default function Index() {
-  const { theme } = useTheme();
   const navigate = useNavigate();
-  const { keyring } = useSubstrateState();
+  const { theme } = useTheme();
+  const { currentAccount } = useSubstrateState();
   const [visible, setVisible] = useState(false);
   const [createWalletVisible, setCreateWalletVisible] = useState(false);
-
-  // const [restoreWallet, setRestoreWallet] = useState("keystore");
 
   const onVisible = () => {
     setVisible(!visible);
@@ -22,123 +29,96 @@ export default function Index() {
     setCreateWalletVisible(!createWalletVisible);
   };
 
-  useEffect(() => {
-    // Get the list of accounts we possess the private key for
-    const keyringOptions = keyring.getPairs().map(account => ({
-      key: account.address,
-      value: account.address,
-      text: account.meta.name.toUpperCase(),
-      icon: 'user',
-    }))
-
-    if(keyringOptions.length > 0) navigate('/home');
-  },[keyring, navigate]);
+  // useEffect(() => {
+  //   if(currentAccount) navigate('/home');
+  // },[currentAccount, navigate]);
    
   return (
-    <div className="vertical-layout">
-      <RestoreWallet visible={visible} setVisible={setVisible} />
-      <CreateWallet
-        createWalletVisible={createWalletVisible}
-        setCreateWalletVisible={setCreateWalletVisible}
-      />
-      {/* <div className="modal-wallet">
-        <RestoreWallet />
-      </div> */}
-      <div className="home-navbar">
-        <div className="home-container">
+    <div className="index-wrapper">
+      <div className="index-top-section">
+        <div className="index-container">
           <img
-            src="/images/logo-white.png"
-            alt="selendra-logo-white"
+            src={logoWhite}
+            alt=""
             height={80}
             style={{ marginTop: "15px" }}
           />
 
-          <div className="index-data">
+          <div className="welcome">
             <div className="welcome-message">Welcome to Selendra Wallet</div>
             <h4 className="welcome-sub-message">
               Send, receive and stake your SEL
             </h4>
           </div>
 
-          <div className="pos-relative">
-            <div className="index-btn-section">
-              <Row gutter={[15, 15]}>
-                <Col xs={24} sm={12} md={12} lg={12} xl={9}>
-                  <Button
-                    className="index-btn con-wallet"
-                    onClick={handleCreateWalletVisible}
-                  >
-                    <img src="/icons/bulk/wallet-3.svg" alt="" height="40px" />
-                    Create Wallet
-                  </Button>
-                </Col>
-                <Col xs={24} sm={12} md={12} lg={12} xl={9}>
-                  <Button
-                    className="index-btn con-wallet-sel"
-                    onClick={onVisible}
-                  >
-                    <img src="/icons/bulk/key-white.svg" alt="" height="40px" />
-                    Restore Wallet
-                  </Button>
-                </Col>
-                {/* <Col xs={24} sm={11} md={7} className="index-btn create-wallet">
-                  <img
-                    src="/icons/bulk/wallet-add-1-index.svg"
-                    alt=""
-                    height="40px"
-                  />
-                  Create Wallet
-                </Col>
-                <Col
-                  xs={24}
-                  sm={11}
-                  md={7}
-                  className="index-btn restore-wallet"
-                >
-                  <img src="/icons/bulk/key-square.svg" alt="" height="40px" />
-                  Restore Wallet
-                </Col> */}
-              </Row>
-            </div>
-          </div>
+          <Row gutter={[15, 15]}>
+            <Col xs={24} sm={12} md={10} lg={10} xl={9}>
+              <Button.Primary
+                large
+                block
+                onClick={handleCreateWalletVisible}
+              >
+                <img src={createWallet} style={{color: '#FFF'}} alt="" height="40px" />
+                Create Wallet
+              </Button.Primary>
+            </Col>
+            <Col xs={24} sm={12} md={10} lg={10} xl={9}>
+              <Button.Secondary
+                large
+                block
+                onClick={onVisible}
+              >
+                <img src={restoreWallet} alt="" height="40px" />
+                Restore Wallet
+              </Button.Secondary>
+            </Col>
+          </Row>
         </div>
       </div>
-      <div className="home-container">
+
+      <div className="index-container">
         <div className="apps-section">
           <h3>
             The SELENDRA Bitriel Wallet has been created as a Progressive Web
             App (PWA) which is easy to launch on all platforms:{" "}
           </h3>
+          <br />
           <Row
-            gutter={[0, 20]}
+            gutter={[18, 18]}
             justify="space-between"
-            className="apps-btn-section"
           >
-            <Col xs={24} sm={11} className="apps-btn">
-              <img
-                src={`/icons/bulk/${
-                  theme === "light" ? "android.svg" : "android-dark.svg"
-                }`}
-                alt=""
-                height="30px"
-              />
-              Andriod
+            <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+              <Button.Accent medium block>
+                <img
+                  src={
+                    theme === "light" ? 
+                    android : androidWhite
+                  }
+                  alt=""
+                  height="30px"
+                />
+                Android
+              </Button.Accent>
             </Col>
-            <Col xs={24} sm={11} className="apps-btn">
-              <img
-                src={`/icons/bulk/${
-                  theme === "light" ? "apple.svg" : "apple-dark.svg"
-                }`}
-                alt=""
-                height="30px"
-              />
-              iOS
+            <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+              <Button.Accent medium block>
+                <img
+                  src={
+                    theme === "light" ? 
+                    apple : appleWhite
+                  }
+                  alt=""
+                  height="30px"
+                />
+                IOS
+              </Button.Accent>
             </Col>
           </Row>
         </div>
       </div>
-      <div className="home-container">
-        <Row className="index-footer">
+
+      <div className="index-container">
+        <Row className="index-footer" align="middle">
           <Col>
             <i className="ri-facebook-fill"></i>
             <i className="ri-telegram-fill"></i>
@@ -151,6 +131,15 @@ export default function Index() {
           </Col>
         </Row>
       </div>
+
+      <CreateWallet
+        visible={createWalletVisible}
+        setVisible={setCreateWalletVisible}
+      />
+      <RestoreWallet 
+        visible={visible} 
+        setVisible={setVisible} 
+      />
     </div>
   );
 }
