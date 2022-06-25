@@ -15,6 +15,7 @@ import PageRouteAnimation from "./components/Animations/PageRoute";
 import wallet from "./assets/sidebar-icons/wallet.svg";
 import transfer from "./assets/sidebar-icons/transfer.svg";
 import earn from "./assets/sidebar-icons/earn.svg";
+import launchpad from "./assets/sidebar-icons/launchpad.svg";
 
 const routes = [
   {
@@ -84,6 +85,16 @@ const routes = [
         <PageRouteAnimation myKey='earn'>
           <SetupStaking />
         </PageRouteAnimation>
+      </Sidebar>
+    )
+  },
+  {
+    path: '/launchpad',
+    name: 'Launchpad',
+    icon: launchpad,
+    element: (
+      <Sidebar>
+        <NotFound />
       </Sidebar>
     )
   },
