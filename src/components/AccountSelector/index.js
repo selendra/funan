@@ -1,8 +1,9 @@
 import Icon from "@ant-design/icons";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { Card } from 'globalComponents';
 import { useState, useEffect, useContext } from 'react';
-import { Badge, Button, Col, message, Row } from 'antd';
+import { Badge, Button, Col, Row } from 'antd';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { getUsername, shortenAddress } from "../../utils";
 import { useSubstrate } from '../../context/SubstrateContext';
@@ -122,7 +123,7 @@ export default function AccountSelector({ keyringOptions }) {
                           type="link"
                           icon={<CopyIcon />}
                           style={{ paddingLeft: "0" }}
-                          onClick={() => message.success("Copied")}
+                          onClick={() => toast.success("Copied")}
                         >
                           Copy
                         </Button>

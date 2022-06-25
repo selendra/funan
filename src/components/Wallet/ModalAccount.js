@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Col, Form, message, Row } from 'antd';
+import { toast } from 'react-hot-toast';
+import { Col, Form, Row } from 'antd';
 import { Modal, Input, Button } from 'globalComponents';
 import { useSubstrateState } from 'context/SubstrateContext';
 import ModalForgetWallet from './ModalForgetWallet';
@@ -32,22 +33,23 @@ export default function ModalAccount({
 
         acc.decodePkcs8(val.oldPass);
       } catch (error) {
-        console.error(error);
-        message.error('Look like your password is not correct!');
+        toast.error('Make sure your password is correct!');
         setLoading(false);
         return;
       }
       try {
         keyring.encryptAccount(acc, val.newPass);
-        message.success('successfully changed!');
+        toast.success('successfully changed!');
         setVisible(false);
+        setLoading(false);
       } catch (error) {
-        console.error(error);
-        message.error('Look like your password is not correct!');
+        toast.error('Make sure your password is correct!');
+        setLoading(false);
         return;
       }
     } catch (error) {
-      console.log(error);      
+      setLoading(false);
+      // console.log(error);      
     }
   }
 
@@ -148,7 +150,7 @@ export default function ModalAccount({
                 <Input.Password medium />
               </Form.Item>
               <Form.Item>
-                <Button.Primary medium block htmlType='submit'>Change Password</Button.Primary>
+                <Button.Primary medium block loading={loading} htmlType='submit'>Change Password</Button.Primary>
               </Form.Item>
             </Form>
           }

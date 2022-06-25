@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Form, message } from "antd";
+import { Form } from "antd";
+import { toast } from "react-hot-toast";
 import { Input, Button } from "globalComponents";
 import SetPassword from "./setPassword";
 import CompleteStep from "./complete";
@@ -41,11 +42,11 @@ export default function Mnemonic({
       link.href = href;
       link.download = `${json.address}.json`;
       link.click();
-      message.success("Done!");
+      toast.success("Done!");
       setVisible(false);
       navigate("/home");
     } catch (error) {
-      message.error("something went wrong!");
+      toast.error("something went wrong!");
     }
   }
 

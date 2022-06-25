@@ -1,6 +1,7 @@
 import Icon from "@ant-design/icons";
 import { QRCode } from "react-qrcode-logo";
-import { Button, Col, message, Row } from 'antd';
+import { toast } from "react-hot-toast";
+import { Button, Col, Row } from 'antd';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useSubstrateState } from '../../context/SubstrateContext';
 // import { ReactComponent as Copy } from "../../../public/icons/bulk/copy.svg";
@@ -28,7 +29,7 @@ export default function Receive() {
                     type="link"
                     // icon={<CopyIcon />}
                     style={{ padding: '0 8px' }}
-                    onClick={() => message.success("Copied")}
+                    onClick={() => toast.success("Copied")}
                   >
                     <span style={{fontWeight: '500'}}>Copy</span>
                   </Button>

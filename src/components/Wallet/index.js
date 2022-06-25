@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-hot-toast";
 import { Card } from "globalComponents";
-import { Button, Col, message, Row, Spin, Tooltip } from "antd";
+import { Button, Col, Row, Spin, Tooltip } from "antd";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useFetchBalanceSEL } from "hooks/useFetchBalanceSEL";
 import { useSubstrateState } from "context/SubstrateContext";
 import { FormatBalance, shortenAddress } from "utils";
@@ -70,7 +71,7 @@ export default function Wallet({ account, type }) {
                   <Button
                     shape="circle"
                     type="text"
-                    onClick={() => message.success("Copied")}
+                    onClick={() => toast.success("Copied")}
                   >
                     <img
                       src={copy}

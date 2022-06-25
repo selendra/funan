@@ -31,6 +31,7 @@ export default function Connect() {
           <center>
             <h2 className="connect__title">Connect Wallet</h2>
           </center>
+          <br/>
           <Row gutter={[80, 80]} justify="center">
             <Col>
               <center className="connect__wallet" onClick={connect}>

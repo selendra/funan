@@ -1,7 +1,8 @@
 import { Col, Row } from 'antd';
+import { toast } from 'react-hot-toast';
 import { Modal } from 'globalComponents';
 import { useSubstrateState } from '../../context/SubstrateContext';
-import { getUsername } from '../../utils';
+import { getUsername, shortenAddress } from '../../utils';
 
 export default function ModalSelectAccount({
   accounts, 
@@ -17,6 +18,7 @@ export default function ModalSelectAccount({
 
   function handleSelect(val) {
     setCurrentAccount(keyring.getPair(address(val)));
+    toast.success(`Switched to ${shortenAddress(address(val))}`)
     setVisible(false);
   }
 
@@ -27,7 +29,7 @@ export default function ModalSelectAccount({
       onCancel={() => setVisible(false)}
     >
       <center>
-        <h2>Choose Account</h2>
+        <h2>Choose Wallet</h2>
       </center>
       <div>
         { accounts.length > 0 && accounts.map((i, key) => 

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, message } from 'antd';
+import { Form } from 'antd';
+import { toast } from 'react-hot-toast';
 import { Modal, Input, Button } from 'globalComponents';
 import { useSubstrateState } from 'context/SubstrateContext';
 
@@ -25,7 +26,7 @@ export default function ModalExportWallet({
       link.click();
       setVisible(false);
     } catch(e) {
-      message.error('Make sure your password is correct!');
+      toast.error('Make sure your password is correct!');
     }
   }
 

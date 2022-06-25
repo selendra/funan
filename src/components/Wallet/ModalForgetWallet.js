@@ -1,5 +1,6 @@
 import { Row, Col } from 'antd';
 import { useContext } from 'react';
+import { toast } from 'react-hot-toast';
 import { Modal, Button } from 'globalComponents';
 import { AccountContext } from 'context/AccountContext';
 import { useSubstrateState } from 'context/SubstrateContext';
@@ -19,13 +20,12 @@ export default function ModalForgetWallet({
         try {
           keyring.forgetAccount(account);
           setVisible(false);
-          setVisible(false);
+          toast.success('Wallet removed');
         } catch (error) {
           console.log(error);          
         }
       } else {
         disconnect();
-        setVisible(false);
         setVisible(false);
       }
     } catch(e) {}

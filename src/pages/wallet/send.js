@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Form, message } from 'antd';
+import { Form } from 'antd';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { Button, Input } from 'globalComponents';
 import { useSubstrateState } from '../../context/SubstrateContext';
@@ -29,11 +30,11 @@ export default function Send() {
 
   function handleConfirm() {
     if(!amount || !destination)
-      return message.error('Please fill the form!');
+      return toast.error('Please fill the form!');
     if(!isvalidSubstrateAddress(destination))
-      return message.error('Look like wallet address is not correct!');
+      return toast.error('Look like wallet address is not correct!');
     if(balanceNotEnough(amount))
-      return message.error('Not enough balance!');
+      return toast.error('Not enough balance!');
     setModal(true);
   }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Form, message, Row, Col } from "antd";
+import { Form, Row, Col } from "antd";
+import { toast } from "react-hot-toast";
 import { Modal, Input, Button } from 'globalComponents';
 import { useNavigate } from "react-router-dom";
 import keyring from "@polkadot/ui-keyring";
@@ -50,15 +51,15 @@ export default function RestoreWallet({ visible, setVisible }) {
 
   async function handleRestore(val) {
     if(!isValidSubstratePassword(val.password))
-      return message.error('Incorrect password!');
+      return toast.error('Incorrect password!');
     try {
       const json = JSON.parse(files);
       const pair = keyring.restoreAccount(json, val.password);
-      message.success('Done!');
+      toast.success('Wallet Restored!');
       setVisible(false);
       navigate('/home');
     } catch (error) {
-      message.error('something went wrong!');
+      toast.error('something went wrong!');
       console.log(error);
     }
   }

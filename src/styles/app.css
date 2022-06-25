@@ -61,6 +61,12 @@ i {
   margin: 0 !important;
 }
 
+.toast-styling {
+  color: var(--text-color);
+  background-color: var(--foreground);
+  min-width: 160px;
+  min-height: 48px;
+}
 /*===>> NOT AUTHENTICATED <<===*/
 .index-wrapper {
   display: -webkit-box;

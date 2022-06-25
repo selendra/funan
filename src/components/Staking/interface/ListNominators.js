@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Col, message, Row, Tooltip } from 'antd';
+import { Col, Row, Tooltip } from 'antd';
+import { toast } from 'react-hot-toast';
 import { Button, Card } from 'globalComponents';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import StopNominator from '../modal/StopNominator';
@@ -99,7 +100,7 @@ export default function ListNominators() {
                 <Row justify='end'>
                   <CopyToClipboard text={i?.address}>
                     <Tooltip title='Copy Address' color='#03A9F4'>
-                      <Button onClick={() => message.success("Copied")}>
+                      <Button onClick={() => toast.success("Copied")}>
                         <img
                           src={copy}
                           alt=""
