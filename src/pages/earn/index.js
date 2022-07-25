@@ -1,79 +1,51 @@
-import moment from 'moment';
-import { Col, Row, Tooltip } from 'antd';
-import { Card } from 'globalComponents';
-import { useEraTimeLeft } from 'hooks/useEraTimeLeft';
-import { useStaking } from 'context/StakingContext';
-import Status from 'components/Staking/interface/Status';
-import ActiveEraGraph from 'components/Staking/ActiveEraGraph';
-import ListNominators from 'components/Staking/interface/ListNominators';
-import BondedFund from 'components/Staking/interface/BondedFund';
+import { Col, Row } from "antd";
+import { Link } from "react-router-dom";
+import { Card } from "globalComponents";
+import staking from "assets/icons/staking.svg";
+import payout from "assets/icons/payout.svg";
+import pool from "assets/icons/pool.svg";
 
-export default function Earn() {
-  const eraTimeLeft = useEraTimeLeft();
-  const { staking, sessionEra, getNominationsStatus } = useStaking();
-
-  const _nominations = getNominationsStatus();
-  const activeNominations = 
-    _nominations.length > 0 ? 
-    _nominations.filter((i) => i.status === 'Active')
-    : [];
-
-  // format era time left
-  const _timeleft = moment.duration(eraTimeLeft * 1000, 'milliseconds');
-  // console.log(eraTimeLeft)
-  const timeleft = `${_timeleft.hours()}:${_timeleft.minutes()}:${_timeleft.seconds()}`;
-
-  function isStaked() {}
-
+export default function index() {
   return (
     <div>
-      <h2>Staking</h2><br/>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card>
-            <h2>{activeNominations.length}</h2>
-            <h4>Active Nominator</h4>
-          </Card>
-        </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card>
-            <h2>{staking?.minNominatorBond} CDM</h2>
-            <h4>Minimum Active Bond</h4>
-          </Card>
-        </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card>
-            <Row gutter={[8, 8]} align='middle'>
-              <Col>
-                <Tooltip title={timeleft} color='#03A9F4' key='#03A9F4'>
-                  <div />
-                  <ActiveEraGraph 
-                    value={sessionEra.eraProgress}
-                    value2={sessionEra.eraLength - sessionEra.eraProgress}
-                  />
-                </Tooltip>
-              </Col>
-              <Col>
-                <h2>{staking?.activeEra.index}</h2>
-                <h4>Active Era</h4>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-      </Row>
+      <h2>Earn</h2>
       <br/>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <BondedFund />
+      <Row gutter={[16, 0]}>
+        <Col span={8}>
+          <Link to='/staking'>
+            <div className='earn-menu-item'>
+              <Card style={{height: "100%"}}>
+                <img src={staking} alt='' width={32} />
+                <h3>Staking</h3>
+                <hr style={{marginBottom: '8px'}}/>
+                <p>Staking your Selendra (SEL) allows you to passively earn rewards for your help to secure the network.</p>
+              </Card>
+            </div>
+          </Link>
         </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <Status />
+        <Col span={8}>
+          <Link to='/staking/payout'>
+            <div className='earn-menu-item'>
+              <Card style={{height: "100%"}}>
+                <img src={payout} alt='' width={32} />
+                <h3>Payout</h3>
+                <hr style={{marginBottom: '8px'}}/>
+                <p>Selendra make stakers claim their rewards for past eras by submitting a transaction.</p>
+              </Card>
+            </div>
+          </Link>
         </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col span={24}>
-          <ListNominators />
+        <Col span={8}> 
+          <Link to='/pools'>
+            <div className='earn-menu-item'>
+              <Card style={{height: "100%"}}>
+                <img src={pool} alt='' width={32} />
+                <h3>Pools</h3>
+                <hr style={{marginBottom: '8px'}}/>
+                <p>Coming soon...</p>
+              </Card>
+            </div>
+          </Link>
         </Col>
       </Row>
     </div>

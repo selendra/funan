@@ -13,7 +13,7 @@ export default function StopNominator({
   selected
 }) {
   const { api, apiState } = useSubstrateState();
-  const { nominations } = useBalance();
+  const { nominations, bondedAccounts } = useBalance();
   const { validators } = useValidator();
   const [modal, setModal] = useState(false);
   const [password, setPassword] = useState('');
@@ -41,6 +41,7 @@ export default function StopNominator({
 
   const {submitTx, submitting, estimatedFee} = useSubmitExtrinsic({
     tx: handleStop(),
+    from: bondedAccounts,
     password: password,
     shouldSubmit: true,
     callbackSubmit: () => {

@@ -83,9 +83,7 @@ export default function Home() {
   return (
     <div>
       <p className="home-title">Home</p>
-      { keyringOptions.length >= 0 &&
-        <AccountSelector keyringOptions={keyringOptions} />
-      }
+      <AccountSelector keyringOptions={keyringOptions} />
     
       <div className="home-spacing" />
       <p className="home-title">Wallet</p>

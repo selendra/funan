@@ -6,6 +6,7 @@ import { useSubmitExtrinsic } from 'hooks/useSubmitExtrinsic';
 import { FormatFee } from 'utils';
 import ModalConfirmTrx from '../../Modal/ModalConfirmTrx';
 import arrowRight from 'assets/icons/arrow-right.svg';
+import { useBalance } from '../../../context/BalanceContext';
 
 const options = [
   {
@@ -32,6 +33,7 @@ export default function UpdatePayee({
   payee,
 }) {
   const { api, apiState } = useSubstrateState();
+  const { bondedAccounts } = useBalance();
   const [selected, setSelected] = useState({});
   const [password, setPassword] = useState(false);
   const [modal2, setModal2] = useState(false);
@@ -47,6 +49,7 @@ export default function UpdatePayee({
 
   const {submitTx, submitting, estimatedFee} = useSubmitExtrinsic({
     tx: handleUpdatePayee(),
+    from: bondedAccounts,
     password: password,
     shouldSubmit: true,
     callbackSubmit: () => {

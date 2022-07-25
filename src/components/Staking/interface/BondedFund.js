@@ -14,14 +14,14 @@ import key from 'assets/icons/key-square.svg';
 export default function BondedFund() {
   const { ledgers, bondedAccounts } = useBalance();
   const { getBondOptions } = useStaking();
-  const [bondExtraModal, setBondExtraModal] = useState(false);
-  const [unbondModal, setUnbondModal] = useState(false);
-  const [unlockModal, setUnlockModal] = useState(false);
   const { 
     freeToBond,
     totalUnlocking,
     totalUnlocked, 
   } = getBondOptions();  
+  const [bondExtraModal, setBondExtraModal] = useState(false);
+  const [unbondModal, setUnbondModal] = useState(false);
+  const [unlockModal, setUnlockModal] = useState(false);
 
   return (
     <div>

@@ -64,8 +64,9 @@ i {
 .toast-styling {
   color: var(--text-color);
   background-color: var(--foreground);
-  min-width: 160px;
+  min-width: 140px;
   min-height: 48px;
+  padding: 8px 16px;
 }
 
 .page-not-found {
@@ -398,6 +399,19 @@ i {
   color: var(--text-color);
 }
 /*===>> END SETTING <<===*/
+/*===>> EARN <<===*/
+.earn-menu-item {
+  height: 100%;
+  transition: .4s all;
+  cursor: pointer !important;
+}
+.earn-menu-item p {
+  /* line-height: ; */
+}
+.earn-menu-item:hover {
+  transform: scale(1.03);
+}
+/*===>> END EARN <<===*/
 /*===>> STAKING <<===*/
 .staking-controller {
   border: 2px solid var(--text-color);

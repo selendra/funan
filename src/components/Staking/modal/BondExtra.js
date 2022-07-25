@@ -1,7 +1,6 @@
 import { Row } from 'antd';
 import { useState } from 'react';
 import { Modal, Button, Input } from 'globalComponents';
-import { useBalance } from '../../../context/BalanceContext';
 import { useSubstrateState } from '../../../context/SubstrateContext';
 import { useSubmitExtrinsic } from '../../../hooks/useSubmitExtrinsic';
 import { FormatFee } from '../../../utils';
@@ -9,7 +8,7 @@ import ModalConfirmTrx from '../../Modal/ModalConfirmTrx';
 import { useStaking } from '../../../context/StakingContext';
 
 export default function BondExtra({visible, setVisible}) {
-  const { api } = useSubstrateState();
+  const { api, decimals, currentAccount } = useSubstrateState();
   const { getBondOptions } = useStaking();
   const [amount, setAmount] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +20,7 @@ export default function BondExtra({visible, setVisible}) {
       let trx = null;
       if (!api || !amount) return trx;
       // eslint-disable-next-line no-undef
-      const parsedAmount = BigInt(amount * Math.pow(10, 18));
+      const parsedAmount = BigInt(amount * Math.pow(10, decimals));
       
       trx = api.tx.staking.bondExtra(parsedAmount);
       return trx;
@@ -30,6 +29,7 @@ export default function BondExtra({visible, setVisible}) {
 
   const { submitTx, estimatedFee, submitting } = useSubmitExtrinsic({
     tx: handleBond(),
+    from: currentAccount.address,
     password: password,
     shouldSubmit: true,
     callbackSubmit: () => {

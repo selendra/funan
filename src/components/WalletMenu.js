@@ -3,7 +3,6 @@ import { Card } from "globalComponents";
 import { Link, useLocation } from "react-router-dom";
 import { useFetchBalanceSEL } from "../hooks/useFetchBalanceSEL";
 import { useSubstrateState } from "../context/SubstrateContext";
-import { FormatBalance } from "../utils";
 import receive from "assets/icons/receive.svg";
 import send from "assets/icons/send.svg";
 
@@ -53,7 +52,7 @@ export default function WalletMenu({ children }) {
                 :
                 <div>
                   <h1>
-                    {FormatBalance(state.freeBalance)} <span>CDM</span>
+                    {state.freeBalance} <span>CDM</span>
                   </h1>
                   <p>Available</p>
                 </div>
@@ -67,7 +66,7 @@ export default function WalletMenu({ children }) {
                 :
                 <div>
                   <h1>
-                    {FormatBalance(state.freeBalance)} <span>CDM</span>
+                    {state.freeBalance} <span>CDM</span>
                   </h1>
                   <p>Total</p>
                 </div>

@@ -4,7 +4,6 @@ import { keyring as Keyring } from "@polkadot/ui-keyring";
 import { selendra } from "../constants/node";
 
 const Connected = localStorage.getItem('current-account');
-
 const initialState = {
   // These are the states
   socket: selendra.testnet,
@@ -13,6 +12,7 @@ const initialState = {
   api: null,
   apiError: null,
   apiState: null,
+  decimals: null,
   currentAccount: null,
   consts: {
     expectedBlockTime: 0,
@@ -30,6 +30,8 @@ const reducer = (state, action) => {
       return { ...state, apiState: 'READY' }
     case 'CONNECT_ERROR':
       return { ...state, apiState: 'ERROR', apiError: action.payload }
+    case 'SET_DECIMALS':
+      return { ...state, decimals: action.payload }
     case 'LOAD_KEYRING':
       return { ...state, keyringState: 'LOADING' }
     case 'SET_KEYRING':
@@ -55,6 +57,9 @@ const connect = (state, dispatch) => {
 
   const provider = new WsProvider(socket);
   const _api = new ApiPromise({ provider });
+
+  const decimals = _api.registry.chainDecimals;
+  dispatch({ type: 'SET_DECIMALS', payload: decimals[0] });
   
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {

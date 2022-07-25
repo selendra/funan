@@ -35,7 +35,7 @@ export default function ModalConfirmTrx({
           <Button.Primary
             block
             onClick={handleTrx}
-          >Transfer</Button.Primary>
+          >Submit</Button.Primary>
         </Col>
       </Row>
     </Modal>

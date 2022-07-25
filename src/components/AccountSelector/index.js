@@ -25,14 +25,15 @@ const CopyIcon = (props) => <Icon component={Copy} {...props} />;
 const address = (addr) => addr ? addr.address : '';
 
 export default function AccountSelector({ keyringOptions }) {
-  const [modal, setModal] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [createWalletVisible, setCreateWalletVisible] = useState(false);
   const { account } = useContext(AccountContext);
   const {
     setCurrentAccount,
     state: { keyring, currentAccount },
   } = useSubstrate();
+  const [modal, setModal] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [createWalletVisible, setCreateWalletVisible] = useState(false);
+
   const initialAddress =
     keyringOptions.length > 0 ? keyringOptions[0].value : '';
   
@@ -46,7 +47,7 @@ export default function AccountSelector({ keyringOptions }) {
   useEffect(() => {
     // `setCurrentAccount()` is called only when currentAccount is null (uninitialized)
     !currentAccount &&
-      initialAddress.length > 0 &&
+      initialAddress &&
       setCurrentAccount(keyring.getPair(initialAddress));
   }, [currentAccount, setCurrentAccount, keyring, initialAddress]);
 

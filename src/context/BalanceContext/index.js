@@ -1,4 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { 
+  createContext, 
+  useContext, 
+  useEffect, 
+  useState 
+} from "react";
 import { useSubstrateState } from '../SubstrateContext';
 import { useIsMountedRef } from "hooks/useIsMountedRef";
 import { EMPTY_BALANCE, EMPTY_LEDGER } from "./default";
@@ -11,8 +16,10 @@ const BalanceProvider = ({children}) => {
     api, 
     apiState, 
     consts,
-    currentAccount
+    currentAccount,
+    decimals
   } = useSubstrateState();
+
   // balance accounts state
   const [balance, setBalance] = useState(EMPTY_BALANCE);
   // bonded controller accounts derived from getBalances
@@ -21,10 +28,11 @@ const BalanceProvider = ({children}) => {
   const [nominations, setNomination] = useState(null);
   // account ledgers to separate storage
   const [ledgers, setLedgers] = useState(EMPTY_LEDGER);
+  // console.log(ledgers);
 
   // existential amount of unit for an account
   const _existentialAmount = consts?.existentialDeposit;
-  const existentialAmount = formatBN(_existentialAmount.toString());
+  const existentialAmount = formatBN(_existentialAmount.toString(), decimals);
 
   // amount of compulsary reserve balance
   const reserveAmount = existentialAmount / 2;
@@ -37,33 +45,8 @@ const BalanceProvider = ({children}) => {
   freeAfterReserve = freeAfterReserve < 0 ? 0 : freeAfterReserve;
 
   useEffect(() => {
-    async function subscribeToLedger() {
-      if(!api || apiState !== 'READY' || !currentAccount) return;
-      try {
-        const { address } = currentAccount;
-        const subscription = await api.query.staking.ledger(address, (_ledger) => {
-          if(_ledger.toJSON() === null) return;
-          const { stash, total, active, unlocking } = _ledger.toJSON();
-          mountedRef && setLedgers({
-            stash: stash,
-            total: formatBN(total.toString()),
-            active: formatBN(active.toString()),
-            unlocking: unlocking
-          })
-        });
-        return () => {
-          setTimeout(() => subscription.unsubscribe(), 0);
-        };
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    subscribeToLedger();
-  }, [api, apiState, currentAccount ,mountedRef]);
-
-  useEffect(() => {
+    if(!api || apiState !== 'READY' || !currentAccount) return;
     async function subscribeToBalances() {
-      if(!api || apiState !== 'READY' || !currentAccount) return;
       try {
         const { address } = currentAccount;
         const subscription = await api.queryMulti([
@@ -74,10 +57,10 @@ const BalanceProvider = ({children}) => {
           const { free, reserved, miscFrozen, feeFrozen } = data;
           mountedRef && 
             setBalance({
-              free: formatBN(free.toString()),
-              reserved: formatBN(reserved.toString()),
-              miscFrozen: formatBN(miscFrozen.toString()),
-              feeFrozen: formatBN(feeFrozen.toString()),
+              free: formatBN(free.toString(), decimals),
+              reserved: formatBN(reserved.toString(), decimals),
+              miscFrozen: formatBN(miscFrozen.toString(), decimals),
+              feeFrozen: formatBN(feeFrozen.toString(), decimals),
               freeAfterReserve
             })
             setBondedAccounts(_bonded.toJSON());
@@ -90,8 +73,28 @@ const BalanceProvider = ({children}) => {
         console.log(error);
       }
     }
+    async function subscribeToLedger() {
+      try {
+        const subscription = await api.query.staking.ledger(bondedAccounts, (_ledger) => {
+          if(_ledger.toJSON() === null) return;
+          const { stash, total, active, unlocking } = _ledger.toJSON();
+          mountedRef && setLedgers({
+            stash: stash,
+            total: formatBN(total.toString(), decimals),
+            active: formatBN(active.toString(), decimals),
+            unlocking: unlocking
+          })
+        });
+        return () => {
+          setTimeout(() => subscription.unsubscribe(), 0);
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    }
     subscribeToBalances();
-  }, [api, apiState, currentAccount, freeAfterReserve, mountedRef]);
+    subscribeToLedger();
+  }, [apiState, api, bondedAccounts, currentAccount, mountedRef, decimals, freeAfterReserve]);
 
   return (
     <BalanceContext.Provider

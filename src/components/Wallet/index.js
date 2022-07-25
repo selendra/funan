@@ -50,7 +50,7 @@ export default function Wallet({ account, type }) {
             <Spin spinning={state.loading} />
             { !state.loading && (
               <div>
-                <p>{FormatBalance(state.freeBalance)} CDM</p>
+                <p>{state.freeBalance} CDM</p>
                 <p>Available</p>
               </div>
             )}
@@ -59,7 +59,7 @@ export default function Wallet({ account, type }) {
             <Spin spinning={state.loading} />
             { !state.loading && (
               <div>
-                <p>{FormatBalance(state.freeBalance)} CDM</p>
+                <p>{state.freeBalance} CDM</p>
                 <p>Total</p>
               </div>
             )}

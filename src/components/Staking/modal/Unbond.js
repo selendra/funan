@@ -11,8 +11,8 @@ export default function Unbond({
   visible,
   setVisible
 }) {
-  const { api } = useSubstrateState();
-  const { ledgers } = useBalance();
+  const { api, decimals } = useSubstrateState();
+  const { ledgers, bondedAccounts } = useBalance();
   const [unbondOpt, setUnbondOpt] = useState('input');
   const [amount, setAmount] = useState('');
   const [password, setPassword] = useState('');
@@ -21,26 +21,27 @@ export default function Unbond({
   function handleUnbond() {
     try {
       let trx = null;
-      if(!api || !amount || !ledgers.active) return trx;
+      if(!api || !amount) return trx;
       // eslint-disable-next-line no-undef
       let parsedAmount;
       if(unbondOpt === 'all') {
         // eslint-disable-next-line no-undef
-        parsedAmount = BigInt(ledgers.active * Math.pow(10, 18));
+        parsedAmount = BigInt(ledgers.active * Math.pow(10, decimals));
       } else {
         // eslint-disable-next-line no-undef
-        parsedAmount = BigInt(amount * Math.pow(10, 18));
+        parsedAmount = BigInt(amount * Math.pow(10, decimals));
       }
-      
+      // console.log(unbondOpt);
       trx = api.tx.staking.unbond(parsedAmount);
       return trx;
     } catch (error) {
       console.log(error)
     }
   }
-
+  // console.log(bondedAccounts);
   const { submitTx, estimatedFee, submitting } = useSubmitExtrinsic({
     tx: handleUnbond(),
+    from: bondedAccounts,
     password: password,
     shouldSubmit: true,
     callbackSubmit: () => {

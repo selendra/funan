@@ -13,7 +13,7 @@ import ModalConfirmTrx from '../../components/Modal/ModalConfirmTrx';
 const address = (addr) => addr ? addr.address : '';
 
 export default function Send() {
-  const { currentAccount, api } = useSubstrateState();
+  const { currentAccount, api, decimals } = useSubstrateState();
   const [state] = useFetchBalanceSEL(address(currentAccount), "Selendra", api);
   const [amount, setAmount] = useState('');
   const [destination, setDestination] = useState('');
@@ -42,7 +42,7 @@ export default function Send() {
     let trx = null;
     if(!api || !destination || !amount) return trx;
     // eslint-disable-next-line no-undef
-    const parsedAmount = BigInt(amount * Math.pow(10, 18));
+    const parsedAmount = BigInt(amount * Math.pow(10, decimals));
     // console.log(parsedAmount, destination)
 
     trx = api.tx.balances

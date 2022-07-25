@@ -10,14 +10,36 @@ const StakingContext = createContext();
 const StakingProvider = ({children}) => {
   const mountedRef = useIsMountedRef();
   const { nominations, ledgers, balance } = useBalance();
-  const { api, apiState, currentAccount, consts } = useSubstrateState();
+  const { api, apiState, currentAccount, consts, decimals } = useSubstrateState();
   const [staking, setStaking] = useState(null);
   const [eraStakers, setEraStakers] = useState([]);
 
   const [sessionEra, setSessionEra] = useState(EMPTY_SESSION_ERA);
 
   useEffect(() => {
-    fetchEraStakers();
+    async function fetchEraStakers() {
+      if(!api || apiState !== 'READY' || !staking) return;
+      const _exposures = 
+        await api.query.staking.erasStakers.entries(
+          staking.activeEra.index
+        );
+      const __exposures = 
+        _exposures.map(([_keys, _val]) => ({
+          keys: _keys.toHuman(),
+          val: _val.toHuman(),
+        }));
+  
+      let stakers = [];
+      __exposures.map(({keys, val}) => {
+        const address = keys[1];
+        stakers.push({
+          address,
+          ...val,
+        });
+        return stakers;
+      })
+      setEraStakers(stakers);
+    }
     async function getEraSession() {
       if(apiState !== 'READY' || !api) return;
       try {
@@ -37,7 +59,8 @@ const StakingProvider = ({children}) => {
       }
     }
     getEraSession();
-  },[api, apiState, mountedRef])
+    fetchEraStakers();
+  },[api, apiState, mountedRef, staking])
 
   useEffect(() => {
     async function subscribeToStakingkMetrics() {
@@ -83,7 +106,7 @@ const StakingProvider = ({children}) => {
 
     function toBn(amount) {
       return new BigNumber(amount)
-        .dividedBy(Math.pow(10, 18))
+        .dividedBy(Math.pow(10, decimals))
     }
     
     for (const u of ledgers.unlocking) {
@@ -153,30 +176,6 @@ const StakingProvider = ({children}) => {
     }
     // console.log(statuses);
     return statuses;
-  }
-
-  async function fetchEraStakers() {
-    if(!api || apiState !== 'READY' || !staking) return;
-    const _exposures = 
-      await api.query.staking.erasStakers.entries(
-        staking.activeEra.index
-      );
-    const __exposures = 
-      _exposures.map(([_keys, _val]) => ({
-        keys: _keys.toHuman(),
-        val: _val.toHuman(),
-      }));
-
-    let stakers = [];
-    __exposures.map(({keys, val}) => {
-      const address = keys[1];
-      stakers.push({
-        address,
-        ...val,
-      });
-      return stakers;
-    })
-    setEraStakers(stakers);
   }
 
   function getEraTimeLeft() {

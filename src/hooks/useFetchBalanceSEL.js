@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useSubstrateState } from "../context/SubstrateContext";
+import { FormatBalance } from "../utils";
 import { useIsMountedRef } from "./useIsMountedRef";
 
 const EMPTY = {
@@ -10,6 +12,7 @@ const EMPTY = {
 export function useFetchBalanceSEL(address, type, api) {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState(EMPTY);
+  const { decimals } = useSubstrateState();
 
   useEffect(() => {
     async function getBalance() {
@@ -20,7 +23,7 @@ export function useFetchBalanceSEL(address, type, api) {
           mountedRef.current &&
           setState({
             loading: false,
-            freeBalance: FreeBalance.toJSON(),
+            freeBalance: FormatBalance(FreeBalance.toString(), decimals),
             error: null
           });
         });

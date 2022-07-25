@@ -23,7 +23,7 @@ export default function Summary({
       };
     });
     // eslint-disable-next-line no-undef
-    const bond = BigInt(form.bond * Math.pow(10, 18));
+    const bond = BigInt(form.bond * Math.pow(10, 12));
     const txs = [
       api.tx.staking.bond({Id: form.stash}, bond, form.payee),
       api.tx.staking.nominate(_nominate),
@@ -34,6 +34,7 @@ export default function Summary({
 
   const { submitTx, submitting, estimatedFee } = useSubmitExtrinsic({
     tx: trx(),
+    from: form.stash,
     password: password,
     shouldSubmit: true,
     callbackSubmit: () => {
@@ -76,7 +77,7 @@ export default function Summary({
       <Col span={24}>
         <Button.Primary 
           block 
-          disabled={error || bondError}
+          // disabled={error || bondError}
           loading={submitting}
           onClick={() => setModal(true)} 
         >Confirm</Button.Primary>

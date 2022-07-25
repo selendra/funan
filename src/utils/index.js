@@ -63,10 +63,6 @@ export function getRewardDest(_payee) {
   return rewardDest;
 }
 
-export function FormatBalance(amount) {
-  return formatBalance(amount, { withSi: false, forceUnit: '-' }, 18)
-}
-
 export function FormatFee(amount) {
   return formatBalance(amount, {withSiFull: true, decimals: 18, withUnit: false })
 }
@@ -75,11 +71,16 @@ export const removePercentage = (str) => {
   return Number(str.slice(0, -1));
 }
 
-export function formatBN(amount) {
-  if(!amount) return;
+export function FormatBalance(amount, decimals) {
+  if(!amount || !decimals) return;
+  return formatBalance(amount, { withSi: false, forceUnit: '-' }, decimals);
+}
+
+export function formatBN(amount, decimals) {
+  if(!amount || !decimals) return;
   return new BigNumber(amount)
-  .dividedBy(Math.pow(10, 18))
-  .toNumber()
+    .dividedBy(Math.pow(10, decimals))
+    .toNumber()
 }
 
 export function rmCommas(val) {

@@ -9,10 +9,9 @@ import { useBalance } from '../../../context/BalanceContext'
 import UpdatePayee from '../modal/UpdatePayee'
 
 export default function Status() {
-  const [modal, setModal] = useState(false);
   const { staking } = useStaking();
   const { bondedAccounts } = useBalance();
-  // console.log(staking)
+  const [modal, setModal] = useState(false);
 
   return (
     <div style={{display: 'inline-block', height: '100%', width: '100%'}}>
@@ -20,7 +19,7 @@ export default function Status() {
         <h3>Status</h3>
         <div style={{padding: '8px 0'}} />
         { !bondedAccounts ?
-          <Link to='/earn/setup'>
+          <Link to='/staking/setup'>
             <Button.Primary>Start Staking</Button.Primary>
           </Link>
           : 

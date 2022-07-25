@@ -5,45 +5,43 @@ import { useSubstrateState } from '../context/SubstrateContext';
 export const useSubmitExtrinsic = (extrinsic) => {
   const { 
     tx, 
+    from,
     password, 
     shouldSubmit, 
     callbackSubmit, 
     callbackInBlock 
   } = extrinsic;
 
-  const { api, currentAccount } = useSubstrateState();
-
+  const { api, keyring } = useSubstrateState();
   // whether the transaction is in progress
   const [submitting, setSubmitting] = useState(false);
-
   // get the estimated fee for submitting the transaction
   const [estimatedFee, setEstimatedFee] = useState(null);
 
   // calculate fee upon setup changes and initial render
   useEffect(() => {
     const calculateEstimatedFee = async () => {
-      if (!tx || !currentAccount) return;
+      if (!tx || !from) return;
       // get payment info
-      const info = await tx.paymentInfo(currentAccount.address);
+      const info = await tx.paymentInfo(from);
       // convert fee to unit
       setEstimatedFee(info.partialFee.toJSON());
     };
     calculateEstimatedFee();
-  }, [currentAccount, extrinsic, tx]);
+  }, [from, extrinsic, tx]);
 
   // submit extrinsic
   const submitTx = async () => {
-    if (submitting || !shouldSubmit || !api || !currentAccount) {
-      return;
-    }
+    if (submitting || !shouldSubmit || !api || !from) return;
     // const accountNonce = await api.rpc.system.accountNextIndex(from);
     setSubmitting(true);
 
     try {
       // decrypt pair
-      currentAccount.decodePkcs8(password);
+      const _account = keyring.getPair(from);
+      _account.decodePkcs8(password);
       const unsub = await tx.signAndSend(
-        currentAccount,
+        _account,
         ({ status, nonce, events = [] }) => {
           if(status.isReady) {
             message.loading('Transaction was initiated.')
@@ -72,6 +70,7 @@ export const useSubmitExtrinsic = (extrinsic) => {
         }
       );
     } catch (e) {
+      console.log(e);
       setSubmitting(false);
       message.error('Transaction was cancelled');
     }

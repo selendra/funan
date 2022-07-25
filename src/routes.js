@@ -1,12 +1,14 @@
 import Index from "./pages";
 import About from "./pages/about";
 import Earn from "./pages/earn";
+import Staking from "./pages/earn/staking";
+import Payout from "./pages/earn/staking/payout";
 import Home from "./pages/home";
 import Wallet from "./pages/wallet";
 import Receive from "./pages/wallet/receive";
 import Send from "./pages/wallet/send";
 import NotFound from "./pages/notfound";
-import SetupStaking from "./pages/earn/setupStaking";
+import SetupStaking from "./pages/earn/staking/setupStaking";
 import Setting from "./pages/settings";
 import Connect from "./pages/connect";
 import Sidebar from "./components/Sidebar";
@@ -79,7 +81,27 @@ const routes = [
     )
   },
   {
-    path: '/earn/setup',
+    path: '/staking',
+    element: (
+      <Sidebar>
+        <PageRouteAnimation myKey='staking'>
+          <Staking />
+        </PageRouteAnimation>
+      </Sidebar>
+    )
+  },
+  {
+    path: '/staking/payout',
+    element: (
+      <Sidebar>
+        <PageRouteAnimation myKey='staking'>
+          <Payout />
+        </PageRouteAnimation>
+      </Sidebar>
+    )
+  },
+  {
+    path: '/staking/setup',
     element: (
       <Sidebar>
         <PageRouteAnimation myKey='earn'>
