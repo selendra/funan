@@ -1,4 +1,4 @@
 export const selendra = {
-  mainnet: 'wss://api-mainnet.selendra.org',
-  testnet: 'ws://127.0.0.1:9944'
+  mainnet: 'wss://rpc-mainnet.selendra.org',
+  testnet: 'wss://rpc-testnet.selendra.org'
 }
