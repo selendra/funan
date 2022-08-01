@@ -1,12 +1,12 @@
-import { useTheme } from "next-themes";
-import { Row, Layout, Col } from "antd";
-import MenuList from "./MenuList";
-import ExtensionAlert from "./ExtensionAlert";
-import logo from "assets/logo.png";
-import logoWhite from "assets/logo-white.png";
+import { useTheme } from 'next-themes'
+import { Row, Layout, Col } from 'antd'
+import MenuList from './MenuList'
+import ExtensionAlert from './ExtensionAlert'
+import logo from 'assets/bitriel.png'
+import logoWhite from 'assets/bitriel.png'
 
 export default function Navbar() {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <Layout.Sider
@@ -14,11 +14,11 @@ export default function Navbar() {
       breakpoint="lg"
       collapsedWidth="0"
       width={250}
-      className='sidebar-sider'
+      className="sidebar-sider"
       style={{
-        overflow: "auto",
-        height: "100%",
-        position: "fixed",
+        overflow: 'auto',
+        height: '100%',
+        position: 'fixed',
         left: 0,
         top: 0,
         bottom: 0,
@@ -27,7 +27,7 @@ export default function Navbar() {
       <Row align="middle" justify="center">
         <Col xs={0} sm={0} md={0} lg={20} xl={20}>
           <img
-            src={theme === "light" ? logo : logoWhite}
+            src={theme === 'light' ? logo : logoWhite}
             alt=""
             className="sidebar-logo"
           />
@@ -36,5 +36,5 @@ export default function Navbar() {
       <MenuList />
       <ExtensionAlert />
     </Layout.Sider>
-  );
+  )
 }

@@ -1,9 +1,9 @@
 /*===>> GLOBAL-COMPONENTS-STYLING <<===*/
 html {
-  --primary: #03A9F4;
-  --secondary: #ED1576;
+  --primary: #f27649;
+  --secondary: #00a9ff;
 }
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   --background: #22272e;
   --foreground: #2d333b;
   --background-input: #f3f3f3;
@@ -11,95 +11,92 @@ html[data-theme="dark"] {
   --box-shadow: rgba(255, 255, 255, 0) 0px 0px 0px;
   --btn-background: #22272e;
   --menu-background: #22272e;
-  --background-home-image: url("../assets/background1.png");
+  --background-home-image: url('../assets/background1.png');
   --active-color: #22272e;
 }
-html[data-theme="light"] {
+html[data-theme='light'] {
   --background: rgba(243, 243, 243, 0.938) !important;
   --foreground: rgba(255, 255, 255, 1);
   --background-input: #f3f3f3;
   --text-color: #22272e;
   --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   --btn-background: #f5f5f5;
-  --menu-background: rgb(219, 248, 255);
-  --background-home-image: url("../assets/background.png");
+  --menu-background: #ffe8df;
+  --background-home-image: url('../assets/background.png');
   --active-color: #e4f7ff;
 }
 
+.ant-menu-inline .ant-menu-item:after,
+.ant-menu-vertical-left .ant-menu-item:after,
+.ant-menu-vertical-right .ant-menu-item:after,
+.ant-menu-vertical .ant-menu-item:after {
+  border-right: 3px solid var(--primary);
+}
+
 /*===>> ANT-MODAL <<===*/
-.ant-modal-content 
-  {
-    border-radius: 18px !important;
-  }
-.funan-modal .ant-modal-content 
-  {
-    background-color: var(--foreground) !important;
-  }
+.ant-modal-content {
+  border-radius: 18px !important;
+}
+.funan-modal .ant-modal-content {
+  background-color: var(--foreground) !important;
+}
 /*===>> ANT-BUTTON <<===*/
-.funan-btn 
-  {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500 !important;
-    height: 40px !important;
-    color: #F5F5F5;
-    border: none !important;
-    border-radius: 20px !important;
-    margin: 8px 0 !important;
-  }
-.funan-btn img 
-  {
-    margin-right: 8px;
-  }
-.funan-btnPrimary 
-  {
-    background-color: var(--primary);
-  }
-.funan-btnSecondary 
-  {
-    background-color: var(--secondary) !important; 
-  }
-.funan-btnDanger 
-  {
-    background-color: var(--secondary) !important;
-  }
-.funan-btnAccent 
-  {
-    color: var(--text-color) !important;
-    background-color: var(--background) !important;
-  }
+.funan-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500 !important;
+  height: 40px !important;
+  color: #f5f5f5;
+  border: none !important;
+  border-radius: 50px !important;
+  margin: 8px 0 !important;
+}
+.funan-btn img {
+  margin-right: 8px;
+}
+.funan-btnPrimary {
+  /* background-color: var(--primary); */
+  background: linear-gradient(135deg, #13f1fc 0%, #0470dc 100%);
+}
+.funan-btnSecondary {
+  background-color: var(--secondary) !important;
+}
+.funan-btnDanger {
+  background-color: var(--secondary) !important;
+}
+.funan-btnAccent {
+  color: var(--text-color) !important;
+  background-color: var(--background) !important;
+}
 .funan-btnPrimaryMedium,
 .funan-btnSecondaryMedium,
-.funan-btnAccentMedium 
-  {
-    height: 55px !important;
-    border-radius: 25px !important;
-  }
+.funan-btnAccentMedium {
+  height: 55px !important;
+  border-radius: 25px !important;
+}
 .funan-btnPrimaryLarge,
-.funan-btnSecondaryLarge 
-  {
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    height: 70px !important;
-    border-radius: 35px !important;
-  }
+.funan-btnSecondaryLarge {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  height: 70px !important;
+  border-radius: 35px !important;
+}
 .funan-btnPrimary:hover,
-.funan-btnPrimary:focus 
-  {
-    color: #F5F5F5;
-    background-color: var(--primary);
-    filter: brightness(1.1);
-    -webkit-filter: brightness(1.1);
-  }
+.funan-btnPrimary:focus {
+  color: #f5f5f5;
+  /* background-color: var(--primary); */
+  background: linear-gradient(135deg, #13f1fc 0%, #0470dc 100%);
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
 .funan-btnSecondary:hover,
-.funan-btnSecondary:focus 
-  {
-    color: #f5f5f5;
-    background-color: var(--secondary) !important; 
-    filter: brightness(1.1);
-    -webkit-filter: brightness(1.1);
-  }
+.funan-btnSecondary:focus {
+  color: #f5f5f5;
+  background-color: var(--secondary) !important;
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
 .funan-btnOutline {
   border-radius: 16px;
   border: 2px solid !important;
@@ -127,14 +124,15 @@ html[data-theme="light"] {
 .funan-input {
   color: var(--text-color) !important;
   background-color: var(--background) !important;
-  border: none !important;
+  /* border: none !important; */
   border-radius: 8px !important;
   margin: 4px 0 !important;
 }
 .funan-inputMedium {
   height: 55px !important;
   font-size: 16px !important;
-  border-radius: 16px !important;
+  border-radius: 30px !important;
+  padding: 0px 20px !important;
 }
 .funan-inputPassword input {
   color: var(--text-color) !important;
@@ -162,9 +160,11 @@ html[data-theme="light"] {
 }
 /*===>> ANT-CARD <<===*/
 .funan-card {
-  border-radius: 22px !important;
+  border-radius: 18px !important;
   font-size: 16px !important;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+  box-shadow: rgba(0, 0, 0, 0.062) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   background: var(--foreground) !important;
   backdrop-filter: blur(60px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(60px) saturate(180%) !important;

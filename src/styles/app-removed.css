@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 *,
 *:before,
 *:after {
@@ -7,7 +7,7 @@
   padding: 0;
 }
 
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   --background: #22272e;
   --foreground: #2d333b;
   --background-input: #f3f3f3;
@@ -15,11 +15,11 @@ html[data-theme="dark"] {
   --box-shadow: rgba(255, 255, 255, 0) 0px 0px 0px;
   --btn-background: #22272e;
   --menu-background: #22272e;
-  --background-home-image: url("../assets/background1.png");
+  --background-home-image: url('../assets/background1.png');
   --active-color: #22272e;
 }
 
-html[data-theme="light"] {
+html[data-theme='light'] {
   --background: rgba(243, 243, 243, 0.938) !important;
   --foreground: rgba(255, 255, 255, 0.822);
   --background-input: #f3f3f3;
@@ -27,12 +27,12 @@ html[data-theme="light"] {
   --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   --btn-background: #f5f5f5;
   --menu-background: rgb(219, 248, 255);
-  --background-home-image: url("../assets/background.png");
+  --background-home-image: url('../assets/background.png');
   --active-color: #e4f7ff;
 }
 
 body {
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: 'Ubuntu', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: #f199ff;
@@ -92,7 +92,7 @@ i {
   min-height: 55vh;
 }
 .sidebar-itemActive {
-  color: #03A9F4 !important;
+  color: #03a9f4 !important;
 }
 .sidebar-itemIcon {
   filter: grayscale(100%);
@@ -490,7 +490,7 @@ i {
   position: relative;
 }
 .sel-tabs .active::after {
-  content: "";
+  content: '';
   border-bottom: 3px solid #00a9f9;
   width: 30px;
   display: block;
@@ -1069,7 +1069,7 @@ i {
   color: #00a9f9;
   display: flex;
   align-items: center;
-  background-color: rgba(0, 169, 249, .1);
+  background-color: rgba(0, 169, 249, 0.1);
   padding: 8px;
   border: 1px solid #00a9f9;
   border-radius: 8px;
